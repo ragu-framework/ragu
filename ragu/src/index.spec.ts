@@ -1,12 +1,4 @@
-import {
-  clientSideComponentFactory,
-  clientSideConnect, ComponentRenderError,
-  PropsToStateError,
-  RaguComponent,
-  Renderable,
-  serverRawHtml,
-  triggerLifecycle
-} from "./index";
+import {ComponentRenderError, PropsToStateError, RaguComponent, Renderable} from "./index";
 import {EventListener} from "../testing/test-event-listener";
 import {TestPromiseController} from "../testing/test-promise-controller";
 
@@ -62,7 +54,7 @@ describe('Ragu components', (): void => {
       });
       it('it renders the content', async () => {
         renderPromise.resolve();
-        const html = await serverRawHtml(MyVeryFirstComponent, {prop: 'hi'});
+        const html = await MyVeryFirstComponent.rawComponentHTML({prop: 'hi'});
         expect(html).toBe('server: hi == hi is true');
       });
     });
@@ -71,7 +63,7 @@ describe('Ragu components', (): void => {
         const originalError = new Error('Not today!');
         propsToStatePromise.reject(originalError);
 
-        await expect(serverRawHtml(MyVeryFirstComponent, {prop: 'hi'}))
+        await expect(MyVeryFirstComponent.rawComponentHTML({prop: 'hi'}))
             .rejects.toEqual(new PropsToStateError(originalError));
       });
 
@@ -80,7 +72,7 @@ describe('Ragu components', (): void => {
         propsToStatePromise.resolve();
         renderPromise.reject(originalError);
 
-        await expect(serverRawHtml(MyVeryFirstComponent, {prop: 'hi'}))
+        await expect(MyVeryFirstComponent.rawComponentHTML({prop: 'hi'}))
             .rejects.toEqual(new ComponentRenderError(originalError));
       });
     });
@@ -93,7 +85,7 @@ describe('Ragu components', (): void => {
         renderPromise.resolve();
 
         const element = document.createElement('div');
-        await triggerLifecycle(MyVeryFirstComponent, {prop: 'hi'}, element);
+        await MyVeryFirstComponent.createComponent({prop: 'hi'}, element);
 
         expect(element.innerHTML).toBe('browser: hi == hi is true');
       });
@@ -103,7 +95,9 @@ describe('Ragu components', (): void => {
           const element = document.createElement('div');
           const event = new EventListener(element, 'ragu:state-loading');
 
-          clientSideComponentFactory(MyVeryFirstComponent, {prop: 'hi'}, element);
+          expect(event.stub).not.toHaveBeenCalled();
+
+          MyVeryFirstComponent.createComponent({prop: 'hi'}, element);
 
           expect(event.stub).toHaveBeenCalled();
         });
@@ -112,12 +106,14 @@ describe('Ragu components', (): void => {
           const element = document.createElement('div');
           const event = new EventListener(element, 'ragu:state-loaded');
 
-          const component = clientSideComponentFactory(MyVeryFirstComponent, {prop: 'hi'}, element);
+          const component = MyVeryFirstComponent.createComponent({prop: 'hi'}, element);
 
           expect(event.stub).not.toHaveBeenCalled();
 
           propsToStatePromise.resolve();
-          await component;
+          renderPromise.reject();
+
+          await component.catch(() => "");
 
           expect(event.stub).toHaveBeenCalled();
         });
@@ -128,9 +124,8 @@ describe('Ragu components', (): void => {
 
           propsToStatePromise.resolve();
           renderPromise.resolve();
-          const component = await clientSideComponentFactory(MyVeryFirstComponent, {prop: 'hi'}, element);
 
-          const mountPromise = clientSideConnect(component, element);
+          const mountPromise = MyVeryFirstComponent.createComponent({prop: 'hi'}, element);
 
           expect(event.stub).not.toHaveBeenCalled();
 
@@ -150,7 +145,7 @@ describe('Ragu components', (): void => {
           const element = document.createElement('div');
           const event = new EventListener(element, 'ragu:state-loading-error');
 
-          await expect(triggerLifecycle(MyVeryFirstComponent, {prop: 'hi'}, element))
+          await expect(MyVeryFirstComponent.createComponent({prop: 'hi'}, element))
               .rejects.toEqual(new PropsToStateError(originalError));
 
           expect(event.firstCallAttributes[0].detail).toEqual(originalError);
@@ -164,7 +159,7 @@ describe('Ragu components', (): void => {
           const element = document.createElement('div');
           const event = new EventListener(element, 'ragu:render-error');
 
-          await expect(triggerLifecycle(MyVeryFirstComponent, {prop: 'hi'}, element))
+          await expect(MyVeryFirstComponent.createComponent({prop: 'hi'}, element))
               .rejects.toEqual(new ComponentRenderError(originalError));
 
           expect(event.firstCallAttributes[0].detail).toEqual(originalError);

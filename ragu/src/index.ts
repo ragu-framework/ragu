@@ -44,6 +44,32 @@ export abstract class RaguComponent<Props, State> {
 
   abstract renderable(): Renderable;
   abstract updateProps(props: Props): void;
+
+  static async rawComponentHTML<Props>(props: Props): Promise<string> {
+    const component = await componentFactory(this as any, props);
+    try {
+      return await component.renderable().serverSide();
+    } catch (e) {
+      throw new ComponentRenderError(e);
+    }
+  }
+
+  static async createComponent<Props, State>(props: Props, element: HTMLElement): Promise<RaguComponent<Props, State>> {
+    try {
+      const component = await clientSideComponentFactory<Props, State>(this as any, props, element);
+      await clientSideRender(component, element);
+
+      return component;
+    } catch (e) {
+      if (PropsToStateError.is(e)) {
+        componentLifecycleEvents.stateLoadingFail(element, e.causedBy);
+      }
+      if (ComponentRenderError.is(e)) {
+        componentLifecycleEvents.renderError(element, e.causedBy);
+      }
+      throw e;
+    }
+  }
 }
 
 interface RaguComponentClass<Props, State> {
@@ -64,15 +90,6 @@ const componentFactory =  async <Props, State>(componentClass: RaguComponentClas
   return new componentClass(props, state);
 }
 
-export const serverRawHtml = async <Props, State>(componentClass: RaguComponentClass<Props, State>, props: Props) => {
-  const component = await componentFactory(componentClass, props);
-  try {
-    return await component.renderable().serverSide();
-  } catch (e) {
-    throw new ComponentRenderError(e);
-  }
-}
-
 export const clientSideComponentFactory = async <Props, State>(componentClass: RaguComponentClass<Props, State>, props: Props, element: HTMLElement): Promise<RaguComponent<Props, State>> => {
   componentLifecycleEvents.stateLoading(element);
   let raguComponent = await componentFactory(componentClass, props);
@@ -80,27 +97,12 @@ export const clientSideComponentFactory = async <Props, State>(componentClass: R
   return raguComponent;
 }
 
-export const clientSideConnect = async <Props, State>(component: RaguComponent<Props, State>, element: HTMLElement) => {
+export const clientSideRender = async <Props, State>(component: RaguComponent<Props, State>, element: HTMLElement) => {
   try {
     await component.renderable().clientSide(element);
     componentLifecycleEvents.connected(element);
   } catch (e) {
     componentLifecycleEvents.renderError(element, e);
     throw new ComponentRenderError(e);
-  }
-}
-
-export const triggerLifecycle = async <Props, State>(componentClass: RaguComponentClass<Props, State>, props: Props, element: HTMLElement): Promise<void> => {
-  try {
-    const component = await clientSideComponentFactory(componentClass, props, element);
-    await clientSideConnect(component, element);
-  } catch (e) {
-    if (PropsToStateError.is(e)) {
-      componentLifecycleEvents.stateLoadingFail(element, e.causedBy);
-    }
-    if (ComponentRenderError.is(e)) {
-      componentLifecycleEvents.renderError(element, e.causedBy);
-    }
-    throw e;
   }
 }
