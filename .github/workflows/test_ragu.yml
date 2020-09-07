@@ -27,9 +27,6 @@ jobs:
     - run: yarn --cwd ragu
       env:
         CI: true
-    - run: yarn --cwd ragu clean
-      env:
-        CI: true
     - run: yarn --cwd ragu test
       env:
         CI: true
