@@ -9,6 +9,9 @@ lerna-debug.log*
 # IDE
 .idea
 
+# compilation files
+ragu-server/testing/compiled_components/
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 

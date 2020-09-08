@@ -30,3 +30,9 @@ jobs:
     - run: yarn --cwd ragu test
       env:
         CI: true
+    - run: yarn --cwd ragu-server
+      env:
+        CI: true
+    - run: yarn --cwd ragu-server test
+      env:
+        CI: true
