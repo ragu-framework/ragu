@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "UMD",
+    "module": "CommonJS",
     "moduleResolution": "node",
-    "lib": ["dom"],
+    "lib": ["dom", "es2019"],
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,

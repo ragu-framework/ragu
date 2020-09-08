@@ -20,17 +20,42 @@ const fileTemplate = (config: RaguServerConfig, {componentName, component}: Temp
   };
 `;
 
+type DependencyObject = { require: string, replaceWith: string };
+
 export class ComponentsCompiler {
   constructor(private readonly config: RaguServerConfig) {
   }
 
   async compileAll() {
     this.createTypescriptClientFile();
-    await webpackCompile(path.join(this.config.components.output, 'original_client.js'), 'client', this.config);
+
+    const dependencies: DependencyObject[] = this.fetchAllComponents()
+        .flatMap<DependencyObject>((componentName) => require(path.join(this.config.components.sourceRoot, componentName)).default?.dependencies || [])
+        .filter((dependency) => dependency !== undefined);
+
+    await webpackCompile(
+        path.join(this.config.components.output, 'original_client.js'),
+        'client',
+        this.config,
+        (_, requestedDependency) => {
+          const foundDependency: DependencyObject | undefined = dependencies.find((dependency) => dependency.require === requestedDependency);
+
+          if (foundDependency) {
+            return {
+              shouldCompile: false,
+              useGlobal: foundDependency.replaceWith
+            }
+          }
+
+          return {
+            shouldCompile: true
+          }
+        });
   }
 
   private createTypescriptClientFile() {
     this.createOutputCompiledComponentsDirectory();
+
     const components = this.fetchAllComponents().map((componentName) => {
       const component = require(path.join(this.config.components.sourceRoot, componentName)).default;
 

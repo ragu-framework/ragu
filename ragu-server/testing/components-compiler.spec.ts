@@ -70,4 +70,32 @@ describe('Server Side Rendering', () => {
       }
     ]);
   });
+
+  describe('with dependencies', () => {
+    it('resolves the dependency', async () => {
+      await evalCompiledClient();
+
+      const resolvedComponent = await (window as any)['test_components_with-dependencies-component'].resolve();
+      const div = dom.window.document.createElement('div');
+      resolvedComponent.render({name: 'World'}, div);
+
+      expect(div.textContent).toContain('Hello, World');
+    });
+  });
+
+  describe('with external dependencies', () => {
+    it('uses the defined dependency', async () => {
+      await evalCompiledClient();
+
+      (window as any).MyExternalDependency = {
+        sayHello: (name: string) => `Bye, ${name}`
+      };
+
+      const resolvedComponent = await (window as any)['test_components_with-external-dependencies-component'].resolve();
+      const div = dom.window.document.createElement('div');
+      resolvedComponent.render({name: 'World'}, div);
+
+      expect(div.textContent).toContain('Bye, World');
+    });
+  });
 });
