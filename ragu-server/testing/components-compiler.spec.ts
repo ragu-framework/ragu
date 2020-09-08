@@ -8,12 +8,15 @@ import {emptyDir} from "fs-extra";
 describe('Server Side Rendering', () => {
   let port: number = 8080;
   let compiler: ComponentsCompiler;
-  let dom: jsdom.JSDOM;
   const outputDirectory = path.join(__dirname, 'compiled_components');
+  let dom: jsdom.JSDOM;
 
   beforeAll(async () => {
     compiler = new ComponentsCompiler({
       assetsPrefix: `file://${outputDirectory}/`,
+      server: {
+        assetsEndpoint: '/components/'
+      },
       components: {
         namePrefix: 'test_components_',
         output: outputDirectory,

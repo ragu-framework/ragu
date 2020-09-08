@@ -1,22 +1,35 @@
 import getPort from "get-port";
 import {RaguServer} from "../src/server";
 import * as path from "path";
+import {ComponentsCompiler} from "../src/compiler/components-compiler";
 
 describe('Server Side Rendering', () => {
   let port: number;
   let server: RaguServer;
+  let compiler: ComponentsCompiler;
+  const outputDirectory = path.join(__dirname, 'compiled_components');
 
   beforeAll(async () => {
     port = await getPort();
-    server = new RaguServer({
-      assetsPrefix: `http://localhost:${port}`,
+
+    const config = {
+      assetsPrefix: `http://localhost:${port}/component-assets/`,
+      server: {
+        assetsEndpoint: '/component-assets/'
+      },
       components: {
-        namePrefix: 'test_components',
-        output: path.join(__dirname, 'compiled_components'),
+        namePrefix: 'test_components_',
+        output: outputDirectory,
         sourceRoot: path.join(__dirname, 'components')
       },
       port
-    });
+    };
+
+    compiler = new ComponentsCompiler(config);
+    server = new RaguServer(config, compiler);
+
+    await compiler.compileAll();
+
     await server.start()
   });
 
@@ -41,12 +54,29 @@ describe('Server Side Rendering', () => {
       expect(responseBody.html).toBe('<b>Hello, World</b>');
     });
 
+    it('returns the client file name', async () => {
+      const filename = await compiler.getClientFileName();
+      expect(responseBody.client).toBe(filename);
+    });
+
+    it('returns the resolver function', async () => {
+      expect(responseBody.resolverFunction).toBe('test_components_hello-world');
+    });
+
     it('returns the state of the requested component', async () => {
       expect(responseBody.state).toEqual({
         greetingType: 'Hello',
         name: 'World'
       });
     });
+  });
+
+  describe('fetching assets', () => {
+    it('fetches the client', async () => {
+      const filename = await compiler.getClientFileName();
+      const response = await fetch(filename);
+      expect(response.status).toBe(200);
+    })
   });
 
   describe('fetching a non existing component', () => {

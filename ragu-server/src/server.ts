@@ -2,21 +2,31 @@ import express, {Express} from 'express';
 import * as http from "http";
 import {RaguServerConfig} from "./config";
 import * as path from "path";
+import {ComponentsCompiler} from "./compiler/components-compiler";
 
 
 export class RaguServer {
   readonly expressApp: Express;
   private server?: http.Server;
 
-  constructor(private readonly config: RaguServerConfig) {
+  constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler) {
     this.expressApp = express();
+
+    this.expressApp.use(config.server.assetsEndpoint, express.static(config.components.output));
+
     this.expressApp.get('/components/:componentName', async (req, res) => {
       const componentName = req.params.componentName;
       const componentPath = path.join(config.components.sourceRoot, componentName)
       try {
         const {default: component} = require(componentPath);
 
-        res.send(await component.ssr(req.query));
+        const response = await component.ssr(req.query);
+
+        res.send({
+          ...response,
+          client: await this.compiler.getClientFileName(),
+          resolverFunction: `${this.config.components.namePrefix}${componentName}`
+        });
       } catch (e) {
         console.log(e)
         res.statusCode = 404;

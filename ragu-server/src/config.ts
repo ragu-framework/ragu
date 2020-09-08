@@ -4,6 +4,9 @@ export interface RaguServerConfig {
     sourceRoot: string;
     output: string;
   };
+  server: {
+    assetsEndpoint: string
+  };
   assetsPrefix: string;
   port: number
 }

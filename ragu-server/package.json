@@ -23,11 +23,13 @@
     "node-fetch": "^2.6.1",
     "ts-jest": "^26.3.0",
     "ts-loader": "^8.0.3",
+    "ts-node": "^9.0.0",
     "typescript": "^4.0.2",
     "webpack": "^4.44.1",
     "webpack-bundle-analyzer": "^3.8.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "demo": "ts-node demo.ts"
   }
 }
