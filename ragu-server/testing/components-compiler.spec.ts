@@ -36,15 +36,14 @@ describe('Server Side Rendering', () => {
     (global as any).document = dom.window.document;
   })
 
-  function evalCompiledClient() {
-    const clientFileName = compiler.getClientFileName();
-
-    const client = fs.readFileSync(path.join(outputDirectory, clientFileName)).toString();
+  const evalCompiledClient = async () => {
+    const url = new URL(await compiler.getClientFileName());
+    const client = fs.readFileSync(url as any).toString();
     eval(client);
   }
 
   it('exports compiled component into window', async () => {
-    evalCompiledClient();
+    await evalCompiledClient();
 
     const resolvedComponent = await (window as any)['test_components_hello-world'].resolve();
     const div = dom.window.document.createElement('div');
@@ -54,7 +53,7 @@ describe('Server Side Rendering', () => {
   });
 
   it('exports all dependencies without load the module', async () => {
-    evalCompiledClient();
+    await evalCompiledClient();
 
     const dependencies = (window as any)['test_components_hello-world'].dependencies;
 

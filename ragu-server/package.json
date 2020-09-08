@@ -14,6 +14,7 @@
     "@types/jest": "^26.0.10",
     "@types/jsdom": "^16.2.4",
     "@types/webpack": "^4.41.22",
+    "chunks-2-json-webpack-plugin": "^1.0.4",
     "get-port": "^5.1.1",
     "jest": "^26.4.2",
     "jsdom": "^16.4.0",

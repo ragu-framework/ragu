@@ -57,7 +57,17 @@ export class ComponentsCompiler {
     }
   }
 
-  getClientFileName() {
-    return 'client.js'
+  getClientFileName(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      fs.readFile(path.join(this.config.components.output, 'build-manifest.json'), (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        const manifest = JSON.parse(data.toString());
+        const clientJsFile = manifest?.client?.js?.[0];
+
+        resolve(clientJsFile);
+      });
+    })
   }
 }

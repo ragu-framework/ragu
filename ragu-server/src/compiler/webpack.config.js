@@ -49,7 +49,7 @@ module.exports = {
         extensions: ['.ts', '.js', '.json']
     },
     output: {
-        filename: '[name].js',
+        filename: '[name].[contenthash].js',
         path: path.resolve('./dist'),
         publicPath: '/'
     },
