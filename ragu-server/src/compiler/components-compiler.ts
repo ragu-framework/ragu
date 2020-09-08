@@ -20,7 +20,7 @@ const fileTemplate = (config: RaguServerConfig, {componentName, component}: Temp
   };
 `;
 
-type DependencyObject = { require: string, replaceWith: string };
+type DependencyObject = { nodeRequire: string, globalVariable: string };
 
 export class ComponentsCompiler {
   constructor(private readonly config: RaguServerConfig) {
@@ -38,12 +38,12 @@ export class ComponentsCompiler {
         'client',
         this.config,
         (_, requestedDependency) => {
-          const foundDependency: DependencyObject | undefined = dependencies.find((dependency) => dependency.require === requestedDependency);
+          const foundDependency: DependencyObject | undefined = dependencies.find((dependency) => dependency.nodeRequire === requestedDependency);
 
           if (foundDependency) {
             return {
               shouldCompile: false,
-              useGlobal: foundDependency.replaceWith
+              useGlobal: foundDependency.globalVariable
             }
           }
 

@@ -5,9 +5,9 @@ interface Props {
 export default {
   dependencies: [
     {
-      'require': 'react',
-      'replaceWith': 'React',
-      'from': 'https://unpkg.com/react@16/umd/react.production.min.js'
+      'nodeRequire': 'react',
+      'globalVariable': 'React',
+      'dependency': 'https://unpkg.com/react@16/umd/react.production.min.js'
     }
   ],
   ssr({name}: Props) {

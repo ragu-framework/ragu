@@ -2,6 +2,7 @@ import getPort from "get-port";
 import {RaguServer} from "../src/server";
 import * as path from "path";
 import {ComponentsCompiler} from "../src/compiler/components-compiler";
+import {emptyDir} from "fs-extra";
 
 describe('Server Side Rendering', () => {
   let port: number;
@@ -35,6 +36,7 @@ describe('Server Side Rendering', () => {
 
   afterAll(async () => {
     await server.stop();
+    await emptyDir(outputDirectory);
   });
 
   describe('fetching a component successfully', () => {

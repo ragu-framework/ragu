@@ -67,9 +67,9 @@ describe('Server Side Rendering', () => {
 
     expect(dependencies).toEqual([
       {
-        'require': 'react',
-        'replaceWith': 'React',
-        'from': 'https://unpkg.com/react@16/umd/react.production.min.js'
+        'nodeRequire': 'react',
+        'globalVariable': 'React',
+        'dependency': 'https://unpkg.com/react@16/umd/react.production.min.js'
       }
     ]);
   });
@@ -90,7 +90,7 @@ describe('Server Side Rendering', () => {
     it('uses the defined dependency', async () => {
       await evalCompiledClient();
 
-      (window as any).MyExternalDependency = {
+      (global as any).MyExternalDependency = {
         sayHello: (name: string) => `Bye, ${name}`
       };
 

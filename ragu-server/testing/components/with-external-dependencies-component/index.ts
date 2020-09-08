@@ -7,9 +7,9 @@ interface Props {
 export default {
   dependencies: [
     {
-      'require': '../../external-dependencies/dep',
-      'replaceWith': 'window.MyExternalDependency',
-      'from': 'http://localhost/blah/'
+      'nodeRequire': '../../external-dependencies/dep',
+      'globalVariable': 'MyExternalDependency',
+      'dependency': 'http://localhost/blah/'
     }
   ],
   ssr({name}: Props) {
