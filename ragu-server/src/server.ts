@@ -22,7 +22,7 @@ export class RaguServer {
 
         const response = await component.ssr(req.query);
 
-        res.send({
+        res.jsonp({
           ...response,
           client: await this.compiler.getClientFileName(),
           resolverFunction: `${this.config.components.namePrefix}${componentName}`

@@ -71,6 +71,20 @@ describe('Server Side Rendering', () => {
     });
   });
 
+  describe('fetching a component successfully with jsonp', () => {
+    let response: Response;
+    let responseBody: string;
+
+    beforeAll(async () => {
+      response = await fetch(`http://localhost:${port}/components/hello-world?name=World&callback=my_callback_function`);
+      responseBody = await response.text();
+    });
+
+    it('returns the html of the requested component', async () => {
+      expect(responseBody).toContain('my_callback_function({');
+    });
+  });
+
   describe('fetching assets', () => {
     it('fetches the client', async () => {
       const filename = await compiler.getClientFileName();
