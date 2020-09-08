@@ -3,6 +3,7 @@ import {ComponentsCompiler} from "../src/compiler/components-compiler";
 import * as fs from "fs";
 import * as jsdom from "jsdom";
 import {ConstructorOptions} from "jsdom";
+import {emptyDir} from "fs-extra";
 
 describe('Server Side Rendering', () => {
   let port: number = 8080;
@@ -22,6 +23,10 @@ describe('Server Side Rendering', () => {
     });
 
     await compiler.compileAll();
+  });
+
+  afterAll(() => {
+    emptyDir(outputDirectory);
   });
 
   beforeEach(() => {
