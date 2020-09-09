@@ -1,11 +1,12 @@
 import path = require("path");
 import {ComponentsCompiler} from "../../ragu-server/src/compiler/components-compiler";
 import {RaguServer} from "../../ragu-server/src/server";
+import {createWebpackConfig} from "./webpack.config";
 
 const init = async () => {
   const port = 3100;
 
-  const config = {
+  const config: any = {
     assetsPrefix: `http://localhost:${port}/component-assets/`,
     server: {
       assetsEndpoint: '/component-assets/'
@@ -15,7 +16,8 @@ const init = async () => {
       output: path.join(__dirname, 'compiled_components'),
       sourceRoot: path.join(__dirname, 'components')
     },
-    port
+    port,
+    webpackConfig: createWebpackConfig() as any
   };
 
   const compiler = new ComponentsCompiler(config);

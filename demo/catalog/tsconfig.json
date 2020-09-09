@@ -4,6 +4,8 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "lib": ["dom", "es2019"],
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -26,5 +28,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist"
-  }
+  },
+  "include": [
+    "./**/*",
+  ]
 }
