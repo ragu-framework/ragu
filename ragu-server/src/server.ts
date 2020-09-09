@@ -24,6 +24,7 @@ export class RaguServer {
 
         res.jsonp({
           ...response,
+          dependencies: component.dependencies,
           client: await this.compiler.getClientFileName(),
           resolverFunction: `${this.config.components.namePrefix}${componentName}`
         });

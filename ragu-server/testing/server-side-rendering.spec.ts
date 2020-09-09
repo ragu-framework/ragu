@@ -56,6 +56,14 @@ describe('Server Side Rendering', () => {
       expect(responseBody.html).toBe('<b>Hello, World</b>');
     });
 
+    it('returns the html of the requested component', async () => {
+      expect(responseBody.dependencies).toEqual([{
+        'nodeRequire': 'react',
+        'globalVariable': 'React',
+        'dependency': 'https://unpkg.com/react@16/umd/react.production.min.js'
+      }]);
+    });
+
     it('returns the client file name', async () => {
       const filename = await compiler.getClientFileName();
       expect(responseBody.client).toBe(filename);

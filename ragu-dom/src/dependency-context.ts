@@ -1,7 +1,7 @@
 import {ScriptLoader} from "./gateway/script-loader";
 
 
-interface ComponentDependency {
+export interface ComponentDependency {
   globalVariable?: string;
   dependency: string;
 }
