@@ -1,6 +1,6 @@
 import webpack from "webpack";
 import {RaguServerConfig} from "../config";
-const config = require('./webpack.config');
+import {createDefaultWebpackConfiguration} from "./webpack-config-factory";
 const Chunks2JsonPlugin = require('chunks-2-json-webpack-plugin');
 
 type DependencyType = {
@@ -13,10 +13,14 @@ type DependencyType = {
 type DependencyCallback = (context: string, dependency: string) => DependencyType;
 
 export const webpackCompile = (entry: string, outputName: string, serverConfig: RaguServerConfig, dependencyCallback: DependencyCallback): Promise<void> => {
-    // Todo: create a factory of webpack config to avoid mutate this object.
+    const config = serverConfig.webpackConfig || createDefaultWebpackConfiguration({isDevelopment: false});
+
+    config.output = config.output || {};
     config.output.path = serverConfig.components.output;
     config.output.publicPath = serverConfig.assetsPrefix;
     config.output.jsonpFunction = `wpJsonp_${serverConfig.components.namePrefix}`
+
+    config.plugins = config.plugins || [];
     config.plugins.push(new Chunks2JsonPlugin({ outputDir: serverConfig.components.output, publicPath: config.output.publicPath }))
 
     config.externals = [

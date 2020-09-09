@@ -1,3 +1,5 @@
+import webpack from "webpack";
+
 export interface RaguServerConfig {
   components: {
     namePrefix: string;
@@ -8,5 +10,6 @@ export interface RaguServerConfig {
     assetsEndpoint: string
   };
   assetsPrefix: string;
-  port: number
+  port: number;
+  webpackConfig?: webpack.Configuration
 }
