@@ -4,6 +4,10 @@ import {ScriptLoader} from "./gateway/script-loader";
 import {JsonpGateway} from "./gateway/jsonp-gateway";
 
 describe('component loader', () => {
+  afterEach(() => {
+    document.head.innerHTML = '';
+  });
+
   class StubJSONP extends JsonpGateway {
     constructor(readonly promise: Promise<any>, readonly componentURL: string) {
       super(document);
@@ -30,7 +34,7 @@ describe('component loader', () => {
       jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
     }).load('http://localhost:3000/components/hello-world?name=World')
         .then((component) => {
-          expect(component).toEqual(componentResponse);
+          expect(component).toEqual(expect.objectContaining(componentResponse));
           done();
         });
   });
@@ -68,6 +72,10 @@ describe('component loader', () => {
           expect(document.body.textContent).toContain('props: hello, state: world');
           done();
         });
+
+    await new Promise((resolve) => {
+      setImmediate(() => resolve());
+    });
 
     (document.querySelector('script[src="http://my-squad.org/client.asijdoaidj.ja"]') as HTMLScriptElement)
         .onload?.(null as any);
@@ -116,6 +124,10 @@ describe('component loader', () => {
           expect(document.body.textContent).toContain('props: hello, state: world');
           done();
         });
+
+    await new Promise((resolve) => {
+      setImmediate(() => resolve());
+    });
 
     dependencyResolved = true;
     (document.querySelector('script[src="https://unpkg.com/react@16/umd/react.production.min.js"]') as HTMLScriptElement)

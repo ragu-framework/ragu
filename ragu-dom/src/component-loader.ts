@@ -29,7 +29,7 @@ export class ComponentLoader {
 
         await Promise.all(dependencies.map((dep) => {
           return this.context.dependencyContext.load(dep);
-        }))
+        }));
 
         await this.context.dependencyContext.load({ dependency: componentResponse.client });
 
