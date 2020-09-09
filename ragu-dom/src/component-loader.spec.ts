@@ -57,7 +57,7 @@ describe('component loader', () => {
     (window as any)['myResolverStub'] = {
       resolve: async () => {
         return {
-          async render(element: HTMLElement, props: string, state: string) {
+          async hydrate(element: HTMLElement, props: string, state: string) {
             await new Promise((resolve) => {
               setImmediate(() => resolve());
             });
@@ -67,7 +67,7 @@ describe('component loader', () => {
       }
     }
 
-    component.render(document.body, 'hello', 'world')
+    component.hydrate(document.body, 'hello', 'world')
         .then(() => {
           expect(document.body.textContent).toContain('props: hello, state: world');
           done();
@@ -110,14 +110,14 @@ describe('component loader', () => {
     (window as any)['myResolverStub'] = {
       resolve: async () => {
         return {
-          async render(element: HTMLElement, props: string, state: string) {
+          async hydrate(element: HTMLElement, props: string, state: string) {
             element.innerHTML = `props: ${props}, state: ${state}`;
           }
         }
       }
     }
 
-    component.render(document.body, 'hello', 'world')
+    component.hydrate(document.body, 'hello', 'world')
         .then(() => {
           expect(clientResolved).toBeTruthy();
           expect(dependencyResolved).toBeTruthy();

@@ -24,7 +24,7 @@ export default {
       html: `<b>Hello, ${name}</b>`
     }
   },
-  render(element: HTMLElement, props: Props, state: State) {
+  hydrate(element: HTMLElement, props: Props, state: State) {
     element.innerHTML = `${state.greetingType}, ${props.name}`
   }
 }

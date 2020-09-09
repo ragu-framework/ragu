@@ -21,7 +21,7 @@ export default {
       html: sayHello(name)
     }
   },
-  render(element: HTMLElement, {name}: Props) {
+  hydrate(element: HTMLElement, {name}: Props) {
     element.innerHTML = sayHello(name)
   }
 }

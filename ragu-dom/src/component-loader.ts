@@ -13,7 +13,7 @@ export interface Component<Props, State> {
   html: string;
   client: string;
   resolverFunction: string;
-  render: (element: HTMLElement, props: Props, state: State) => Promise<void>;
+  hydrate: (element: HTMLElement, props: Props, state: State) => Promise<void>;
 }
 
 export class ComponentLoader {
@@ -25,7 +25,7 @@ export class ComponentLoader {
 
     return {
       ...componentResponse,
-      render: async (htmlElement: HTMLElement, props: P, state: S) => {
+      hydrate: async (htmlElement: HTMLElement, props: P, state: S) => {
         const dependencies = componentResponse.dependencies || [];
 
         await Promise.all(dependencies.map((dep) => {
@@ -35,7 +35,7 @@ export class ComponentLoader {
         await this.context.dependencyContext.load({ dependency: componentResponse.client });
 
         const component = await (window as any)[componentResponse.resolverFunction].resolve();
-        await component.render(htmlElement, props, state);
+        await component.hydrate(htmlElement, props, state);
       }
     };
   }

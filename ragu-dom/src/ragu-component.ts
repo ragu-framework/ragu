@@ -25,7 +25,7 @@ export const registerRaguComponent = (componentLoader: ComponentLoader = default
         const component = await componentLoader.load(src);
         this.innerHTML = component.html;
 
-        await component.render(this, component.props, component.state);
+        await component.hydrate(this, component.props, component.state);
       }
     }
   }

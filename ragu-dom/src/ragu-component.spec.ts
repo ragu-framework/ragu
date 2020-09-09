@@ -43,7 +43,7 @@ describe('Rendering a component', () => {
       },
       client: 'client_url',
       html: 'Hello, World',
-      render: async  (element, {name}, {from}) => {
+      hydrate: async  (element, {name}, {from}) => {
         await renderPromise.promise;
         element.innerHTML = `Hello from ${from}, ${name}`
       }
@@ -77,7 +77,7 @@ describe('Rendering a component', () => {
       },
       client: 'client_url',
       html: 'Hello, World',
-      render: async  (element, {name}, {from}) => {
+      hydrate: async  (element, {name}, {from}) => {
         await renderPromise.promise;
         element.innerHTML = `Hello from ${from}, ${name}`
       }
