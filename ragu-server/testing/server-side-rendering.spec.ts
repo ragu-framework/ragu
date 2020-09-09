@@ -79,6 +79,12 @@ describe('Server Side Rendering', () => {
         name: 'World'
       });
     });
+
+    it('returns the props of the requested component', async () => {
+      expect(responseBody.props).toEqual({
+        name: 'World'
+      });
+    });
   });
 
   describe('fetching a component successfully with jsonp', () => {
@@ -92,6 +98,10 @@ describe('Server Side Rendering', () => {
 
     it('returns the html of the requested component', async () => {
       expect(responseBody).toContain('my_callback_function({');
+    });
+
+    it('returns the props excluding the callback of the requested component', async () => {
+      expect(responseBody).toContain('"props":{"name":"World"}');
     });
   });
 

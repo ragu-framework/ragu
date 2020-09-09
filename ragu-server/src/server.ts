@@ -19,11 +19,14 @@ export class RaguServer {
       const componentPath = path.join(config.components.sourceRoot, componentName)
       try {
         const {default: component} = require(componentPath);
+        const query = {...req.query};
+        delete query['callback'];
 
-        const response = await component.ssr(req.query);
+        const response = await component.ssr(query);
 
         res.jsonp({
           ...response,
+          props: query,
           dependencies: component.dependencies,
           client: await this.compiler.getClientFileName(),
           resolverFunction: `${this.config.components.namePrefix}${componentName}`

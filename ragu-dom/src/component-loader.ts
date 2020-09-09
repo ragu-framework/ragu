@@ -8,6 +8,7 @@ export interface ComponentLoaderContext {
 
 export interface Component<Props, State> {
   dependencies?: ComponentDependency[];
+  props: Props;
   state: State;
   html: string;
   client: string;
