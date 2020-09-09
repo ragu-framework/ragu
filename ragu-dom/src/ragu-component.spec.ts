@@ -17,11 +17,13 @@ describe('Rendering a component', () => {
     }
   }
 
+  beforeAll(() => {
+    registerRaguComponent(new StubLoader() as ComponentLoader)
+  });
+
   beforeEach(() => {
     controlledPromise = new TestPromiseController<Component<any, any>>();
     loadStub = jest.fn();
-
-    registerRaguComponent(new StubLoader() as ComponentLoader)
   });
 
   it('renders a component', async () => {
