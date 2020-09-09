@@ -1,1 +1,0 @@
-(window.wpJsonp_catalog=window.wpJsonp_catalog||[]).push([[1],[,function(e,n,t){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.default={ssr:function(e){var n=e.name;return{state:{name:n,greetingType:"Hello"},html:"<b>Hello, "+n+"</b>"}},render:function(e,n,t){e.innerHTML=t.greetingType+", "+n.name}}}]]);

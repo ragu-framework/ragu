@@ -55,6 +55,7 @@ describe('Rendering a component', () => {
 
     await waitForPromises();
     expect(document.querySelector('ragu-component')?.innerHTML).toEqual('Hello from Server, World');
+    expect(loadStub).toBeCalledTimes(1);
   });
 
   it('updates the content after a src change', async () => {

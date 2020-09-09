@@ -18,10 +18,6 @@ export const registerRaguComponent = (componentLoader: ComponentLoader = default
       await this.fetchComponent();
     }
 
-    async connectedCallback() {
-      await this.fetchComponent();
-    }
-
     private async fetchComponent() {
       const src = this.getAttribute('src');
 

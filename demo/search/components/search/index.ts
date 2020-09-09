@@ -14,10 +14,10 @@ export default {
         name,
         greetingType: 'Hello'
       },
-      html: `<b>Hello from Catalog, ${name}</b>`
+      html: `<b>Hello from search, ${name}</b>`
     }
   },
   render(element: HTMLElement, props: Props, state: State) {
-    element.innerHTML = `${state.greetingType} from Catalog, ${props.name}`
+    element.innerHTML = `${state.greetingType} from search, ${props.name}`
   }
 }
