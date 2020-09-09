@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "yarn build && yarn prod",
+    "build": "tsc",
+    "prod": "node dist/demo/catalog/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +21,8 @@
   },
   "devDependencies": {
     "@types/webpack": "^4.41.22",
-    "webpack": "^4.44.1"
+    "chunks-2-json-webpack-plugin": "^1.0.4",
+    "webpack": "^4.44.1",
+    "webpack-bundle-analyzer": "^3.8.0"
   }
 }
