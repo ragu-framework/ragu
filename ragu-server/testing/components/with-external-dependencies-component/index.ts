@@ -12,7 +12,7 @@ export default {
       'dependency': 'http://localhost/blah/'
     }
   ],
-  ssr({name}: Props) {
+  render({name}: Props) {
     return {
       state: {
         name,

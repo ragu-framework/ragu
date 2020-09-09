@@ -5,7 +5,7 @@ interface Props {
 }
 
 export default {
-  ssr({name}: Props) {
+  render({name}: Props) {
     return {
       state: {
         name,

@@ -22,7 +22,7 @@ export class RaguServer {
         const query = {...req.query};
         delete query['callback'];
 
-        const response = await component.ssr(query);
+        const response = await component.render(query);
 
         res.jsonp({
           ...response,

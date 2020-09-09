@@ -8,7 +8,7 @@ interface State {
 }
 
 export default {
-  ssr({name}: Props) {
+  render({name}: Props) {
     return {
       state: {
         name,
@@ -17,7 +17,7 @@ export default {
       html: `<b>Hello from search, ${name}</b>`
     }
   },
-  render(element: HTMLElement, props: Props, state: State) {
+  hydrate(element: HTMLElement, props: Props, state: State) {
     element.innerHTML = `${state.greetingType} from search, ${props.name}`
   }
 }

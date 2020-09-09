@@ -15,7 +15,7 @@ export default {
       'dependency': 'https://unpkg.com/react@16/umd/react.production.min.js'
     }
   ],
-  ssr({name}: Props) {
+  render({name}: Props) {
     return {
       state: {
         name,
