@@ -1,23 +1,26 @@
-interface Props {
-  name: string;
-}
+import jQuery from 'jquery';
 
-interface State {
-  name: string;
-  greetingType: string;
+interface Props {
+  query?: string;
 }
 
 export default {
-  render({name}: Props) {
+  dependencies: [
+    {
+      nodeRequire: 'jquery',
+      globalDependency: 'jQuery',
+      dependency: 'https://code.jquery.com/jquery-3.5.1.min.js'
+    }
+  ],
+  async render({query}: Props) {
     return {
-      state: {
-        name,
-        greetingType: 'Hello'
-      },
-      html: `<b>Hello from search, ${name}</b>`
+      state: {},
+      html: `<input value="${query || ''}"><button>Search</button>`
     }
   },
-  hydrate(element: HTMLElement, props: Props, state: State) {
-    element.innerHTML = `${state.greetingType} from search, ${props.name}`
+  hydrate(element: HTMLElement) {
+    jQuery(element).find('button').on('click', () => {
+      alert('searching...');
+    });
   }
 }
