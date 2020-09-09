@@ -11,7 +11,7 @@ const init = async () => {
       assetsEndpoint: '/component-assets/'
     },
     components: {
-      namePrefix: 'catalog',
+      namePrefix: 'search',
       output: path.join(__dirname, 'compiled_components'),
       sourceRoot: path.join(__dirname, 'components')
     },
