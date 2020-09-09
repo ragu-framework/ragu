@@ -1,4 +1,4 @@
-import {ComponentLoader} from "./component-loader";
+import {Component, ComponentLoader} from "./component-loader";
 import {DependencyContext} from "./dependency-context";
 import {ScriptLoader} from "./gateway/script-loader";
 import {JsonpGateway} from "./gateway/jsonp-gateway";
@@ -10,6 +10,8 @@ export const defaultComponentLoader = new ComponentLoader({
 
 export const registerRaguComponent = (componentLoader: ComponentLoader = defaultComponentLoader): void => {
   class RaguComponent extends HTMLElement {
+    private component?: Component<any, any>;
+
     static get observedAttributes() {
       return ['src'];
     }
@@ -18,14 +20,25 @@ export const registerRaguComponent = (componentLoader: ComponentLoader = default
       await this.fetchComponent();
     }
 
+    disconnectedCallback() {
+      this.disconnectComponent();
+    }
+
     private async fetchComponent() {
       const src = this.getAttribute('src');
 
       if (src) {
-        const component = await componentLoader.load(src);
-        this.innerHTML = component.html;
+        this.disconnectComponent();
 
-        await component.hydrate(this, component.props, component.state);
+        this.component = await componentLoader.load(src);
+        this.innerHTML = this.component.html;
+        await this.component.hydrate(this, this.component.props, this.component.state);
+      }
+    }
+
+    private disconnectComponent() {
+      if (this.component) {
+        this.component.disconnect?.();
       }
     }
   }

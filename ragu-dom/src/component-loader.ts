@@ -13,6 +13,7 @@ export interface Component<Props, State> {
   html: string;
   client: string;
   resolverFunction: string;
+  disconnect?: () => void
   hydrate: (element: HTMLElement, props: Props, state: State) => Promise<void>;
 }
 

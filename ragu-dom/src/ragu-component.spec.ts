@@ -66,6 +66,7 @@ describe('Rendering a component', () => {
     expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
 
     const renderPromise = new TestPromiseController();
+    const disconnectStub = jest.fn();
 
     controlledPromise.resolve({
       resolverFunction: 'la',
@@ -80,7 +81,8 @@ describe('Rendering a component', () => {
       hydrate: async  (element, {name}, {from}) => {
         await renderPromise.promise;
         element.innerHTML = `Hello from ${from}, ${name}`
-      }
+      },
+      disconnect: disconnectStub
     });
 
     await waitForPromises();
@@ -89,8 +91,44 @@ describe('Rendering a component', () => {
 
     const component = document.querySelector('ragu-component') as HTMLElement;
     expect(component.innerHTML).toEqual('Hello from Server, World');
+    expect(disconnectStub).not.toBeCalled();
 
     component.setAttribute('src', 'http://my-squad.org/component/other-component');
     expect(loadStub).toBeCalledWith('http://my-squad.org/component/other-component');
+    expect(disconnectStub).toBeCalled();
+  });
+
+  it('disconnect when component is removed from dom', async () => {
+    const componentURL = 'http://my-squad.org/component/any-component';
+    document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
+    expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
+
+    const renderPromise = new TestPromiseController();
+    const disconnectStub = jest.fn();
+
+    controlledPromise.resolve({
+      resolverFunction: 'la',
+      state: {
+        from: 'Server'
+      },
+      props: {
+        name: 'World'
+      },
+      client: 'client_url',
+      html: 'Hello, World',
+      hydrate: async  (element, {name}, {from}) => {
+        await renderPromise.promise;
+        element.innerHTML = `Hello from ${from}, ${name}`
+      },
+      disconnect: disconnectStub
+    });
+
+    await waitForPromises();
+    renderPromise.resolve();
+    await waitForPromises();
+
+    const component = document.querySelector('ragu-component') as HTMLElement;
+    component.remove();
+    expect(disconnectStub).toBeCalled();
   });
 });
