@@ -55,7 +55,7 @@ describe('Server Side Rendering', () => {
 
     const resolvedComponent = await (window as any)['test_components_hello-world'].resolve();
     const div = dom.window.document.createElement('div');
-    resolvedComponent.render({name: 'World'}, div);
+    resolvedComponent.render(div, {name: 'World'}, {greetingType:'Hello'});
 
     expect(div.textContent).toContain('Hello, World');
   });
@@ -80,7 +80,7 @@ describe('Server Side Rendering', () => {
 
       const resolvedComponent = await (window as any)['test_components_with-dependencies-component'].resolve();
       const div = dom.window.document.createElement('div');
-      resolvedComponent.render({name: 'World'}, div);
+      resolvedComponent.render(div, {name: 'World'});
 
       expect(div.textContent).toContain('Hello, World');
     });
@@ -96,7 +96,7 @@ describe('Server Side Rendering', () => {
 
       const resolvedComponent = await (window as any)['test_components_with-external-dependencies-component'].resolve();
       const div = dom.window.document.createElement('div');
-      resolvedComponent.render({name: 'World'}, div);
+      resolvedComponent.render(div, {name: 'World'});
 
       expect(div.textContent).toContain('Bye, World');
     });

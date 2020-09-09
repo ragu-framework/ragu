@@ -2,6 +2,11 @@ interface Props {
   name: string;
 }
 
+interface State {
+  name: string;
+  greetingType: string;
+}
+
 export default {
   dependencies: [
     {
@@ -19,7 +24,7 @@ export default {
       html: `<b>Hello, ${name}</b>`
     }
   },
-  render({name}: Props, element: HTMLElement) {
-    element.innerHTML = `Hello, ${name}`
+  render(element: HTMLElement, props: Props, state: State) {
+    element.innerHTML = `${state.greetingType}, ${props.name}`
   }
 }

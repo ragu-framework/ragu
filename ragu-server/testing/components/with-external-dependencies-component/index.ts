@@ -21,7 +21,7 @@ export default {
       html: sayHello(name)
     }
   },
-  render({name}: Props, element: HTMLElement) {
+  render(element: HTMLElement, {name}: Props) {
     element.innerHTML = sayHello(name)
   }
 }
