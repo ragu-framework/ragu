@@ -24,12 +24,6 @@ jobs:
       with:
         node-version: '12.x'
     - run: npm install yarn
-    - run: yarn --cwd ragu
-      env:
-        CI: true
-    - run: yarn --cwd ragu test
-      env:
-        CI: true
     - run: yarn --cwd ragu-server
       env:
         CI: true
