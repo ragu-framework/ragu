@@ -1,7 +1,6 @@
 import path = require("path");
-import {ComponentsCompiler} from "../../ragu-server/src/compiler/components-compiler";
-import {RaguServer} from "../../ragu-server/src/server";
 import {createWebpackConfig} from "./webpack.config";
+import {ComponentsCompiler, RaguServer} from "ragu-server";
 
 const init = async () => {
   const port = 3100;

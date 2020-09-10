@@ -1,8 +1,9 @@
 {
   "name": "ragu-dom",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A micro-frontend framework",
-  "main": "index.js",
+  "main": "./index.js",
+  "type": "./index.d.ts",
   "repository": "https://github.com/carlosmaniero/ragu",
   "author": "Maniero <carlosmaniero@gmail.com>",
   "license": "MIT",
@@ -14,6 +15,8 @@
     "typescript": "^4.0.2"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "clean": "tsc --build --clean",
+    "build": "tsc && cp package.json dist/ && cp ./README.md dist/"
   }
 }

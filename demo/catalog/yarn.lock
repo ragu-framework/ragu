@@ -1065,7 +1065,7 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-express@^4.16.3:
+express@^4.16.3, express@^4.17.1:
   version "4.17.1"
   resolved "https://registry.yarnpkg.com/express/-/express-4.17.1.tgz#4491fc38605cf51f8629d39c2b5d026f98a4c134"
   integrity sha512-mHJ9O79RqluphRrcw2X/GTh3k9tVv8YcoyY4Kkh4WDMUYKRZUq0h1o0w2rrrxBqM7VoeUVqgb27xlEMXTnYt4g==
@@ -2222,6 +2222,13 @@ querystring@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
+
+ragu-server@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/ragu-server/-/ragu-server-0.0.2.tgz#390ea53b5848180522e8c03bfaf7100a91ae56f0"
+  integrity sha512-Slvm7v11BMS0yez6mbe4CswfGI/s7IIY02L9yQfTc2PMei5QInkEmZ/39brzjy5UsLFVZLL3u4mIeG2aRbfkgw==
+  dependencies:
+    express "^4.17.1"
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"

@@ -1,3 +1,3 @@
-import {registerRaguComponent} from "../../ragu-dom/src/ragu-component";
+import {registerRaguComponent} from "ragu-dom";
 
 registerRaguComponent();
