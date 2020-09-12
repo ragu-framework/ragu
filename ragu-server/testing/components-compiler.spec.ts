@@ -4,8 +4,9 @@ import * as fs from "fs";
 import * as jsdom from "jsdom";
 import {ConstructorOptions} from "jsdom";
 import {emptyDir} from "fs-extra";
+import {TestLogging} from "./test-logging";
 
-describe('Server Side Rendering', () => {
+describe('Component Compiler', () => {
   let port: number = 8080;
   let compiler: ComponentsCompiler;
   const outputDirectory = path.join(__dirname, 'compiled_components');
@@ -18,6 +19,7 @@ describe('Server Side Rendering', () => {
       server: {
         assetsEndpoint: '/components/'
       },
+      logger: new TestLogging(),
       components: {
         preCompiledOutput,
         namePrefix: 'test_components_',

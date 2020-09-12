@@ -65,6 +65,7 @@ export class PreCompiler {
           }
         }
 
+        getLogger(this.config).info('Pre compilation finish. All check passes...');
         resolve();
       });
     });

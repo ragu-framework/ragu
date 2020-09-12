@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import {webpackCompile} from "./webpack-compiler";
 import {PreCompiler} from "./pre-compiler";
+import {getLogger} from "../logging/get-logger";
 
 interface TemplateConfig {
   componentName: string,
@@ -32,8 +33,9 @@ export class ComponentsCompiler {
 
   async compileAll() {
     await this.preCompiler.compileAll();
+    this.createNonCompiledClientFile();
 
-    this.createTypescriptClientFile();
+    getLogger(this.config).info('Starting compilation process...');
 
     const dependencies: DependencyObject[] = this.fetchAllComponents()
         .flatMap<DependencyObject>((componentName) => require(path.join(this.config.components.sourceRoot, componentName)).default?.dependencies || [])
@@ -43,10 +45,11 @@ export class ComponentsCompiler {
         path.join(this.config.components.output, 'original_client.js'),
         'client',
         this.config,
-        (_, requestedDependency) => {
+        (context, requestedDependency) => {
           const foundDependency: DependencyObject | undefined = dependencies.find((dependency) => dependency.nodeRequire === requestedDependency);
 
           if (foundDependency) {
+            getLogger(this.config).debug(`replacing dependency "${requestedDependency}" with global variable "${foundDependency.globalVariable}" from ${context}`);
             return {
               shouldCompile: false,
               useGlobal: foundDependency.globalVariable
@@ -59,11 +62,19 @@ export class ComponentsCompiler {
         });
   }
 
-  private createTypescriptClientFile() {
+  private createNonCompiledClientFile() {
     this.createOutputCompiledComponentsDirectory();
 
-    const components = this.fetchAllComponents().map((componentName) => {
-      const component = require(path.join(this.config.components.sourceRoot, componentName)).default;
+    const componentNames = this.fetchAllComponents();
+
+    getLogger(this.config).debug('Components to be compiled: ', componentNames);
+
+    const components = componentNames.map((componentName) => {
+      const componentPath = path.join(this.config.components.preCompiledOutput, componentName);
+
+      getLogger(this.config).debug(`Loading "${componentName}" from "${componentPath}".`);
+
+      const component = require(componentPath).default;
 
       return ({
         componentName,
@@ -71,9 +82,13 @@ export class ComponentsCompiler {
       });
     });
 
+    getLogger(this.config).debug(`Creating client file template.`);
     const tsCodeOfComponent = components.map((component) => fileTemplate(this.config, component)).join('');
 
-    fs.writeFileSync(path.join(this.config.components.output, 'original_client.js'), tsCodeOfComponent);
+    const originalClientPath = path.join(this.config.components.output, 'original_client.js');
+    getLogger(this.config).debug(`Writing client file at "${originalClientPath}"`);
+
+    fs.writeFileSync(originalClientPath, tsCodeOfComponent);
   }
 
   private fetchAllComponents(): string[] {
@@ -81,11 +96,19 @@ export class ComponentsCompiler {
   }
 
   private createOutputCompiledComponentsDirectory() {
-    if (!fs.existsSync(this.config.components.output)) {
-      fs.mkdirSync(this.config.components.output, {
-        recursive: true
-      });
+    getLogger(this.config).debug('Creating output directory:', this.config.components.output);
+
+    if (fs.existsSync(this.config.components.output)) {
+      getLogger(this.config).debug('Skipping output directory creation: Directory already exists.');
+      return;
     }
+
+    fs.mkdirSync(this.config.components.output, {
+      recursive: true
+    });
+
+    getLogger(this.config).debug('Output directory created.');
+    return;
   }
 
   getClientFileName(): Promise<string> {
