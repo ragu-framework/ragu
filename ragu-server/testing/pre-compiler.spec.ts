@@ -7,7 +7,7 @@ import {
 } from "../src/compiler/pre-compiler";
 import {merge} from "webpack-merge";
 import {createDefaultWebpackConfiguration} from "..";
-import {emptyDir, emptyDirSync} from "fs-extra";
+import {emptyDirSync} from "fs-extra";
 
 describe('Pre compiler', () => {
   let port: number;
@@ -16,8 +16,8 @@ describe('Pre compiler', () => {
   const preCompiledOutput = path.join(__dirname, 'pre_compiled_components');
 
   describe('compile component successfully with default configuration', () => {
-    afterAll(async () => {
-      await emptyDir(preCompiledOutput);
+    afterAll(() => {
+      emptyDirSync(preCompiledOutput);
     });
 
     beforeAll(async () => {
@@ -53,8 +53,8 @@ describe('Pre compiler', () => {
   describe('providing a pre compiler webpack configuration with no exports', () => {
     const preCompiledOutput = path.join(__dirname, 'pre_compiled_components_with_webpack_wrong_config');
 
-    afterEach(async () => {
-      await emptyDirSync(preCompiledOutput);
+    afterAll(() => {
+      emptyDirSync(preCompiledOutput);
     });
 
     beforeEach(async () => {
@@ -93,8 +93,8 @@ describe('Pre compiler', () => {
   describe('providing a pre compiler webpack configuration that does not generates a not found', () => {
     const preCompiledOutput = path.join(__dirname, 'pre_compiled_components_not_found');
 
-    afterEach(async () => {
-      await emptyDirSync(preCompiledOutput);
+    afterAll(() => {
+      emptyDirSync(preCompiledOutput);
     });
 
     beforeEach(async () => {

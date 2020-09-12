@@ -4,10 +4,8 @@ import {createDefaultWebpackConfiguration} from "./webpack-config-factory";
 import * as path from "path";
 import {merge} from "webpack-merge";
 import * as fs from "fs";
+import webpackNodeExternals from "webpack-node-externals";
 
-const node_modules = fs
-    .readdirSync('node_modules')
-    .filter(function(x) { return x !== '.bin' });
 
 export class PreCompilationOutputError extends Error {
   constructor(readonly key: string, readonly componentName: string) {
@@ -62,7 +60,7 @@ export class PreCompiler {
         filename: '[name].js',
         path: this.config.components.preCompiledOutput
       },
-      externals: node_modules,
+      externals: [webpackNodeExternals()],
       entry: {
         [componentName]: path.join(this.config.components.sourceRoot, componentName)
       }
