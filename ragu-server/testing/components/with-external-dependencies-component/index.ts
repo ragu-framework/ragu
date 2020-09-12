@@ -9,8 +9,8 @@ interface Props {
 export default {
   dependencies: [
     {
-      'nodeRequire': '../../external-dependencies/dep',
-      'globalVariable': 'MyExternalDependency',
+      'nodeRequire': 'jquery',
+      'globalVariable': 'jQuery',
       'dependency': 'http://localhost/blah/'
     }
   ],

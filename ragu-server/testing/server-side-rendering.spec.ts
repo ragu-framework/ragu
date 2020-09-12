@@ -32,7 +32,6 @@ describe('Server Side Rendering', () => {
     server = new RaguServer(config, compiler);
 
     await compiler.compileAll();
-
     await server.start()
   });
 

@@ -16,7 +16,7 @@ export class RaguServer {
 
     this.expressApp.get('/components/:componentName', async (req, res) => {
       const componentName = req.params.componentName;
-      const componentPath = path.join(config.components.sourceRoot, componentName)
+      const componentPath = path.join(config.components.preCompiledOutput, componentName)
       try {
         const {default: component} = require(componentPath);
         const query = {...req.query};

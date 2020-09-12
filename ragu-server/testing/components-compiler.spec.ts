@@ -92,15 +92,15 @@ describe('Server Side Rendering', () => {
     it('uses the defined dependency', async () => {
       await evalCompiledClient();
 
-      (global as any).MyExternalDependency = {
-        sayHello: (name: string) => `Bye, ${name}`
-      };
+      (global as any).jQuery = jest.fn(() => ({
+        'on': () => {}
+      }));
 
       const resolvedComponent = await (window as any)['test_components_with-external-dependencies-component'].resolve();
       const div = dom.window.document.createElement('div');
       resolvedComponent.hydrate(div, {name: 'World'});
 
-      expect(div.textContent).toContain('Bye, World');
+      expect(jQuery).toBeCalled();
     });
   });
 });

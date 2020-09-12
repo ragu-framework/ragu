@@ -2,6 +2,7 @@ import {RaguServerConfig} from "../config";
 import * as fs from "fs";
 import * as path from "path";
 import {webpackCompile} from "./webpack-compiler";
+import {PreCompiler} from "./pre-compiler";
 
 interface TemplateConfig {
   componentName: string,
@@ -14,7 +15,7 @@ const fileTemplate = (config: RaguServerConfig, {componentName, component}: Temp
   window["${config.components.namePrefix}${componentName}"] = {
     dependencies: ${JSON.stringify(component.dependencies)},
     resolve() {
-      return import('${path.join(config.components.sourceRoot, componentName)}')
+      return import('${path.join(config.components.preCompiledOutput, componentName)}')
         .then((module) => module.default);
     }
   };
@@ -23,10 +24,15 @@ const fileTemplate = (config: RaguServerConfig, {componentName, component}: Temp
 type DependencyObject = { nodeRequire: string, globalVariable: string };
 
 export class ComponentsCompiler {
-  constructor(private readonly config: RaguServerConfig) {
+  private readonly preCompiler: PreCompiler;
+
+  constructor(private readonly config: RaguServerConfig, preCompiler?: PreCompiler) {
+    this.preCompiler = preCompiler || new PreCompiler(config);
   }
 
   async compileAll() {
+    await this.preCompiler.compileAll();
+
     this.createTypescriptClientFile();
 
     const dependencies: DependencyObject[] = this.fetchAllComponents()
