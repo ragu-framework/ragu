@@ -2,6 +2,7 @@ import webpack from "webpack";
 
 export interface RaguServerConfig {
   components: {
+    preCompiledOutput: string;
     namePrefix: string;
     sourceRoot: string;
     output: string;
@@ -12,4 +13,5 @@ export interface RaguServerConfig {
   assetsPrefix: string;
   port: number;
   webpackConfig?: webpack.Configuration
+  webpackPreCompilerConfiguration?: webpack.Configuration
 }

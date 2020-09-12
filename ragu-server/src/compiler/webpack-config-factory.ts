@@ -1,5 +1,5 @@
 import webpack from "webpack";
-const path = require('path');
+
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -53,7 +53,6 @@ export const createDefaultWebpackConfiguration = ({isDevelopment}: Options): web
     },
     output: {
       filename: '[name].[contenthash].js',
-      path: path.resolve('./dist'),
       publicPath: '/'
     },
     optimization: {

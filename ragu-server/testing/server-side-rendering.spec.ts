@@ -9,6 +9,7 @@ describe('Server Side Rendering', () => {
   let server: RaguServer;
   let compiler: ComponentsCompiler;
   const outputDirectory = path.join(__dirname, 'compiled_components');
+  const preCompiledOutput = path.join(__dirname, 'pre_compiled_components');
 
   beforeAll(async () => {
     port = await getPort();
@@ -19,9 +20,10 @@ describe('Server Side Rendering', () => {
         assetsEndpoint: '/component-assets/'
       },
       components: {
+        preCompiledOutput,
         namePrefix: 'test_components_',
         output: outputDirectory,
-        sourceRoot: path.join(__dirname, 'components')
+        sourceRoot: path.join(__dirname, 'components'),
       },
       port
     };

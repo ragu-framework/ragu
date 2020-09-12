@@ -9,6 +9,7 @@ describe('Server Side Rendering', () => {
   let port: number = 8080;
   let compiler: ComponentsCompiler;
   const outputDirectory = path.join(__dirname, 'compiled_components');
+  const preCompiledOutput = path.join(__dirname, 'pre_compiled_components');
   let dom: jsdom.JSDOM;
 
   beforeAll(async () => {
@@ -18,6 +19,7 @@ describe('Server Side Rendering', () => {
         assetsEndpoint: '/components/'
       },
       components: {
+        preCompiledOutput,
         namePrefix: 'test_components_',
         output: outputDirectory,
         sourceRoot: path.join(__dirname, 'components')
