@@ -1,4 +1,5 @@
 import webpack from "webpack";
+import {Logger} from "./logging/logger";
 
 export interface RaguServerConfig {
   components: {
@@ -10,6 +11,7 @@ export interface RaguServerConfig {
   server: {
     assetsEndpoint: string
   };
+  logger?: Logger;
   assetsPrefix: string;
   port: number;
   webpackConfig?: webpack.Configuration
