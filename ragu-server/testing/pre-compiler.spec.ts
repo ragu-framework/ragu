@@ -8,6 +8,7 @@ import {
 import {merge} from "webpack-merge";
 import {createDefaultWebpackConfiguration} from "..";
 import {emptyDirSync} from "fs-extra";
+import {TestLogging} from "./test-logging";
 
 describe('Pre compiler', () => {
   let port: number;
@@ -28,6 +29,7 @@ describe('Pre compiler', () => {
         server: {
           assetsEndpoint: '/component-assets/'
         },
+        logger: new TestLogging(),
         components: {
           preCompiledOutput,
           namePrefix: 'test_components_',
@@ -75,6 +77,7 @@ describe('Pre compiler', () => {
         server: {
           assetsEndpoint: '/component-assets/'
         },
+        logger: new TestLogging(),
         components: {
           preCompiledOutput,
           namePrefix: 'test_components_',
@@ -114,6 +117,7 @@ describe('Pre compiler', () => {
         server: {
           assetsEndpoint: '/component-assets/'
         },
+        logger: new TestLogging(),
         components: {
           preCompiledOutput,
           namePrefix: 'test_components_',

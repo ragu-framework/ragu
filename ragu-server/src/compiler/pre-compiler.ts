@@ -5,6 +5,7 @@ import * as path from "path";
 import {merge} from "webpack-merge";
 import * as fs from "fs";
 import webpackNodeExternals from "webpack-node-externals";
+import {getLogger} from "../logging/get-logger";
 
 
 export class PreCompilationOutputError extends Error {
@@ -33,7 +34,11 @@ export class PreCompiler {
     return new Promise<void>((resolve, reject) => {
       let webpackConfig = this.getWebpackConfig();
 
+      getLogger(this.config).info('Preparing components.');
+      getLogger(this.config).debug('Components found:');
+
       for (let componentName of componentNames) {
+        getLogger(this.config).debug('-', componentName)
         webpackConfig = merge(webpackConfig, {
           entry: {
             [componentName]: path.join(this.config.components.sourceRoot, componentName)
@@ -51,6 +56,7 @@ export class PreCompiler {
           return reject(stats);
         }
 
+        getLogger(this.config).info('Pre compilation finish. Checking for components health...');
         for (let componentName of componentNames) {
           try {
             this.checkCompilationResult(componentName);
@@ -83,16 +89,27 @@ export class PreCompiler {
   }
 
   private checkCompilationResult(componentName: string) {
+    getLogger(this.config).debug(`Checking "${componentName}" health...`);
     const component = this.getCompiledComponent(componentName);
+
     if (!('default' in component)) {
+      getLogger(this.config).error(`Component "${componentName}" does not have a default exportation.`);
       throw new PreCompilationOutputError('default', componentName);
     }
+
+    getLogger(this.config).debug(`All check passed from "${componentName}" component`);
   }
 
   private getCompiledComponent(componentName: string) {
+    const componentPath = path.join(this.config.components.preCompiledOutput, componentName);
+
     try {
-      return require(path.join(this.config.components.preCompiledOutput, componentName));
+      getLogger(this.config).debug(`Loading component "${componentName}" from "${componentPath}"`);
+      const component = require(componentPath);
+      getLogger(this.config).debug(`Component "${componentName}" loaded.`);
+      return component;
     } catch (e) {
+      getLogger(this.config).error(`Fail during load component ${componentName} from ${componentPath}. Check your webpack configuration.`);
       throw new PreCompilationFailFileNotFoundError(componentName);
     }
   }
