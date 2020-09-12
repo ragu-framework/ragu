@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn build && yarn prod",
     "build": "tsc",
-    "prod": "node dist/demo/catalog/index.js"
+    "prod": "node dist/index.js"
   },
   "author": "",
   "license": "ISC",

@@ -1,4 +1,4 @@
-import {createDefaultWebpackConfiguration} from "../../ragu-server/src/compiler/webpack-config-factory";
+import {createDefaultWebpackConfiguration} from "ragu-server";
 
 export const createWebpackConfig = (): any => {
   const configuration = createDefaultWebpackConfiguration({});
