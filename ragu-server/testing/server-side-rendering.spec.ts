@@ -3,6 +3,7 @@ import {RaguServer} from "../src/server";
 import * as path from "path";
 import {ComponentsCompiler} from "../src/compiler/components-compiler";
 import {emptyDir} from "fs-extra";
+import {TestLogging} from "./test-logging";
 
 describe('Server Side Rendering', () => {
   let port: number;
@@ -19,6 +20,7 @@ describe('Server Side Rendering', () => {
       server: {
         assetsEndpoint: '/component-assets/'
       },
+      logger: new TestLogging(),
       components: {
         preCompiledOutput,
         namePrefix: 'test_components_',
