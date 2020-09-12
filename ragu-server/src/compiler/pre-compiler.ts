@@ -26,12 +26,22 @@ export class PreCompiler {
   async compileAll(): Promise<void> {
     const components = fs.readdirSync(this.config.components.sourceRoot);
 
-    await Promise.all(components.map((componentName) => this.compileComponent(componentName)));
+    await this.compileComponent(components);
   }
 
-  private compileComponent(componentName: string) {
+  private compileComponent(componentNames: string[]) {
     return new Promise<void>((resolve, reject) => {
-      webpack(this.getWebpackConfig(componentName), (err, stats) => {
+      let webpackConfig = this.getWebpackConfig();
+
+      for (let componentName of componentNames) {
+        webpackConfig = merge(webpackConfig, {
+          entry: {
+            [componentName]: path.join(this.config.components.sourceRoot, componentName)
+          }
+        });
+      }
+
+      webpack(webpackConfig, (err, stats) => {
         if (err) {
           return reject(err);
         }
@@ -41,10 +51,12 @@ export class PreCompiler {
           return reject(stats);
         }
 
-        try {
-          this.checkCompilationResult(componentName);
-        } catch (e) {
-          reject(e);
+        for (let componentName of componentNames) {
+          try {
+            this.checkCompilationResult(componentName);
+          } catch (e) {
+            reject(e);
+          }
         }
 
         resolve();
@@ -52,7 +64,7 @@ export class PreCompiler {
     });
   }
 
-  private getWebpackConfig(componentName: string) {
+  private getWebpackConfig() {
     const requiredConfig: Partial<webpack.Configuration> = {
       target: "node",
       output: {
@@ -61,9 +73,6 @@ export class PreCompiler {
         path: this.config.components.preCompiledOutput
       },
       externals: [webpackNodeExternals()],
-      entry: {
-        [componentName]: path.join(this.config.components.sourceRoot, componentName)
-      }
     };
 
     if (this.config.webpackPreCompilerConfiguration) {

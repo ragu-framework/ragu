@@ -106,7 +106,7 @@ describe('Pre compiler', () => {
         webpackPreCompilerConfiguration: merge(
             createDefaultWebpackConfiguration({}), {
               output: {
-                filename: 'zucchini.js',
+                filename: '[name].zucchini.js',
                 path: preCompiledOutput,
               },
             }),

@@ -35,7 +35,7 @@
     "webpack-node-externals": "^2.5.2"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "demo": "ts-node demo.ts",
     "clean": "tsc --build --clean",
     "build": "tsc && cp package.json dist/ && cp ./README.md dist/"
