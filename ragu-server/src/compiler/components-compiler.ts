@@ -14,7 +14,7 @@ const fileTemplate = (config: RaguServerConfig, {componentName, component}: Temp
   window["${config.components.namePrefix}${componentName}"] = {
     dependencies: ${JSON.stringify(component.dependencies)},
     resolve() {
-      return import('${path.join(config.components.preCompiledOutput, componentName)}')
+      return import('${path.join(config.components.sourceRoot, componentName)}')
         .then((module) => module.default);
     }
   };

@@ -24,6 +24,7 @@ export default {
     }
   },
   hydrate(element: HTMLElement, {name}: Props) {
+    element.innerHTML = sayHello(name);
     jQuery(element).on('click', () => alert(`hi, ${name}`));
   }
 }
