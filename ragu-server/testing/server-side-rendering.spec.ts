@@ -20,6 +20,7 @@ describe('Server Side Rendering', () => {
       server: {
         assetsEndpoint: '/component-assets/'
       },
+      hideWelcomeMessage: true,
       logger: new TestLogging(),
       components: {
         preCompiledOutput,

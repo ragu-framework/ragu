@@ -4,6 +4,7 @@ import {RaguServerConfig} from "./config";
 import * as path from "path";
 import {ComponentsCompiler} from "./compiler/components-compiler";
 import {getLogger} from "./logging/get-logger";
+import chalk from "chalk";
 
 
 export class RaguServer {
@@ -68,6 +69,11 @@ export class RaguServer {
     return new Promise<void>((resolve) => {
       this.server = this.expressApp.listen(this.config.port, () => {
         getLogger(this.config).info(`Ragu Server listening at http://localhost:${this.config.port}`);
+        if (!this.config.hideWelcomeMessage) {
+          console.log('');
+          console.log(chalk.bold(`Welcome to 🔪 RaguServer`));
+          console.log(`The application is running at ${chalk.bold.green('http://localhost:' + this.config.port)}`)
+        }
         resolve();
       })
     });
