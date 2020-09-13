@@ -1,66 +1,25 @@
-import express, {Express, Response} from 'express';
+import express, {Express} from 'express';
 import * as http from "http";
 import {RaguServerConfig} from "./config";
-import * as path from "path";
 import {ComponentsCompiler} from "./compiler/components-compiler";
 import {getLogger} from "./logging/get-logger";
 import chalk from "chalk";
+import {ComponentsController} from "./ssr/components-controller";
 
 
 export class RaguServer {
   readonly expressApp: Express;
   private server?: http.Server;
+  private componentController: ComponentsController;
 
   constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler) {
     this.expressApp = express();
+    this.componentController = new ComponentsController(this.config, this.compiler);
 
     this.expressApp.use(config.server.assetsEndpoint, express.static(config.components.output));
-
     this.expressApp.get('/components/:componentName', async (req, res) => {
-      const componentName = req.params.componentName;
-      const componentPath = path.join(config.components.preCompiledOutput, componentName);
-
-      getLogger(this.config).info(`[GET] ${req.path}`);
-      getLogger(this.config).debug(`fetching "${componentName}" from "${componentPath}"`);
-
-      try {
-        const {default: component} = require(componentPath);
-        const query = {...req.query};
-        delete query['callback'];
-
-        const response = await component.render(query);
-
-        res.jsonp({
-          ...response,
-          props: query,
-          dependencies: component.dependencies,
-          client: await this.compiler.getClientFileName(),
-          resolverFunction: `${this.config.components.namePrefix}${componentName}`
-        });
-        getLogger(this.config).info(`responding "${req.path}" with 200 status code.`);
-      } catch (e) {
-        this.handleComponentError(e, componentName, res);
-      }
+      await this.componentController.renderComponent(req, res);
     })
-  }
-
-  private handleComponentError(e: any, componentName: any, res: Response) {
-    if (e.code === 'MODULE_NOT_FOUND') {
-      getLogger(this.config).warn(`component not found: ${componentName}`);
-      res.statusCode = 404;
-      res.send({
-        error: "component not found",
-        componentName
-      });
-      return
-    }
-
-    getLogger(this.config).error(`error during processing component ${componentName}`, e);
-    res.statusCode = 500;
-    res.send({
-      error: "error during render the component",
-      componentName
-    });
   }
 
   start(): Promise<void> {

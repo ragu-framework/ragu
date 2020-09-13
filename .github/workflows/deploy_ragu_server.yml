@@ -1,0 +1,31 @@
+name: Ragu Deploy
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: https://registry.npmjs.org/
+      - run: npm install yarn
+      - run: yarn --cwd ragu-server
+        env:
+          CI: true
+      - run: yarn --cwd ragu-server clean
+        env:
+          CI: true
+      - run: yarn --cwd ragu-server build
+        env:
+          CI: true
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        working-directory: ragu-server/dist
