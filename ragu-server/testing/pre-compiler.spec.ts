@@ -24,22 +24,28 @@ describe('Pre compiler', () => {
     beforeAll(async () => {
       port = await getPort();
 
-      const config = {
-        assetsPrefix: `http://localhost:${port}/component-assets/`,
+      preCompiler = new PreCompiler({
         server: {
-          assetsEndpoint: '/component-assets/'
+          routes: {
+            assets: '/component-assets/',
+          },
+          port,
+          logging: {
+            logger: new TestLogging(),
+          }
         },
-        logger: new TestLogging(),
         components: {
-          preCompiledOutput,
           namePrefix: 'test_components_',
-          output: outputDirectory,
           sourceRoot: path.join(__dirname, 'components'),
         },
-        port
-      };
-
-      preCompiler = new PreCompiler(config);
+        compiler: {
+          output: {
+            node: preCompiledOutput,
+            browser: outputDirectory
+          },
+          assetsPrefix: `http://localhost:${port}/component-assets/`,
+        }
+      });
       await preCompiler.compileAll();
     });
 
@@ -56,7 +62,7 @@ describe('Pre compiler', () => {
     const preCompiledOutput = path.join(__dirname, 'pre_compiled_components_with_webpack_wrong_config');
 
     afterAll(() => {
-      emptyDirSync(preCompiledOutput);
+      // emptyDirSync(preCompiledOutput);
     });
 
     beforeEach(async () => {
@@ -65,26 +71,38 @@ describe('Pre compiler', () => {
       port = await getPort();
 
       preCompiler = new PreCompiler({
-        webpackPreCompilerConfiguration: merge(
-            createDefaultWebpackConfiguration({}), {
-              output: {
-                libraryTarget: 'var',
-                filename: '[name].js',
-                path: preCompiledOutput,
-              },
-            }),
-        assetsPrefix: `http://localhost:${port}/component-assets/`,
         server: {
-          assetsEndpoint: '/component-assets/'
+          routes: {
+            assets: '/component-assets/',
+          },
+          port,
+          logging: {
+            logger: new TestLogging(),
+          }
         },
-        logger: new TestLogging(),
         components: {
-          preCompiledOutput,
           namePrefix: 'test_components_',
-          output: outputDirectory,
           sourceRoot: path.join(__dirname, 'components'),
         },
-        port
+        compiler: {
+          assetsPrefix: `http://localhost:${port}/component-assets/`,
+          output: {
+            node: preCompiledOutput,
+            browser: outputDirectory
+          },
+          webpack: {
+            nodeConfig: merge(
+              createDefaultWebpackConfiguration({}),
+              {
+                output: {
+                  libraryTarget: 'var',
+                  filename: '[name].js',
+                  path: preCompiledOutput,
+                },
+              }
+            ),
+          }
+        }
       });
     });
 
@@ -106,25 +124,38 @@ describe('Pre compiler', () => {
       port = await getPort();
 
       preCompiler = new PreCompiler({
-        webpackPreCompilerConfiguration: merge(
-            createDefaultWebpackConfiguration({}), {
-              output: {
-                filename: '[name].zucchini.js',
-                path: preCompiledOutput,
-              },
-            }),
-        assetsPrefix: `http://localhost:${port}/component-assets/`,
         server: {
-          assetsEndpoint: '/component-assets/'
+          routes: {
+            assets: '/component-assets/',
+          },
+          port,
+          logging: {
+            logger: new TestLogging(),
+          }
         },
-        logger: new TestLogging(),
         components: {
-          preCompiledOutput,
           namePrefix: 'test_components_',
-          output: outputDirectory,
           sourceRoot: path.join(__dirname, 'components'),
         },
-        port
+        compiler: {
+          assetsPrefix: `http://localhost:${port}/component-assets/`,
+          output: {
+            node: preCompiledOutput,
+            browser: outputDirectory
+          },
+          webpack: {
+            nodeConfig: merge(
+              createDefaultWebpackConfiguration({}),
+              {
+                output: {
+                  libraryTarget: 'var',
+                  filename: '[name].zucchini.js',
+                  path: preCompiledOutput,
+                },
+              }
+            ),
+          }
+        }
       });
     });
 

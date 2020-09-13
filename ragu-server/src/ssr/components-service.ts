@@ -7,7 +7,7 @@ export class ComponentsService {
   constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler) {}
 
   async renderComponent(componentName: string, props: Record<string, unknown>): Promise<Record<string, string>> {
-    const componentPath = path.join(this.config.components.preCompiledOutput, componentName);
+    const componentPath = path.join(this.config.compiler.output.node, componentName);
 
     getLogger(this.config).debug(`fetching "${componentName}" from "${componentPath}"`);
 

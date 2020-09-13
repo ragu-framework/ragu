@@ -8,11 +8,11 @@ export class PreviewCompiler {
   }
 
   async compile() {
-    if (this.config.isPreviewEnabled) {
+    if (this.config.server.previewEnabled) {
       getLogger(this.config).info('Compiling Ragu Preview script');
 
       return await new Promise<void>((resolve, reject) => {
-        webpack({
+        const webpackConfig: webpack.Configuration = {
           entry: path.join(__dirname, 'preview-ragu-client'),
           module: {
             rules: [
@@ -28,16 +28,20 @@ export class PreviewCompiler {
           },
           output: {
             filename: 'ragu-dom.js',
-            path: this.config.components.output,
+            path: this.config.compiler.output.browser,
           },
-        }, (err, stats) => {
+        };
+
+        webpack(webpackConfig, (err, stats) => {
           if (err) {
-            console.log(err);
+            getLogger(this.config).error('Error during compilation', err);
             return reject(err);
           }
           if (stats.hasErrors()) {
             const statsJson = stats.toJson('minimal');
-            statsJson.errors.forEach(error => console.error(error));
+            statsJson.errors.forEach(error => {
+              getLogger(this.config).error('Error during compilation', error);
+            });
             return reject(stats);
           }
 

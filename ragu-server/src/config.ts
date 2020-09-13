@@ -1,22 +1,35 @@
 import webpack from "webpack";
-import {Logger} from "./logging/logger";
+import {Logger, LogLevel} from "./logging/logger";
 
 export interface RaguServerConfig {
   components: {
-    preCompiledOutput: string;
     namePrefix: string;
     sourceRoot: string;
-    output: string;
   };
   server: {
-    assetsEndpoint: string
+    routes: {
+      assets: string;
+      component?: string;
+      preview?: string;
+    };
+    previewEnabled?: boolean;
+    hideWelcomeMessage?: boolean;
+    logging?: {
+      level?: LogLevel
+      logger?: Logger;
+    };
+    port: number;
   };
-  watchMode?: boolean;
-  isPreviewEnabled?: boolean;
-  hideWelcomeMessage?: boolean;
-  logger?: Logger;
-  assetsPrefix: string;
-  port: number;
-  webpackConfig?: webpack.Configuration
-  webpackPreCompilerConfiguration?: webpack.Configuration
+  compiler: {
+    watchMode?: boolean;
+    assetsPrefix: string;
+    output: {
+      node: string;
+      browser: string;
+    };
+    webpack?: {
+      nodeConfig?: webpack.Configuration
+      browserConfig?: webpack.Configuration
+    }
+  }
 }

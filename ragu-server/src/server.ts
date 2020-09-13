@@ -21,7 +21,7 @@ export class RaguServer {
   }
 
   private registerStaticsController() {
-    this.expressApp.use(this.config.server.assetsEndpoint, express.static(this.config.components.output));
+    this.expressApp.use(this.config.server.routes.assets, express.static(this.config.compiler.output.browser));
   }
 
   private registerComponentsController() {
@@ -33,7 +33,7 @@ export class RaguServer {
   }
 
   private registerPreviewController() {
-    if (this.config.isPreviewEnabled) {
+    if (this.config.server.previewEnabled) {
       const previewController = new PreviewController(this.config);
       this.expressApp.get('/preview/:componentName', async (req, res) => {
         await previewController.renderComponent(req, res);
@@ -45,12 +45,12 @@ export class RaguServer {
     getLogger(this.config).info('Starting the Ragu Server');
 
     return new Promise<void>((resolve) => {
-      this.server = this.expressApp.listen(this.config.port, () => {
-        getLogger(this.config).info(`Ragu Server listening at http://localhost:${this.config.port}`);
-        if (!this.config.hideWelcomeMessage) {
+      this.server = this.expressApp.listen(this.config.server.port, () => {
+        getLogger(this.config).info(`Ragu Server listening at http://localhost:${this.config.server.port}`);
+        if (!this.config.server.hideWelcomeMessage) {
           console.log('');
           console.log(chalk.bold(`Welcome to 🔪 RaguServer`));
-          console.log(`The application is running at ${chalk.bold.green('http://localhost:' + this.config.port)}`)
+          console.log(`The application is running at ${chalk.bold.green('http://localhost:' + this.config.server.port)}`)
         }
         resolve();
       })

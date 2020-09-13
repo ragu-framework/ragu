@@ -17,7 +17,7 @@ const fileTemplate = (config: RaguServerConfig, {componentName, component}: Temp
   window["${config.components.namePrefix}${componentName}"] = {
     dependencies: ${JSON.stringify(component.dependencies)},
     resolve() {
-      return import('${path.join(config.components.preCompiledOutput, componentName)}')
+      return import('${path.join(config.compiler.output.node, componentName)}')
         .then((module) => module.default);
     }
   };
@@ -41,11 +41,12 @@ export class ComponentsCompiler {
     getLogger(this.config).info('Starting compilation process...');
 
     const dependencies: DependencyObject[] = this.fetchAllComponents()
-        .flatMap<DependencyObject>((componentName) => require(path.join(this.config.components.preCompiledOutput, componentName)).default?.dependencies || [])
+        .flatMap<DependencyObject>((componentName) => require(path.join(this.config.compiler.output.node, componentName)).default?.dependencies || [])
         .filter((dependency) => dependency !== undefined);
 
+    // TODO: store this file at the node output
     await webpackCompile(
-        path.join(this.config.components.output, 'original_client.js'),
+        path.join(this.config.compiler.output.browser, 'original_client.js'),
         'client',
         this.config,
         (context, requestedDependency) => {
@@ -75,7 +76,7 @@ export class ComponentsCompiler {
     getLogger(this.config).debug('Components to be compiled: ', componentNames);
 
     const components = componentNames.map((componentName) => {
-      const componentPath = path.join(this.config.components.preCompiledOutput, componentName);
+      const componentPath = path.join(this.config.compiler.output.node, componentName);
 
       getLogger(this.config).debug(`Loading "${componentName}" from "${componentPath}".`);
 
@@ -90,7 +91,7 @@ export class ComponentsCompiler {
     getLogger(this.config).debug(`Creating client file template.`);
     const tsCodeOfComponent = components.map((component) => fileTemplate(this.config, component)).join('');
 
-    const originalClientPath = path.join(this.config.components.output, 'original_client.js');
+    const originalClientPath = path.join(this.config.compiler.output.browser, 'original_client.js');
     getLogger(this.config).debug(`Writing client file at "${originalClientPath}"`);
 
     fs.writeFileSync(originalClientPath, tsCodeOfComponent);
@@ -101,14 +102,14 @@ export class ComponentsCompiler {
   }
 
   private createOutputCompiledComponentsDirectory() {
-    getLogger(this.config).debug('Creating output directory:', this.config.components.output);
+    getLogger(this.config).debug('Creating output directory:', this.config.compiler.output.browser);
 
-    if (fs.existsSync(this.config.components.output)) {
+    if (fs.existsSync(this.config.compiler.output.browser)) {
       getLogger(this.config).debug('Skipping output directory creation: Directory already exists.');
       return;
     }
 
-    fs.mkdirSync(this.config.components.output, {
+    fs.mkdirSync(this.config.compiler.output.browser, {
       recursive: true
     });
 
@@ -118,7 +119,7 @@ export class ComponentsCompiler {
 
   getClientFileName(): Promise<string> {
     return new Promise((resolve, reject) => {
-      fs.readFile(path.join(this.config.components.output, 'build-manifest.json'), (err, data) => {
+      fs.readFile(path.join(this.config.compiler.output.browser, 'build-manifest.json'), (err, data) => {
         if (err) {
           reject(err);
         }

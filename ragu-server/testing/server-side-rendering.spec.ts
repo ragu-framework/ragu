@@ -4,6 +4,7 @@ import * as path from "path";
 import {ComponentsCompiler} from "../src/compiler/components-compiler";
 import {emptyDir} from "fs-extra";
 import {TestLogging} from "./test-logging";
+import {RaguServerConfig} from "..";
 
 describe('Server Side Rendering', () => {
   let port: number;
@@ -15,21 +16,29 @@ describe('Server Side Rendering', () => {
   beforeAll(async () => {
     port = await getPort();
 
-    const config = {
-      assetsPrefix: `http://localhost:${port}/component-assets/`,
+    const config: RaguServerConfig = {
       server: {
-        assetsEndpoint: '/component-assets/'
+        routes: {
+          assets: '/component-assets/',
+        },
+        port,
+        logging: {
+          logger: new TestLogging(),
+        },
+        previewEnabled: true,
+        hideWelcomeMessage: true
       },
-      hideWelcomeMessage: true,
-      isPreviewEnabled: true,
-      logger: new TestLogging(),
       components: {
-        preCompiledOutput,
         namePrefix: 'test_components_',
-        output: outputDirectory,
         sourceRoot: path.join(__dirname, 'components'),
       },
-      port
+      compiler: {
+        output: {
+          node: preCompiledOutput,
+          browser: outputDirectory
+        },
+        assetsPrefix: `http://localhost:${port}/component-assets/`,
+      }
     };
 
     compiler = new ComponentsCompiler(config);

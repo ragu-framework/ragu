@@ -3,9 +3,9 @@ import {Logger} from "./logger";
 import {ConsoleLogger} from "./console-logger";
 
 export const getLogger = (config: RaguServerConfig): Logger => {
-  if (config.logger) {
-    return config.logger
+  if (config.server.logging?.logger) {
+    return config.server.logging.logger
   }
 
-  return ConsoleLogger.getInstance();
+  return ConsoleLogger.getInstance(config);
 }

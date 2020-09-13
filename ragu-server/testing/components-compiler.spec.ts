@@ -15,18 +15,26 @@ describe('Component Compiler', () => {
 
   beforeAll(async () => {
     compiler = new ComponentsCompiler({
-      assetsPrefix: `file://${outputDirectory}/`,
       server: {
-        assetsEndpoint: '/components/'
+        routes: {
+          assets: '/component-assets/',
+        },
+        port,
+        logging: {
+          logger: new TestLogging(),
+        }
       },
-      logger: new TestLogging(),
       components: {
-        preCompiledOutput,
         namePrefix: 'test_components_',
-        output: outputDirectory,
-        sourceRoot: path.join(__dirname, 'components')
+        sourceRoot: path.join(__dirname, 'components'),
       },
-      port
+      compiler: {
+        assetsPrefix: `file://${outputDirectory}/`,
+        output: {
+          node: preCompiledOutput,
+          browser: outputDirectory
+        },
+      }
     });
 
     await compiler.compileAll();

@@ -1,5 +1,6 @@
 import {Logger, LogLevel} from "./logger";
 import chalk from "chalk";
+import {RaguServerConfig} from "../config";
 
 
 const levelToDebug: Record<LogLevel, string> = {
@@ -37,12 +38,12 @@ export class ConsoleLogger extends Logger {
     }
   }
 
-  static getInstance(): ConsoleLogger {
+  static getInstance(config: RaguServerConfig): ConsoleLogger {
     if (ConsoleLogger.instance) {
       return ConsoleLogger.instance;
     }
 
-    ConsoleLogger.instance = new ConsoleLogger();
+    ConsoleLogger.instance = new ConsoleLogger(config.server.logging?.level);
     ConsoleLogger.instance.info('Using the default logger. If you want to have a custom logger, define the logger at "config.logger".');
     return ConsoleLogger.instance;
   }
