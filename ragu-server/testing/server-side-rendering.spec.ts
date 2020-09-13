@@ -21,6 +21,7 @@ describe('Server Side Rendering', () => {
         assetsEndpoint: '/component-assets/'
       },
       hideWelcomeMessage: true,
+      isPreviewEnabled: true,
       logger: new TestLogging(),
       components: {
         preCompiledOutput,
@@ -88,6 +89,21 @@ describe('Server Side Rendering', () => {
       expect(responseBody.props).toEqual({
         name: 'World'
       });
+    });
+  });
+
+  describe('fetching a component preview', () => {
+    let response: Response;
+    let responseBody: string;
+
+    beforeAll(async () => {
+      response = await fetch(`http://localhost:${port}/preview/hello-world?name=World`);
+      responseBody = await response.text();
+    });
+
+    it('renders the ragu-component', () => {
+      expect(responseBody)
+          .toContain(`<ragu-component src="http://localhost:${port}/components/hello-world?name=World"></ragu-component>`);
     });
   });
 

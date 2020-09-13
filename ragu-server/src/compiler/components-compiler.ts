@@ -4,6 +4,7 @@ import * as path from "path";
 import {webpackCompile} from "./webpack-compiler";
 import {PreCompiler} from "./pre-compiler";
 import {getLogger} from "../logging/get-logger";
+import {PreviewCompiler} from "../preview/preview-compiler";
 
 interface TemplateConfig {
   componentName: string,
@@ -26,9 +27,11 @@ type DependencyObject = { nodeRequire: string, globalVariable: string };
 
 export class ComponentsCompiler {
   private readonly preCompiler: PreCompiler;
+  private readonly previewCompiler: PreviewCompiler;
 
   constructor(private readonly config: RaguServerConfig, preCompiler?: PreCompiler) {
     this.preCompiler = preCompiler || new PreCompiler(config);
+    this.previewCompiler = new PreviewCompiler(this.config);
   }
 
   async compileAll() {
@@ -60,6 +63,8 @@ export class ComponentsCompiler {
             shouldCompile: true
           }
         });
+
+    await this.previewCompiler.compile();
   }
 
   private createNonCompiledClientFile() {

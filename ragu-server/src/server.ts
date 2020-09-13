@@ -5,21 +5,40 @@ import {ComponentsCompiler} from "./compiler/components-compiler";
 import {getLogger} from "./logging/get-logger";
 import chalk from "chalk";
 import {ComponentsController} from "./ssr/components-controller";
+import {PreviewController} from "./preview/preview-controller";
 
 
 export class RaguServer {
   readonly expressApp: Express;
   private server?: http.Server;
-  private componentController: ComponentsController;
 
   constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler) {
     this.expressApp = express();
-    this.componentController = new ComponentsController(this.config, this.compiler);
 
-    this.expressApp.use(config.server.assetsEndpoint, express.static(config.components.output));
+    this.registerStaticsController();
+    this.registerComponentsController();
+    this.registerPreviewController();
+  }
+
+  private registerStaticsController() {
+    this.expressApp.use(this.config.server.assetsEndpoint, express.static(this.config.components.output));
+  }
+
+  private registerComponentsController() {
+    const componentController = new ComponentsController(this.config, this.compiler);
+
     this.expressApp.get('/components/:componentName', async (req, res) => {
-      await this.componentController.renderComponent(req, res);
-    })
+      await componentController.renderComponent(req, res);
+    });
+  }
+
+  private registerPreviewController() {
+    if (this.config.isPreviewEnabled) {
+      const previewController = new PreviewController(this.config);
+      this.expressApp.get('/preview/:componentName', async (req, res) => {
+        await previewController.renderComponent(req, res);
+      });
+    }
   }
 
   start(): Promise<void> {

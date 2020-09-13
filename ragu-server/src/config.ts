@@ -11,6 +11,7 @@ export interface RaguServerConfig {
   server: {
     assetsEndpoint: string
   };
+  isPreviewEnabled?: boolean;
   hideWelcomeMessage?: boolean;
   logger?: Logger;
   assetsPrefix: string;
