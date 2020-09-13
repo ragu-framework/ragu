@@ -19,6 +19,7 @@ export const webpackCompile = (entry: string, outputName: string, serverConfig: 
     config.output.path = serverConfig.components.output;
     config.output.publicPath = serverConfig.assetsPrefix;
     config.output.jsonpFunction = `wpJsonp_${serverConfig.components.namePrefix}`
+    config.watch = serverConfig.watchMode;
 
     config.plugins = config.plugins || [];
     config.plugins.push(new Chunks2JsonPlugin({ outputDir: serverConfig.components.output, publicPath: config.output.publicPath }))

@@ -37,6 +37,9 @@ export class PreCompiler {
       getLogger(this.config).info('Preparing components.');
       getLogger(this.config).debug('Components found:');
 
+      const allComponentsPath: string[] = componentNames
+          .map((componentName) => path.join(this.config.components.preCompiledOutput, componentName));
+
       for (let componentName of componentNames) {
         getLogger(this.config).debug('-', componentName)
         webpackConfig = merge(webpackConfig, {
@@ -44,6 +47,13 @@ export class PreCompiler {
             [componentName]: path.join(this.config.components.sourceRoot, componentName)
           }
         });
+      }
+
+      getLogger(this.config).info(`Pre-compiler watch mode is ${webpackConfig.watch ? 'on' : 'off'}`);
+
+      if (webpackConfig.watch) {
+        getLogger(this.config).warn(`Watcher is on. Does not use this mode under production.`);
+        getLogger(this.config).debug(`Pre compiler is watching components at "${this.config.components.sourceRoot}"`);
       }
 
       webpack(webpackConfig, (err, stats) => {
@@ -65,6 +75,14 @@ export class PreCompiler {
           }
         }
 
+        if (webpackConfig.watch) {
+          for (let componentPath of allComponentsPath) {
+            const fileToInvalidateCache = require.resolve(componentPath);
+            getLogger(this.config).info(`Invalidating cache of ${fileToInvalidateCache}`);
+            delete require.cache[fileToInvalidateCache]
+          }
+        }
+
         getLogger(this.config).info('Pre compilation finish. All check passes...');
         resolve();
       });
@@ -80,6 +98,7 @@ export class PreCompiler {
         path: this.config.components.preCompiledOutput
       },
       externals: [webpackNodeExternals()],
+      watch: this.config.watchMode
     };
 
     if (this.config.webpackPreCompilerConfiguration) {
