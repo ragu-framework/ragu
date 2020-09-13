@@ -2,6 +2,7 @@ import {ScriptLoader} from "./gateway/script-loader";
 
 
 export interface ComponentDependency {
+  order?: number;
   globalVariable?: string;
   dependency: string;
 }
@@ -40,6 +41,36 @@ export class DependencyContext {
 
   load(dependency: ComponentDependency): Promise<void> {
     return this.getOrCreateDependency(dependency).resolve();
+  }
+
+  async loadAll(dependencies: ComponentDependency[]): Promise<void> {
+    for (let group of this.groupDependencies(dependencies)) {
+      await this.loadDependencyGroup(group);
+    }
+  }
+
+  private loadDependencyGroup(dependencies: ComponentDependency[]) {
+    return Promise.all(dependencies.map((dependency) => this.load(dependency)));
+  }
+
+  private groupDependencies(dependencies: ComponentDependency[]): ComponentDependency[][] {
+    const dependenciesByOrder: Record<number, ComponentDependency[]> = {};
+
+    for (let dependency of dependencies) {
+      const dependencyOrder = dependency.order || 0;
+      dependenciesByOrder[dependencyOrder] = dependenciesByOrder[dependencyOrder] || [];
+      dependenciesByOrder[dependencyOrder].push(dependency);
+    }
+
+    const orderList: string[] = Object.keys(dependenciesByOrder).sort();
+
+    const orderedDependencies = [];
+
+    for (let order of orderList) {
+      orderedDependencies.push(dependenciesByOrder[parseInt(order)]);
+    }
+
+    return Object.values(dependenciesByOrder);
   }
 
   private getOrCreateDependency(componentDependency: ComponentDependency) {

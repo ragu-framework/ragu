@@ -99,4 +99,38 @@ describe('DependencyContext', () => {
 
     testPromiseController.resolve();
   });
+
+  describe('fetching in order', () => {
+    it('follows the fetch order', (done) => {
+      dependencyContext.loadAll([
+        {
+          order: 2,
+          globalVariable: 'shimeji mushroom',
+          dependency: 'http://react.js/main.shimeji.js',
+        },
+        {
+          globalVariable: 'shiitake',
+          dependency: 'http://react.js/main.shiitake.js',
+        },
+        {
+          order: 1,
+          globalVariable: 'white mushroom',
+          dependency: 'http://react.js/main.white.js',
+        },
+        {
+          globalVariable: 'king oyster',
+          dependency: 'http://react.js/main.oyster.js',
+          order: 0
+        },
+      ]).then(() => {
+        expect(scriptLoadStub).toHaveBeenNthCalledWith(1, 'http://react.js/main.shiitake.js');
+        expect(scriptLoadStub).toHaveBeenNthCalledWith(2, 'http://react.js/main.oyster.js');
+        expect(scriptLoadStub).toHaveBeenNthCalledWith(3, 'http://react.js/main.white.js');
+        expect(scriptLoadStub).toHaveBeenNthCalledWith(4, 'http://react.js/main.shimeji.js');
+        done();
+      });
+
+      testPromiseController.resolve();
+    });
+  });
 });

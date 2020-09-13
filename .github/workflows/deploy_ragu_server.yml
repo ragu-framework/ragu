@@ -28,4 +28,16 @@ jobs:
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - run: yarn --cwd ragu-dom
+        env:
+          CI: true
+      - run: yarn --cwd ragu-dom clean
+        env:
+          CI: true
+      - run: yarn --cwd ragu-dom build
+        env:
+          CI: true
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         working-directory: ragu-server/dist
