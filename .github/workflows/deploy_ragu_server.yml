@@ -16,19 +16,6 @@ jobs:
           node-version: '12.x'
           registry-url: https://registry.npmjs.org/
       - run: npm install yarn
-      - run: yarn --cwd ragu-server
-        env:
-          CI: true
-      - run: yarn --cwd ragu-server clean
-        env:
-          CI: true
-      - run: yarn --cwd ragu-server build
-        env:
-          CI: true
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-        working-directory: ragu-server/dist
       - run: yarn --cwd ragu-dom
         env:
           CI: true
@@ -42,3 +29,16 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         working-directory: ragu-dom/dist
+      - run: yarn --cwd ragu-server
+        env:
+          CI: true
+      - run: yarn --cwd ragu-server clean
+        env:
+          CI: true
+      - run: yarn --cwd ragu-server build
+        env:
+          CI: true
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        working-directory: ragu-server/dist
