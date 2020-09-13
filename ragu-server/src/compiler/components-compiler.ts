@@ -38,7 +38,7 @@ export class ComponentsCompiler {
     getLogger(this.config).info('Starting compilation process...');
 
     const dependencies: DependencyObject[] = this.fetchAllComponents()
-        .flatMap<DependencyObject>((componentName) => require(path.join(this.config.components.sourceRoot, componentName)).default?.dependencies || [])
+        .flatMap<DependencyObject>((componentName) => require(path.join(this.config.components.preCompiledOutput, componentName)).default?.dependencies || [])
         .filter((dependency) => dependency !== undefined);
 
     await webpackCompile(
