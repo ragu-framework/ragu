@@ -1,8 +1,11 @@
 import * as path from "path";
 import * as fs from "fs";
 import {ConsoleLogger} from "../../logging/console-logger";
+import {Logger} from "../../logging/logger";
 
-const template = (dirName: string) => `const path = require("path");
+const raguVersion = require('../../../package.json').version;
+
+const configTemplate = (projectName: string) => `const path = require("path");
 
 const port = parseInt(process.env.PORT || '3101');
 
@@ -27,24 +30,97 @@ module.exports = {
     }
   },
   components: {
-    namePrefix: '${dirName}',
+    namePrefix: '${projectName}',
     sourceRoot: path.join(__dirname, 'components'),
   },
 };
 `
 
+const packageJsonTemplate = (projectName: string) => `{
+  "name": "${projectName}",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "ragu-server": "${raguVersion}"
+  },
+  "devDependencies": {},
+  "scripts": {
+     "build": "ragu-server build",
+     "start": "ragu-server run",
+     "dev": "ragu-server dev"
+  },
+  "author": "",
+  "license": "MIT"
+}`
 
-export const init = () => {
-  const configFile = template(path.basename(process.cwd()));
-  const configFilePath = path.join(process.cwd(), 'ragu-config.js');
+const createRaguConfigFile = (logger: Logger, projectPath: string, projectName: string) => {
+  const configFilePath = path.join(projectPath, 'ragu-config.js');
 
-  const consoleLogger = new ConsoleLogger();
-  consoleLogger.info(`Creating file at ${configFilePath}`)
+  logger.info(`Creating config file at ${configFilePath}`)
+  const configFile = configTemplate(projectName);
 
-  if (fs.existsSync(configFilePath)) {
-    consoleLogger.error('Config file already exists');
+  fs.writeFileSync(configFilePath, configFile);
+}
+
+const createPackageJson = (logger: Logger, projectPath: string, projectName: string) => {
+  const configFilePath = path.join(projectPath, 'package.json');
+
+  logger.info(`Creating package.json at ${configFilePath}`)
+  const configFile = packageJsonTemplate(projectName);
+
+  fs.writeFileSync(configFilePath, configFile);
+}
+
+
+const createHelloWorldComponent = (logger: Logger, projectPath: string) => {
+  const componentsPath = path.join(projectPath, 'components');
+  const componentPath = path.join(projectPath, 'components', 'hello-world');
+  logger.info('Creating directory: ', componentPath);
+  fs.mkdirSync(componentsPath);
+  fs.mkdirSync(componentPath);
+
+
+  const viewPath = path.join(componentPath, 'view.js');
+  fs.writeFileSync(viewPath, `export default {
+  render({name}) {
+    return {
+      html: \`<h1>Hello, \${name}</h1>\`
+    }
+  }
+}`);
+
+  const hydratePath = path.join(componentPath, 'hydrate.js');
+  fs.writeFileSync(hydratePath, `export default {
+  hydrate(el, {name}) {
+    el.addEventListener('click', () => alert('Hello, \${name}!'));
+  }
+}`);
+}
+
+
+const createProjectDirectory = (logger: Logger, projectPath: string) => {
+  if (fs.existsSync(projectPath)) {
+    logger.error('Directory already exits: ', projectPath);
     process.exit(1);
   }
 
-  fs.writeFileSync(configFilePath, configFile);
+  logger.info('Creating directory: ', projectPath);
+  fs.mkdirSync(projectPath);
+}
+
+export const init = (projectName: string) => {
+  const logger = new ConsoleLogger();
+
+  if (!projectName) {
+    logger.error('You must provide a projectName.');
+    process.exit(1);
+
+  }
+  const projectPath = path.join(process.cwd(), projectName);
+
+  createProjectDirectory(logger, projectPath);
+  createPackageJson(logger, projectPath, projectName);
+  createRaguConfigFile(logger, projectPath, projectName);
+  createHelloWorldComponent(logger, projectPath);
 }

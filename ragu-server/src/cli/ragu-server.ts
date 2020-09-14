@@ -46,7 +46,6 @@ yargs
       yargs.positional('configFile', {
         type: 'string',
         default: path.join(process.cwd(), 'ragu-config.js'),
-        describe: 'the name to say hello to'
       });
     }, (argv) => {
       const consoleLogger = new ConsoleLogger();
@@ -65,7 +64,6 @@ yargs
       yargs.positional('configFile', {
         type: 'string',
         default: path.join(process.cwd(), 'ragu-config.js'),
-        describe: 'the name to say hello to'
       });
     }, (argv) => {
       const consoleLogger = new ConsoleLogger();
@@ -80,8 +78,12 @@ yargs
         consoleLogger.error(`Can't open config file:`, e);
       }
     })
-    .command('init', 'creates the base configuration', () => {}, () => {
-      init();
+    .command('init [projectName]', 'creates a project with the given name', (yargs) => {
+      yargs.positional('projectName', {
+        type: 'string',
+      });
+    }, (argv) => {
+      init(argv.projectName as string);
     })
     .help()
     .argv
