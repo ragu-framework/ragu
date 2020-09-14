@@ -8,20 +8,25 @@
 Ragu is a micro-frontend framework designed to enable multiple teams to
 work at the same product but in different codebase.
 
+## Articles:
+
+- [Micro-frontends with React, Vue and Ragu](https://medium.com/@carlosmaniero/micro-frontends-with-react-vue-and-ragu-c5a2e3ecc2ab)
+
 ## Core principles:
 
 ### No artefact integration
-The most common pattern when teams want to share code is create a private
-npm package and use this package across the company. One of the main
-issues of this approach is that every time the shared package is updated
-a new build is required for each application that used the shared package.
+The most common pattern when organization want to share code between teams 
+is to create a private npm package and use this package across products. 
+One of the main issues of this approach is that every time the shared package 
+is updated a new build is required for each application that used the shared package.
 
 Read more at
 [Front-end integration via artifact - ThoughtWorks Tech Radar](https://www.thoughtworks.com/en/radar/techniques/front-end-integration-via-artifact)
 
 
 ### Build system included
-Ragu Server comes with a build system on top of webpack. :)
+Ragu Server comes with a build system on top of webpack which you can extend
+though the ragu server configuration.
 
 
 ### Server side rendering
