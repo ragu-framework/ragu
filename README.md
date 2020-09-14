@@ -8,6 +8,11 @@
 Ragu is a micro-frontend framework designed to enable multiple teams to
 work at the same product but in different codebase.
 
+![Ragu](https://github.com/carlosmaniero/ragu/workflows/Ragu/badge.svg) 
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg) 
+![npm version](https://badge.fury.io/js/ragu-server.svg)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+
 ## Articles:
 
 - [Micro-frontends with React, Vue and Ragu](https://medium.com/@carlosmaniero/micro-frontends-with-react-vue-and-ragu-c5a2e3ecc2ab)
