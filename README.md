@@ -2,7 +2,7 @@
   <p align="center" >
     <img src="repository-assets/logo.svg" alt="Ragu" align="center">
   </p>
-  <h1 align="center">Ragu: A micro-frontend front-end framework</h1>
+  <h1 align="center">Ragu: A micro-frontend framework</h1>
 </p>
 
 Ragu is a micro-frontend framework designed to enable multiple teams to
