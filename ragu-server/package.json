@@ -16,7 +16,8 @@
     "webpack": "^4.44.1",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-merge": "^5.1.4",
-    "webpack-node-externals": "^2.5.2"
+    "webpack-node-externals": "^2.5.2",
+    "yargs": "^16.0.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.8",
@@ -41,5 +42,8 @@
     "demo": "ts-node demo.ts",
     "clean": "tsc --build --clean",
     "build": "tsc && cp package.json dist/ && cp ./README.md dist/"
+  },
+  "bin": {
+    "ragu-server": "./src/cli/ragu-server.js"
   }
 }
