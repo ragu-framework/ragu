@@ -13,8 +13,5 @@ export default {
       },
       html: sayHello(name)
     }
-  },
-  hydrate(element: HTMLElement, {name}: Props) {
-    element.innerHTML = sayHello(name)
   }
 }

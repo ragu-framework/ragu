@@ -31,8 +31,8 @@ describe('Component Compiler', () => {
       compiler: {
         assetsPrefix: `file://${outputDirectory}/`,
         output: {
-          node: preCompiledOutput,
-          browser: outputDirectory
+          view: preCompiledOutput,
+          hydrate: outputDirectory
         },
       }
     });

@@ -28,7 +28,7 @@ export class PreviewCompiler {
           },
           output: {
             filename: 'ragu-dom.js',
-            path: this.config.compiler.output.browser,
+            path: this.config.compiler.output.hydrate,
           },
         };
 

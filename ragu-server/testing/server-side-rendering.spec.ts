@@ -34,8 +34,8 @@ describe('Server Side Rendering', () => {
       },
       compiler: {
         output: {
-          node: preCompiledOutput,
-          browser: outputDirectory
+          view: preCompiledOutput,
+          hydrate: outputDirectory
         },
         assetsPrefix: `http://localhost:${port}/component-assets/`,
       }

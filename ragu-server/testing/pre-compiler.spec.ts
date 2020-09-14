@@ -40,8 +40,8 @@ describe('Pre compiler', () => {
         },
         compiler: {
           output: {
-            node: preCompiledOutput,
-            browser: outputDirectory
+            view: preCompiledOutput,
+            hydrate: outputDirectory
           },
           assetsPrefix: `http://localhost:${port}/component-assets/`,
         }
@@ -52,7 +52,7 @@ describe('Pre compiler', () => {
     it.each(['hello-world', 'with-dependencies-component', 'with-external-dependencies-component'])
     ('compiles "%s" component with the same filename', (component) => {
       const compiled_hello = require('./pre_compiled_components/' + component);
-      const not_compiled = require('./components/' + component);
+      const not_compiled = require('./components/' + component + '/view');
 
       expect(JSON.stringify(compiled_hello)).toEqual(JSON.stringify(not_compiled));
     });
@@ -62,7 +62,7 @@ describe('Pre compiler', () => {
     const preCompiledOutput = path.join(__dirname, 'pre_compiled_components_with_webpack_wrong_config');
 
     afterAll(() => {
-      // emptyDirSync(preCompiledOutput);
+      emptyDirSync(preCompiledOutput);
     });
 
     beforeEach(async () => {
@@ -87,11 +87,11 @@ describe('Pre compiler', () => {
         compiler: {
           assetsPrefix: `http://localhost:${port}/component-assets/`,
           output: {
-            node: preCompiledOutput,
-            browser: outputDirectory
+            view: preCompiledOutput,
+            hydrate: outputDirectory
           },
           webpack: {
-            nodeConfig: merge(
+            view: merge(
               createDefaultWebpackConfiguration({}),
               {
                 output: {
@@ -140,11 +140,11 @@ describe('Pre compiler', () => {
         compiler: {
           assetsPrefix: `http://localhost:${port}/component-assets/`,
           output: {
-            node: preCompiledOutput,
-            browser: outputDirectory
+            view: preCompiledOutput,
+            hydrate: outputDirectory
           },
           webpack: {
-            nodeConfig: merge(
+            view: merge(
               createDefaultWebpackConfiguration({}),
               {
                 output: {

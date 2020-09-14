@@ -38,13 +38,13 @@ export class PreCompiler {
       getLogger(this.config).debug('Components found:');
 
       const allComponentsPath: string[] = componentNames
-          .map((componentName) => path.join(this.config.compiler.output.node, componentName));
+          .map((componentName) => path.join(this.config.compiler.output.view, componentName));
 
       for (let componentName of componentNames) {
         getLogger(this.config).debug('-', componentName)
         webpackConfig = merge(webpackConfig, {
           entry: {
-            [componentName]: path.join(this.config.components.sourceRoot, componentName)
+            [componentName]: path.join(this.config.components.sourceRoot, componentName, 'view')
           }
         });
       }
@@ -95,14 +95,14 @@ export class PreCompiler {
       output: {
         libraryTarget: "commonjs2",
         filename: '[name].js',
-        path: this.config.compiler.output.node
+        path: this.config.compiler.output.view
       },
       externals: [webpackNodeExternals()],
       watch: this.config.compiler.watchMode
     };
 
-    if (this.config.compiler.webpack?.nodeConfig) {
-      return merge(requiredConfig, this.config.compiler.webpack.nodeConfig);
+    if (this.config.compiler.webpack?.view) {
+      return merge(requiredConfig, this.config.compiler.webpack.view);
     }
 
     return merge(createDefaultWebpackConfiguration({}), requiredConfig);
@@ -121,7 +121,7 @@ export class PreCompiler {
   }
 
   private getCompiledComponent(componentName: string) {
-    const componentPath = path.join(this.config.compiler.output.node, componentName);
+    const componentPath = path.join(this.config.compiler.output.view, componentName);
 
     try {
       getLogger(this.config).debug(`Loading component "${componentName}" from "${componentPath}"`);

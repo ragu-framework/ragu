@@ -14,15 +14,15 @@ type DependencyType = {
 type DependencyCallback = (context: string, dependency: string) => DependencyType;
 
 export const webpackCompile = (entry: string, outputName: string, serverConfig: RaguServerConfig, dependencyCallback: DependencyCallback): Promise<void> => {
-    const config = serverConfig.compiler.webpack?.browserConfig || createDefaultWebpackConfiguration({isDevelopment: false});
+    const config = serverConfig.compiler.webpack?.hydrate || createDefaultWebpackConfiguration({isDevelopment: false});
 
     config.output = config.output || {};
-    config.output.path = serverConfig.compiler.output.browser;
+    config.output.path = serverConfig.compiler.output.hydrate;
     config.output.publicPath = serverConfig.compiler.assetsPrefix;
     config.output.jsonpFunction = `wpJsonp_${serverConfig.components.namePrefix}`
     config.watch = serverConfig.compiler.watchMode;
     config.plugins = config.plugins || [];
-    config.plugins.push(new Chunks2JsonPlugin({ outputDir: serverConfig.compiler.output.browser, publicPath: config.output.publicPath }))
+    config.plugins.push(new Chunks2JsonPlugin({ outputDir: serverConfig.compiler.output.hydrate, publicPath: config.output.publicPath }))
 
     config.externals = [
         function(context: any, request: any, callback: any) {

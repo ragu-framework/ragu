@@ -18,12 +18,12 @@ module.exports = {
     assetsPrefix: \`http://localhost:\${port}/component-assets/\`,
     watchMode: process.env.WATCH_MODE === 'true',
     webpack: {
-      // nodeConfig: if you need some custom transpilation for node environment, adds your webpack config here,
-      // browserConfig: if you need some custom transpilation for node environment, adds your webpack config here,
+      // view: if you need some custom transpilation for node environment, adds your webpack config here,
+      // hydrate: if you need some custom transpilation for browser environment, adds your webpack config here,
     },
     output: {
-      node: path.join(__dirname, 'compiled/node_components'),
-      browser: path.join(__dirname, 'compiled/browser_components')
+      view: path.join(__dirname, 'compiled/view_components'),
+      hydrate: path.join(__dirname, 'compiled/hydrate_components')
     }
   },
   components: {

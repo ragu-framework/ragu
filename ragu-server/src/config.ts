@@ -24,12 +24,12 @@ export interface RaguServerConfig {
     watchMode?: boolean;
     assetsPrefix: string;
     output: {
-      node: string;
-      browser: string;
+      view: string;
+      hydrate: string;
     };
     webpack?: {
-      nodeConfig?: webpack.Configuration
-      browserConfig?: webpack.Configuration
+      view?: webpack.Configuration
+      hydrate?: webpack.Configuration
     }
   }
 }

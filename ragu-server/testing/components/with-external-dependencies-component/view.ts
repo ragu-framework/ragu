@@ -1,5 +1,4 @@
 import {sayHello} from "../../external-dependencies/dep";
-import jQuery from 'jquery';
 
 
 interface Props {
@@ -22,9 +21,5 @@ export default {
       },
       html: sayHello(name)
     }
-  },
-  hydrate(element: HTMLElement, {name}: Props) {
-    element.innerHTML = sayHello(name);
-    jQuery(element).on('click', () => alert(`hi, ${name}`));
   }
 }
