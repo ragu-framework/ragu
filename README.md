@@ -17,6 +17,13 @@ work at the same product but in different codebase.
 
 - [Micro-frontends with React, Vue and Ragu](https://medium.com/@carlosmaniero/micro-frontends-with-react-vue-and-ragu-c5a2e3ecc2ab)
 
+
+## Installation
+
+```shell script
+npx ragu-server init my-project
+```
+
 ## Core principles:
 
 ### No artefact integration
