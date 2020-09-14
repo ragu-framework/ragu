@@ -3,6 +3,7 @@ import yargs from "yargs";
 import * as path from "path";
 import {ConsoleLogger} from "../logging/console-logger";
 import {runServer} from "./commands/run-server";
+import {init} from "./commands/init";
 
 function getAbsolutePath(file: string) {
   if (!path.isAbsolute(file)) {
@@ -26,7 +27,7 @@ yargs
         default: path.join(process.cwd(), 'ragu-config.js'),
         describe: 'the name to say hello to'
       });
-    }, function (argv) {
+    }, (argv) => {
       const consoleLogger = new ConsoleLogger();
 
       try {
@@ -38,6 +39,9 @@ yargs
       } catch (e) {
         consoleLogger.error(`Can't open config file:`, e);
       }
+    })
+    .command('init', 'creates the base configuration', () => {}, () => {
+      init();
     })
     .help()
     .argv
