@@ -1227,7 +1227,7 @@ bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
-bluebird@^3.5.5:
+bluebird@^3.4.1, bluebird@^3.5.5:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
@@ -3978,6 +3978,13 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
+
+npm-programmatic@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/npm-programmatic/-/npm-programmatic-0.0.12.tgz#566ba2452c886c7fd3a41586bd559cdc872fa77e"
+  integrity sha512-fvZdiJS038ZH31z59cEiIywOcgX1u23aLc0wAKF4btyhbYQxE93wTQjzs/URERK+GhS/QghDILQmEvgxu77/zQ==
+  dependencies:
+    bluebird "^3.4.1"
 
 npm-run-path@^2.0.0:
   version "2.0.2"

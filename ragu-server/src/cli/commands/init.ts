@@ -2,8 +2,8 @@ import * as path from "path";
 import * as fs from "fs";
 import {ConsoleLogger} from "../../logging/console-logger";
 import {Logger} from "../../logging/logger";
-
-const raguVersion = require('../../../package.json').version;
+import chalk from "chalk";
+const npm = require('npm-programmatic');
 
 const configTemplate = (projectName: string) => `const path = require("path");
 
@@ -41,9 +41,6 @@ const packageJsonTemplate = (projectName: string) => `{
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "ragu-server": "${raguVersion}"
-  },
   "devDependencies": {},
   "scripts": {
      "build": "ragu-server build",
@@ -109,7 +106,7 @@ const createProjectDirectory = (logger: Logger, projectPath: string) => {
   fs.mkdirSync(projectPath);
 }
 
-export const init = (projectName: string) => {
+export const init = async (projectName: string) => {
   const logger = new ConsoleLogger();
 
   if (!projectName) {
@@ -123,4 +120,20 @@ export const init = (projectName: string) => {
   createPackageJson(logger, projectPath, projectName);
   createRaguConfigFile(logger, projectPath, projectName);
   createHelloWorldComponent(logger, projectPath);
+
+  logger.info('Installing dependencies...');
+  await npm.install(['ragu-server'], {
+    cwd: projectPath,
+    save: true,
+    output: true
+  });
+  logger.info('✅ All set!');
+  logger.info(`${chalk.bold('Run the commands bellow to start your 🔪 Ragu application:')}
+
+${chalk.bold('💻 $')} cd ${projectName}
+${chalk.bold('💻 $')} npm run dev
+
+${chalk.bold('With the server running, you can take a look at you hello-world ragu component:')}
+🌎 http://localhost:3101/preview/hello-world/?name=Ragu
+`)
 }
