@@ -1,4 +1,9 @@
-# 🔪 Ragu a micro-frontend framework
+<p align="center" style="color: #343a40">
+  <p align="center" >
+    <img src="repository-assets/logo.svg" alt="Ragu" align="center">
+  </p>
+  <h1 align="center">Ragu: A micro-frontend front-end framework</h1>
+</p>
 
 Ragu is a micro-frontend framework designed to enable multiple teams to
 work at the same product but in different codebase.
