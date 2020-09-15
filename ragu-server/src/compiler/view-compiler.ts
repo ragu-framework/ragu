@@ -20,7 +20,7 @@ export class PreCompilationFailFileNotFoundError extends Error {
   }
 }
 
-export class PreCompiler {
+export class ViewCompiler {
   constructor(readonly config: RaguServerConfig) {
   }
 

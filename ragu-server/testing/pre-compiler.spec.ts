@@ -3,8 +3,8 @@ import getPort from "get-port";
 import {
   PreCompilationFailFileNotFoundError,
   PreCompilationOutputError,
-  PreCompiler
-} from "../src/compiler/pre-compiler";
+  ViewCompiler
+} from "../src/compiler/view-compiler";
 import {merge} from "webpack-merge";
 import {createDefaultWebpackConfiguration} from "..";
 import {emptyDirSync} from "fs-extra";
@@ -12,7 +12,7 @@ import {TestLogging} from "./test-logging";
 
 describe('Pre compiler', () => {
   let port: number;
-  let preCompiler: PreCompiler;
+  let preCompiler: ViewCompiler;
   const outputDirectory = path.join(__dirname, 'compiled_components');
   const preCompiledOutput = path.join(__dirname, 'pre_compiled_components');
 
@@ -24,7 +24,7 @@ describe('Pre compiler', () => {
     beforeAll(async () => {
       port = await getPort();
 
-      preCompiler = new PreCompiler({
+      preCompiler = new ViewCompiler({
         server: {
           routes: {
             assets: '/component-assets/',
@@ -70,7 +70,7 @@ describe('Pre compiler', () => {
 
       port = await getPort();
 
-      preCompiler = new PreCompiler({
+      preCompiler = new ViewCompiler({
         server: {
           routes: {
             assets: '/component-assets/',
@@ -123,7 +123,7 @@ describe('Pre compiler', () => {
 
       port = await getPort();
 
-      preCompiler = new PreCompiler({
+      preCompiler = new ViewCompiler({
         server: {
           routes: {
             assets: '/component-assets/',
