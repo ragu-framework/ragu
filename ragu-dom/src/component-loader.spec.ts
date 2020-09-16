@@ -39,6 +39,39 @@ describe('component loader', () => {
         });
   });
 
+  it('waits for css load before respond', async () => {
+    const componentResponse: Partial<Component<string, string>> = {
+      state: 'la',
+      client: 'http://my-squad.org/client.asijdoaidj.ja',
+      styles: ['http://my-squad.org/client.asijdoaidj.css'],
+      html: 'Hello, World!',
+      resolverFunction: 'myResolverStub'
+    };
+
+    const resolvedMock = jest.fn();
+
+    new ComponentLoader({
+      dependencyContext: new DependencyContext(
+          new ScriptLoader()
+      ),
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+    }).load('http://localhost:3000/components/hello-world?name=World')
+        .then(() => {
+          resolvedMock()
+        });
+
+    await new Promise((resolve) => setImmediate(() => resolve()));
+
+    expect(resolvedMock).not.toBeCalled();
+
+    const querySelector = document.head.querySelector('link[href="http://my-squad.org/client.asijdoaidj.css"]') as HTMLLinkElement;
+    querySelector.onload?.({} as any);
+
+    await new Promise((resolve) => setImmediate(() => resolve()));
+
+    expect(resolvedMock).toBeCalled();
+  });
+
   it('renders the component', async (done) => {
     const componentResponse: Partial<Component<string, string>> = {
       state: 'la',

@@ -49,6 +49,28 @@ export class DependencyContext {
     }
   }
 
+  async loadStyles(styles: string[]) {
+    await Promise.all(styles.map((style) => this.loadStyle(style)));
+  }
+
+  loadStyle(style: string) {
+    const linkElement = document.createElement('link');
+    linkElement.setAttribute('href', style);
+    linkElement.setAttribute('rel', 'stylesheet');
+
+    return new Promise((resolve) => {
+      if (document.head.querySelector(`link[href="${style}"]`)) {
+        resolve();
+        return;
+      }
+
+      linkElement.onload = () => resolve();
+      linkElement.onerror = () => resolve();
+
+      document.head.appendChild(linkElement);
+    });
+  }
+
   private loadDependencyGroup(dependencies: ComponentDependency[]) {
     return Promise.all(dependencies.map((dependency) => this.load(dependency)));
   }

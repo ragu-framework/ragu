@@ -20,6 +20,7 @@ describe('DependencyContext', () => {
   let dependencyContext: DependencyContext;
 
   beforeEach(() => {
+    document.head.innerHTML = '';
     scriptLoadStub = jest.fn();
     testPromiseController = new TestPromiseController<void>();
     dependencyContext = new DependencyContext(new StubFileLoader());
@@ -131,6 +132,64 @@ describe('DependencyContext', () => {
       });
 
       testPromiseController.resolve();
+    });
+  });
+
+  describe('loading styles', () => {
+    it('awaits until style loads', async () => {
+      const resolvedMock = jest.fn();
+      dependencyContext.loadStyles(['http://my-style/main.css'])
+          .then(() => {
+            resolvedMock();
+          });
+
+      await new Promise((resolve) => setImmediate(() => resolve()));
+
+      expect(resolvedMock).not.toBeCalled();
+
+      const querySelector = document.head.querySelector('link[href="http://my-style/main.css"]') as HTMLLinkElement;
+      querySelector.onload?.({} as any);
+
+      await new Promise((resolve) => setImmediate(() => resolve()));
+
+      expect(resolvedMock).toBeCalled();
+    });
+
+    it('skips duplication', async () => {
+      const resolvedMock = jest.fn();
+      dependencyContext.loadStyles([
+          'http://my-style/main.css',
+          'http://my-style/main.css'
+      ]).then(() => {
+        resolvedMock();
+      });
+
+      await new Promise((resolve) => setImmediate(() => resolve()));
+
+      expect(resolvedMock).not.toBeCalled();
+
+      const querySelector = document.head.querySelector('link[href="http://my-style/main.css"]') as HTMLLinkElement;
+      querySelector.onload?.({} as any);
+      expect(document.head.querySelectorAll('link[href="http://my-style/main.css"]')).toHaveLength(1);
+    });
+
+    it('resolves when css load fails', async () => {
+      const resolvedMock = jest.fn();
+      dependencyContext.loadStyles(['http://my-style/main.css'])
+          .then(() => {
+            resolvedMock();
+          });
+
+      await new Promise((resolve) => setImmediate(() => resolve()));
+
+      expect(resolvedMock).not.toBeCalled();
+
+      const querySelector = document.head.querySelector('link[href="http://my-style/main.css"]') as HTMLLinkElement;
+      querySelector.onerror?.({} as any);
+
+      await new Promise((resolve) => setImmediate(() => resolve()));
+
+      expect(resolvedMock).toBeCalled();
     });
   });
 });

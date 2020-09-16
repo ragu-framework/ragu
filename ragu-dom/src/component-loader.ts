@@ -12,6 +12,7 @@ export interface Component<Props, State> {
   state: State;
   html: string;
   client: string;
+  styles?: string[];
   resolverFunction: string;
   disconnect?: () => void
   hydrate: (element: HTMLElement, props: Props, state: State) => Promise<void>;
@@ -23,6 +24,10 @@ export class ComponentLoader {
 
   async load<P, S, T extends Component<P, S>>(componentUrl: string): Promise<T> {
     const componentResponse: T = await this.context.jsonpGateway.fetchJsonp<T>(componentUrl);
+
+    if (componentResponse.styles && componentResponse.styles.length) {
+      await this.context.dependencyContext.loadStyles(componentResponse.styles);
+    }
 
     return {
       ...componentResponse,
