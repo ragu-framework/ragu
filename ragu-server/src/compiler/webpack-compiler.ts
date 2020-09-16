@@ -13,13 +13,15 @@ type DependencyType = {
 
 type DependencyCallback = (context: string, dependency: string) => DependencyType;
 
-export const webpackCompile = (entry: string, outputName: string, serverConfig: RaguServerConfig, dependencyCallback: DependencyCallback): Promise<void> => {
+export const webpackCompile = (componentsEntry: Record<string, string>, serverConfig: RaguServerConfig, dependencyCallback: DependencyCallback): Promise<void> => {
     const config = serverConfig.compiler.webpack?.hydrate || createDefaultWebpackConfiguration({isDevelopment: false});
 
     config.output = config.output || {};
     config.output.path = serverConfig.compiler.output.hydrate;
     config.output.publicPath = serverConfig.compiler.assetsPrefix;
-    config.output.jsonpFunction = `wpJsonp_${serverConfig.components.namePrefix}`
+    config.output.jsonpFunction = `wpJsonp_${serverConfig.components.namePrefix}`;
+    config.output.library = `${serverConfig.components.namePrefix}[name]`;
+    config.output.libraryTarget = 'window';
     config.watch = serverConfig.compiler.watchMode;
     config.plugins = config.plugins || [];
     config.plugins.push(new Chunks2JsonPlugin({ outputDir: serverConfig.compiler.output.hydrate, publicPath: config.output.publicPath }))
@@ -38,7 +40,7 @@ export const webpackCompile = (entry: string, outputName: string, serverConfig: 
         webpack({
             ...config,
             entry: {
-                [outputName]: entry
+                ...componentsEntry,
             },
         }, (err, stats) => {
             if (err) {

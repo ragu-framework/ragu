@@ -79,7 +79,7 @@ describe('Server Side Rendering', () => {
     });
 
     it('returns the client file name', async () => {
-      const filename = await compiler.getClientFileName();
+      const filename = await compiler.getClientFileName("hello-world");
       expect(responseBody.client).toBe(filename);
     });
 
@@ -136,7 +136,7 @@ describe('Server Side Rendering', () => {
 
   describe('fetching assets', () => {
     it('fetches the client', async () => {
-      const filename = await compiler.getClientFileName();
+      const filename = await compiler.getClientFileName("hello-world");
       const response = await fetch(filename);
       expect(response.status).toBe(200);
     })

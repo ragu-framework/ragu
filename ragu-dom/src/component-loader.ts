@@ -33,7 +33,15 @@ export class ComponentLoader {
 
         await this.context.dependencyContext.load({ dependency: componentResponse.client });
 
-        const component = await (window as any)[componentResponse.resolverFunction].resolve();
+        const resolvedComponent = (window as any)[componentResponse.resolverFunction];
+
+        if (resolvedComponent.default) {
+          await resolvedComponent.default.hydrate(htmlElement, props, state);
+          return;
+        }
+
+        // TODO deprecate:
+        const component = await resolvedComponent.resolve();
         await component.hydrate(htmlElement, props, state);
       }
     };

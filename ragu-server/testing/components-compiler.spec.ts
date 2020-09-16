@@ -3,7 +3,6 @@ import {ComponentsCompiler} from "../src/compiler/components-compiler";
 import * as fs from "fs";
 import * as jsdom from "jsdom";
 import {ConstructorOptions} from "jsdom";
-import {emptyDir} from "fs-extra";
 import {TestLogging} from "./test-logging";
 
 describe('Component Compiler', () => {
@@ -41,7 +40,7 @@ describe('Component Compiler', () => {
   });
 
   afterAll(() => {
-    emptyDir(outputDirectory);
+    // emptyDir(outputDirectory);
   });
 
   beforeEach(() => {
@@ -56,41 +55,27 @@ describe('Component Compiler', () => {
     (global as any).document = dom.window.document;
   })
 
-  const evalCompiledClient = async () => {
-    const url = new URL(await compiler.getClientFileName());
+  const evalCompiledClient = async (componentName: string) => {
+    const url = new URL(await compiler.getClientFileName(componentName));
     const client = fs.readFileSync(url as any).toString();
     eval(client);
   }
 
   it('exports compiled component into window', async () => {
-    await evalCompiledClient();
+    await evalCompiledClient('hello-world');
 
-    const resolvedComponent = await (window as any)['test_components_hello-world'].resolve();
+    const resolvedComponent = (window as any)['test_components_hello-world'].default;
     const div = dom.window.document.createElement('div');
     resolvedComponent.hydrate(div, {name: 'World'}, {greetingType:'Hello'});
 
     expect(div.textContent).toContain('Hello, World');
   });
 
-  it('exports all dependencies without load the module', async () => {
-    await evalCompiledClient();
-
-    const dependencies = (window as any)['test_components_hello-world'].dependencies;
-
-    expect(dependencies).toEqual([
-      {
-        'nodeRequire': 'react',
-        'globalVariable': 'React',
-        'dependency': 'https://unpkg.com/react@16/umd/react.production.min.js'
-      }
-    ]);
-  });
-
   describe('with dependencies', () => {
     it('resolves the dependency', async () => {
-      await evalCompiledClient();
+      await evalCompiledClient('with-dependencies-component');
 
-      const resolvedComponent = await (window as any)['test_components_with-dependencies-component'].resolve();
+      const resolvedComponent = (window as any)['test_components_with-dependencies-component'].default;
       const div = dom.window.document.createElement('div');
       resolvedComponent.hydrate(div, {name: 'World'});
 
@@ -100,17 +85,17 @@ describe('Component Compiler', () => {
 
   describe('with external dependencies', () => {
     it('uses the defined dependency', async () => {
-      await evalCompiledClient();
-
-      (global as any).jQuery = jest.fn(() => ({
+      (window as any).jQuery = jest.fn(() => ({
         'on': () => {}
       }));
 
-      const resolvedComponent = await (window as any)['test_components_with-external-dependencies-component'].resolve();
+      await evalCompiledClient('with-external-dependencies-component');
+
+      const resolvedComponent = (window as any)['test_components_with-external-dependencies-component'].default;
       const div = dom.window.document.createElement('div');
       resolvedComponent.hydrate(div, {name: 'World'});
 
-      expect(jQuery).toBeCalled();
+      expect((window as any).jQuery).toBeCalled();
     });
   });
 });

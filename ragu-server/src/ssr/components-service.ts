@@ -17,7 +17,7 @@ export class ComponentsService {
       ...renderResult,
       props,
       dependencies: component.dependencies,
-      client: await this.compiler.getClientFileName(),
+      client: await this.compiler.getClientFileName(componentName),
       resolverFunction: `${this.config.components.namePrefix}${componentName}`
     };
 

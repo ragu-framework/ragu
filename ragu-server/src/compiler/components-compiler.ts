@@ -20,7 +20,7 @@ export class ComponentsCompiler {
     await this.previewCompiler.compile();
   }
 
-  getClientFileName(): Promise<string> {
-    return this.hydrateCompiler.getClientFileName();
+  getClientFileName(componentName: string): Promise<string> {
+    return this.hydrateCompiler.getClientFileName(componentName);
   }
 }
