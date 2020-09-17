@@ -4402,10 +4402,10 @@ querystring@0.2.0:
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
 
-ragu-dom@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/ragu-dom/-/ragu-dom-0.0.5.tgz#2d57d2d55852afd2a2764382746d941846b4343b"
-  integrity sha512-zx6JmY0y7KRXJtmECx0y2l82Vfxq7PyfFkVNw0xsIpn6Yjs9BpwJDEZH3g1vrC1hyE2r1rMy0dy+9FDbO/NyAg==
+ragu-dom@^0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/ragu-dom/-/ragu-dom-0.0.13.tgz#41590ad8df2b810ec8340371c48a02c2363eccfd"
+  integrity sha512-7wgDWgCO4NBvklpkxEIuaNMh4IzxhPtjqU9bPFyZinf/H4nU8qFJSl1Yj8HF92tQNAB6LT1eyC+PAWL76+Qoeg==
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"

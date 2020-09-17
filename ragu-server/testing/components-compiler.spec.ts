@@ -1,51 +1,31 @@
-import * as path from "path";
 import {ComponentsCompiler} from "../src/compiler/components-compiler";
 import * as fs from "fs";
 import * as jsdom from "jsdom";
 import {ConstructorOptions} from "jsdom";
-import {TestLogging} from "./test-logging";
+import {RaguServerConfig} from "..";
+import {createTestConfig} from "./test-config-factory";
+import {emptyDirSync} from "fs-extra";
 
 describe('Component Compiler', () => {
-  let port: number = 8080;
   let compiler: ComponentsCompiler;
-  const outputDirectory = path.join(__dirname, 'compiled_components');
-  const preCompiledOutput = path.join(__dirname, 'pre_compiled_components');
   let dom: jsdom.JSDOM;
+  let config: RaguServerConfig;
 
   beforeAll(async () => {
-    compiler = new ComponentsCompiler({
-      server: {
-        routes: {
-          assets: '/component-assets/',
-        },
-        port,
-        logging: {
-          logger: new TestLogging(),
-        }
-      },
-      components: {
-        namePrefix: 'test_components_',
-        sourceRoot: path.join(__dirname, 'components'),
-      },
-      compiler: {
-        assetsPrefix: `file://${outputDirectory}/`,
-        output: {
-          view: preCompiledOutput,
-          hydrate: outputDirectory
-        },
-      }
-    });
+    config = await createTestConfig();
+    compiler = new ComponentsCompiler(config);
 
     await compiler.compileAll();
   });
 
   afterAll(() => {
-    // emptyDir(outputDirectory);
+    emptyDirSync(config.compiler.output.view);
+    emptyDirSync(config.compiler.output.hydrate);
   });
 
   beforeEach(() => {
     const options: ConstructorOptions = {
-      url: `file://${outputDirectory}`,
+      url: config.compiler.assetsPrefix,
       resources: 'usable',
       runScripts: 'dangerously',
     }

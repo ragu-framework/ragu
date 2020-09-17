@@ -23,4 +23,8 @@ export class ComponentsCompiler {
   getClientFileName(componentName: string): Promise<string> {
     return this.hydrateCompiler.getClientFileName(componentName);
   }
+
+  async getStyles(componentName: string): Promise<String[]> {
+    return this.hydrateCompiler.getStyles(componentName);
+  }
 }

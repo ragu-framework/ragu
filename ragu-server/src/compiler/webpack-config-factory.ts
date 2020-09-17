@@ -59,14 +59,5 @@ export const createDefaultWebpackConfiguration = ({isDevelopment}: Options): web
       usedExports: true,
       minimizer: getMinimizer()
     },
-    node: {
-      net: 'empty',
-      fs: 'empty',
-      tls: 'empty',
-      process: false,
-      child_process: 'empty',
-      jsdom: 'empty',
-      'mutationobserver-shim': 'empty',
-    }
   };
 }

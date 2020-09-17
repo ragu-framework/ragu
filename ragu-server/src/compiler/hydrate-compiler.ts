@@ -44,17 +44,27 @@ export class HydrateCompiler {
     return fs.readdirSync(this.config.components.sourceRoot);
   }
 
-  getClientFileName(componentName: string): Promise<string> {
+  async getClientFileName(componentName: string): Promise<string> {
+    const manifest = await this.getManifestFile();
+    return manifest?.[componentName]?.js?.[0];
+  }
+
+  async getStyles(componentName: string): Promise<string[]> {
+    const manifest = await this.getManifestFile();
+    return manifest?.[componentName]?.css || [];
+  }
+
+  private getManifestFile(): Promise<any> {
     return new Promise((resolve, reject) => {
       fs.readFile(path.join(this.config.compiler.output.hydrate, 'build-manifest.json'), (err, data) => {
         if (err) {
           reject(err);
+          getLogger(this.config).error('Unable to load the "build-manifest.json" file. Did you build run "ragu-server build" before start?');
+          return;
         }
         const manifest = JSON.parse(data.toString());
-        const clientJsFile = manifest?.[componentName]?.js?.[0];
-
-        resolve(clientJsFile);
+        resolve(manifest);
       });
-    })
+    });
   }
 }

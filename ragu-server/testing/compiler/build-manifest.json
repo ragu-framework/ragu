@@ -1,0 +1,8 @@
+{
+  "hello-world": {
+    "css": [
+      "http://localhost:3101/component-assets/1.css",
+      "http://localhost:3101/component-assets/2.css"
+    ]
+  }
+}

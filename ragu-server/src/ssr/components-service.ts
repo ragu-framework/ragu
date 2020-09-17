@@ -18,6 +18,7 @@ export class ComponentsService {
       props,
       dependencies: component.dependencies,
       client: await this.compiler.getClientFileName(componentName),
+      styles: await this.compiler.getStyles(componentName),
       resolverFunction: `${this.config.components.namePrefix}${componentName}`
     };
 

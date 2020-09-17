@@ -1,45 +1,17 @@
-import getPort from "get-port";
-import {RaguServer} from "../src/server";
-import * as path from "path";
-import {ComponentsCompiler} from "../src/compiler/components-compiler";
-import {emptyDir} from "fs-extra";
-import {TestLogging} from "./test-logging";
+import {RaguServer} from "..";
+import {ComponentsCompiler} from "..";
+import {emptyDirSync} from "fs-extra";
 import {RaguServerConfig} from "..";
+import {createTestConfig} from "./test-config-factory";
 
 describe('Server Side Rendering', () => {
-  let port: number;
   let server: RaguServer;
   let compiler: ComponentsCompiler;
-  const outputDirectory = path.join(__dirname, 'compiled_components');
-  const preCompiledOutput = path.join(__dirname, 'pre_compiled_components');
+  let config: RaguServerConfig;
 
   beforeAll(async () => {
-    port = await getPort();
-
-    const config: RaguServerConfig = {
-      server: {
-        routes: {
-          assets: '/component-assets/',
-        },
-        port,
-        logging: {
-          logger: new TestLogging(),
-        },
-        previewEnabled: true,
-        hideWelcomeMessage: true
-      },
-      components: {
-        namePrefix: 'test_components_',
-        sourceRoot: path.join(__dirname, 'components'),
-      },
-      compiler: {
-        output: {
-          view: preCompiledOutput,
-          hydrate: outputDirectory
-        },
-        assetsPrefix: `http://localhost:${port}/component-assets/`,
-      }
-    };
+    config = await createTestConfig();
+    config.compiler.assetsPrefix = `http://localhost:${config.server.port}/component-assets/`;
 
     compiler = new ComponentsCompiler(config);
     server = new RaguServer(config, compiler);
@@ -50,7 +22,8 @@ describe('Server Side Rendering', () => {
 
   afterAll(async () => {
     await server.stop();
-    await emptyDir(outputDirectory);
+    emptyDirSync(config.compiler.output.view);
+    emptyDirSync(config.compiler.output.hydrate);
   });
 
   describe('fetching a component successfully', () => {
@@ -58,7 +31,7 @@ describe('Server Side Rendering', () => {
     let responseBody: Record<string, unknown>;
 
     beforeAll(async () => {
-      response = await fetch(`http://localhost:${port}/components/hello-world?name=World`);
+      response = await fetch(`http://localhost:${config.server.port}/components/hello-world?name=World`);
       responseBody = await response.json();
     });
 
@@ -67,10 +40,10 @@ describe('Server Side Rendering', () => {
     });
 
     it('returns the html of the requested component', async () => {
-      expect(responseBody.html).toBe('<b>Hello, World</b>');
+      expect(responseBody.html).toContain('>Hello, World</b>');
     });
 
-    it('returns the html of the requested component', async () => {
+    it('returns the dependencies of the requested component', async () => {
       expect(responseBody.dependencies).toEqual([{
         'nodeRequire': 'react',
         'globalVariable': 'React',
@@ -106,13 +79,13 @@ describe('Server Side Rendering', () => {
     let responseBody: string;
 
     beforeAll(async () => {
-      response = await fetch(`http://localhost:${port}/preview/hello-world?name=World`);
+      response = await fetch(`http://localhost:${config.server.port}/preview/hello-world?name=World`);
       responseBody = await response.text();
     });
 
     it('renders the ragu-component', () => {
       expect(responseBody)
-          .toContain(`<ragu-component src="http://localhost:${port}/components/hello-world?name=World"></ragu-component>`);
+          .toContain(`<ragu-component src="http://localhost:${config.server.port}/components/hello-world?name=World"></ragu-component>`);
     });
   });
 
@@ -121,7 +94,7 @@ describe('Server Side Rendering', () => {
     let responseBody: string;
 
     beforeAll(async () => {
-      response = await fetch(`http://localhost:${port}/components/hello-world?name=World&callback=my_callback_function`);
+      response = await fetch(`http://localhost:${config.server.port}/components/hello-world?name=World&callback=my_callback_function`);
       responseBody = await response.text();
     });
 
@@ -147,7 +120,7 @@ describe('Server Side Rendering', () => {
     let responseBody: Record<string, unknown>;
 
     beforeAll(async () => {
-      response = await fetch(`http://localhost:${port}/components/a-component-that-does-not-exists?name=World`);
+      response = await fetch(`http://localhost:${config.server.port}/components/a-component-that-does-not-exists?name=World`);
       responseBody = await response.json();
     });
 

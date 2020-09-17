@@ -1,6 +1,6 @@
 import {Logger, LogLevel} from "../src/logging/logger";
 
-export class TestLogging extends Logger {
+export class TestLogger extends Logger {
   stub = jest.fn();
 
   log(level: LogLevel, ...value: unknown[]): void {
