@@ -42,3 +42,16 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         working-directory: ragu-server/dist
+      - run: yarn --cwd ragu-vue-server-adapter
+        env:
+          CI: true
+      - run: yarn --cwd ragu-vue-server-adapter clean
+        env:
+          CI: true
+      - run: yarn --cwd ragu-vue-server-adapter build
+        env:
+          CI: true
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        working-directory: ragu-server/dist
