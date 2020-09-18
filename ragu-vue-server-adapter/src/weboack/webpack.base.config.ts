@@ -11,9 +11,6 @@ export const raguVueWebpackBaseConfig = (developmentEnvironment: boolean = false
   return {
     mode: 'production',
     resolve: {
-      modules: [
-          path.join(__dirname, '..', '..', 'node_modules')
-      ],
       extensions: [ '.js', '.vue', '.ts' ],
       alias: {
         'vue$': 'vue/dist/vue.runtime.min.js',
