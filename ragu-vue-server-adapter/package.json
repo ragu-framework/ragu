@@ -1,6 +1,6 @@
 {
   "name": "ragu-vue-server-mixins",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Server of ragu micro-frontend framework",
   "main": "./index.js",
   "type": "./index.d.ts",

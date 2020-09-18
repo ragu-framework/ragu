@@ -1,6 +1,6 @@
 {
   "name": "ragu-server",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Server of ragu micro-frontend framework",
   "main": "./index.js",
   "type": "./index.d.ts",
@@ -13,7 +13,7 @@
     "chunks-2-json-webpack-plugin": "^1.0.4",
     "express": "^4.17.1",
     "npm-programmatic": "^0.0.12",
-    "ragu-dom": "^0.0.15",
+    "ragu-dom": "^0.0.16",
     "webpack": "^4.44.1",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-merge": "^5.1.4",
