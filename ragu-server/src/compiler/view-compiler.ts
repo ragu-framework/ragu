@@ -3,9 +3,9 @@ import webpack from "webpack";
 import {createDefaultWebpackConfiguration} from "./webpack-config-factory";
 import * as path from "path";
 import {merge} from "webpack-merge";
-import * as fs from "fs";
 import webpackNodeExternals from "webpack-node-externals";
 import {getLogger} from "../logging/get-logger";
+import {ComponentResolver, getComponentResolver} from "./component-resolver";
 
 
 export class PreCompilationOutputError extends Error {
@@ -21,49 +21,45 @@ export class PreCompilationFailFileNotFoundError extends Error {
 }
 
 export class ViewCompiler {
+  private readonly componentResolver: ComponentResolver;
+
   constructor(readonly config: RaguServerConfig) {
+    this.componentResolver = getComponentResolver(this.config);
   }
 
   async compileAll(): Promise<void> {
-    const components = fs.readdirSync(this.config.components.sourceRoot);
+    const components = await this.componentResolver.componentList();
 
     await this.compileComponent(components);
   }
 
-  private compileComponent(componentNames: string[]) {
+  private async compileComponent(componentNames: string[]) {
+    let webpackConfig = this.getWebpackConfig();
+
+    getLogger(this.config).info('Preparing components.');
+    getLogger(this.config).debug('Components found:');
+
+    webpackConfig = merge(webpackConfig, {
+      entry: await this.componentResolver.componentViewWebpackEntries()
+    });
+
+    const viewOutputFiles: string[] = componentNames
+        .map((componentName) => path.join(this.config.compiler.output.view, componentName));
+
+
+    getLogger(this.config).info(`Pre-compiler watch mode is ${webpackConfig.watch ? 'on' : 'off'}`);
+
+    if (webpackConfig.watch) {
+      getLogger(this.config).warn(`Watcher is on. Does not use this mode under production.`);
+    }
+
     return new Promise<void>((resolve, reject) => {
-      let webpackConfig = this.getWebpackConfig();
-
-      getLogger(this.config).info('Preparing components.');
-      getLogger(this.config).debug('Components found:');
-
-      const allComponentsPath: string[] = componentNames
-          .map((componentName) => path.join(this.config.compiler.output.view, componentName));
-
-      for (let componentName of componentNames) {
-        getLogger(this.config).debug('-', componentName)
-        webpackConfig = merge(webpackConfig, {
-          entry: {
-            [componentName]: path.join(this.config.components.sourceRoot, componentName, 'view')
-          }
-        });
-      }
-
-      getLogger(this.config).info(`Pre-compiler watch mode is ${webpackConfig.watch ? 'on' : 'off'}`);
-
-      if (webpackConfig.watch) {
-        getLogger(this.config).warn(`Watcher is on. Does not use this mode under production.`);
-        getLogger(this.config).debug(`Pre compiler is watching components at "${this.config.components.sourceRoot}"`);
-      }
-
       webpack(webpackConfig, (err, stats) => {
         if (err) {
           return reject(err);
         }
         if (stats.hasErrors()) {
-          const statsJson = stats.toJson('minimal');
-          statsJson.errors.forEach(error => console.error(error));
-          return reject(stats);
+          return reject(stats.toJson('minimal'));
         }
 
         getLogger(this.config).info('Pre compilation finish. Checking for components health...');
@@ -76,7 +72,7 @@ export class ViewCompiler {
         }
 
         if (webpackConfig.watch) {
-          for (let componentPath of allComponentsPath) {
+          for (let componentPath of viewOutputFiles) {
             const fileToInvalidateCache = require.resolve(componentPath);
             getLogger(this.config).info(`Invalidating cache of ${fileToInvalidateCache}`);
             delete require.cache[fileToInvalidateCache]
