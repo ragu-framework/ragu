@@ -4,8 +4,8 @@ const nodeExternals = require('webpack-node-externals');
 
 
 
-export const raguVueWebpackHydrateConfig = (developmentEnvironment: boolean = false) =>
-    merge(raguVueWebpackBaseConfig(developmentEnvironment), developmentEnvironment ? {
+export const raguVueWebpackHydrateConfig = (assetsPrefix: string, developmentEnvironment: boolean = false) =>
+    merge(raguVueWebpackBaseConfig(assetsPrefix, developmentEnvironment), developmentEnvironment ? {
       devtool: 'source-map'
     } : {}, {
       externals: nodeExternals({

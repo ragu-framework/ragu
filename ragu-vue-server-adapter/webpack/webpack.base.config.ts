@@ -7,7 +7,7 @@ const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 
 console.log(path.join(__dirname, '..', '..', 'node_modules'));
 
-export const raguVueWebpackBaseConfig = (developmentEnvironment: boolean = false): webpack.Configuration => {
+export const raguVueWebpackBaseConfig = (assetsPrefix: string, developmentEnvironment: boolean = false): webpack.Configuration => {
   return {
     mode: 'production',
     resolve: {
@@ -38,6 +38,7 @@ export const raguVueWebpackBaseConfig = (developmentEnvironment: boolean = false
           loader: 'file-loader',
           options: {
             esModule: false,
+            publicPath: assetsPrefix
           },
         },
         {
