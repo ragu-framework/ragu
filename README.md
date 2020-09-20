@@ -8,7 +8,8 @@
 Ragu is a micro-frontend framework designed to enable multiple teams to
 work at the same product but in different codebase.
 
-![Ragu](https://github.com/carlosmaniero/ragu/workflows/Ragu/badge.svg) 
+![Ragu](https://github.com/carlosmaniero/ragu/workflows/Ragu/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/carlosmaniero/ragu/badge.svg?branch=main)](https://coveralls.io/github/carlosmaniero/ragu?branch=main)
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg) 
 ![npm version](https://badge.fury.io/js/ragu-server.svg)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
