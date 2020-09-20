@@ -39,12 +39,11 @@ export class ConsoleLogger extends Logger {
   }
 
   static getInstance(config: RaguServerConfig): ConsoleLogger {
-    if (ConsoleLogger.instance) {
-      return ConsoleLogger.instance;
+    if (!ConsoleLogger.instance) {
+      ConsoleLogger.instance = new ConsoleLogger(config.server.logging?.level);
+      ConsoleLogger.instance.info('Using the default logger. If you want to have a custom logger, define the logger at "config.logger".');
     }
 
-    ConsoleLogger.instance = new ConsoleLogger(config.server.logging?.level);
-    ConsoleLogger.instance.info('Using the default logger. If you want to have a custom logger, define the logger at "config.logger".');
     return ConsoleLogger.instance;
   }
 }
