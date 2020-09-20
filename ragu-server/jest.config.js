@@ -7,12 +7,12 @@ module.exports = {
   collectCoverageFrom: [
     "src/**/*.ts",
     "!src/cli/**/*",
-    "!src/preview/internals/*",
+    "!src/preview/**/*",
     "!testing/**/*",
   ],
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "/testing/",
-    "/src/preview/internals/",
+    "/src/preview/",
   ]
 };
