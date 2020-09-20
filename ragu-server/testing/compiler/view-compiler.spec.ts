@@ -63,14 +63,14 @@ describe('View Compiler', () => {
   });
 
   describe('compiling components with a custom template resolver', () => {
-    beforeAll(async () => {
+    it('keeps the behaviour after compilation', async () => {
+      config.compiler.output.view += '-template-resolver';
       config.components.sourceRoot = path.join(__dirname, 'template-resolver-components');
       config.components.resolver = new TestTemplateComponentResolver(config);
+
       compiler = new ViewCompiler(config);
       await compiler.compileAll();
-    });
 
-    it('keeps the behaviour after compilation', () => {
       const {default: compiledComponent} = require(compiler.compiledComponentPath('hello-world'));
       expect(compiledComponent.render({name: 'World'})).toEqual('Hello, World!!!');
     });
