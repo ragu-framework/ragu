@@ -13,7 +13,7 @@ export class PreviewCompiler {
 
       return await new Promise<void>((resolve, reject) => {
         const webpackConfig: webpack.Configuration = {
-          entry: path.join(__dirname, 'preview-ragu-client'),
+          entry: path.join(__dirname, 'internals', 'preview-ragu-client'),
           module: {
             rules: [
               {
