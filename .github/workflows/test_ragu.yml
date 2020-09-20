@@ -34,5 +34,5 @@ jobs:
       env:
         CI: true
     - run: yarn jest --runInBand --coverage
-        env:
-          CI: true
+      env:
+        CI: true
