@@ -27,12 +27,12 @@ jobs:
     - run: yarn --cwd ragu-server
       env:
         CI: true
-    - run: yarn --cwd ragu-server test
-      env:
-        CI: true
     - run: yarn --cwd ragu-dom
       env:
         CI: true
-    - run: yarn --cwd ragu-dom test
+    - run: yarn
       env:
         CI: true
+    - run: yarn jest --runInBand --coverage
+        env:
+          CI: true
