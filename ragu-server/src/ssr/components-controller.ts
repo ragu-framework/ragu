@@ -2,13 +2,13 @@ import {RaguServerConfig} from "../config";
 import {ComponentsService} from "./components-service";
 import {Request, Response} from "express";
 import {ComponentsCompiler} from "../..";
-import {getLogger} from "../logging/get-logger";
+import {getLogger} from "../..";
 
 export class ComponentsController {
   private readonly componentService: ComponentsService;
 
-  constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler) {
-    this.componentService = new ComponentsService(this.config, this.compiler);
+  constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler, service?: ComponentsService) {
+    this.componentService = service || new ComponentsService(this.config, this.compiler);
   }
 
   async renderComponent(req: Request, res: Response) {

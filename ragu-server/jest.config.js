@@ -14,5 +14,7 @@ module.exports = {
     "/node_modules/",
     "/testing/",
     "/src/preview/",
+    "/src/compiler/webpack-config-factory.ts",
+    "/src/compiler/webpack-compiler.ts",
   ]
 };
