@@ -3,6 +3,9 @@ import fs from "fs";
 import path from "path";
 
 export abstract class ComponentResolver {
+  protected constructor(protected readonly config: RaguServerConfig) {
+  }
+
   abstract componentList(): Promise<string[]>;
   abstract componentViewPath(componentName: string): Promise<string>;
   abstract componentHydratePath(componentName: string): Promise<string>;
@@ -29,10 +32,6 @@ export abstract class ComponentResolver {
 
 export class DefaultComponentResolver extends ComponentResolver {
   private static instance: ComponentResolver;
-
-  constructor(private readonly config: RaguServerConfig) {
-    super();
-  }
 
   componentList(): Promise<string[]> {
     return new Promise((resolve, reject) => {

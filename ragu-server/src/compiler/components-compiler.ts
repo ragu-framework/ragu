@@ -27,4 +27,8 @@ export class ComponentsCompiler {
   async getStyles(componentName: string): Promise<String[]> {
     return this.hydrateCompiler.getStyles(componentName);
   }
+
+  compiledViewComponentPath(componentName: string): string {
+    return this.viewCompiler.compiledComponentPath(componentName);
+  }
 }

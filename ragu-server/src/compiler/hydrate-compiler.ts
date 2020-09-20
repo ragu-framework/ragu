@@ -19,18 +19,19 @@ export class HydrateCompiler {
 
     const componentNames = await this.fetchAllComponents();
 
-    const dependencies: DependencyObject[] = componentNames
-        .flatMap<DependencyObject>((componentName) => require(path.join(this.config.compiler.output.view, componentName)).default?.dependencies || [])
-        .filter((dependency) => dependency !== undefined);
+    const dependencyMap: Record<string, DependencyObject[]> = {};
 
+    for (let componentName of componentNames) {
+      dependencyMap[componentName] = require(path.join(this.config.compiler.output.view, componentName)).default?.dependencies || []
+    }
 
     const componentEntry: Record<string, string> = await this.componentResolver.componentHydrateWebpackEntries();
 
     await webpackCompile(
         componentEntry,
         this.config,
-        (context, requestedDependency) => {
-          const foundDependency: DependencyObject | undefined = dependencies.find((dependency) => dependency.nodeRequire.toLowerCase() === requestedDependency.toLocaleLowerCase());
+        (componentName, context, requestedDependency) => {
+          const foundDependency: DependencyObject | undefined = dependencyMap[componentName]?.find((dependency) => dependency.nodeRequire.toLowerCase() === requestedDependency.toLocaleLowerCase());
 
           if (foundDependency) {
             getLogger(this.config).debug(`replacing dependency "${requestedDependency}" with global variable "${foundDependency.globalVariable}" from ${context}`);
@@ -51,21 +52,21 @@ export class HydrateCompiler {
   }
 
   async getClientFileName(componentName: string): Promise<string> {
-    const manifest = await this.getManifestFile();
+    const manifest = await this.getManifestFile(componentName);
     return manifest?.[componentName]?.js?.[0];
   }
 
   async getStyles(componentName: string): Promise<string[]> {
-    const manifest = await this.getManifestFile();
+    const manifest = await this.getManifestFile(componentName);
     return manifest?.[componentName]?.css || [];
   }
 
-  private getManifestFile(): Promise<any> {
+  private getManifestFile(componentName: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      fs.readFile(path.join(this.config.compiler.output.hydrate, 'build-manifest.json'), (err, data) => {
+      fs.readFile(path.join(this.config.compiler.output.hydrate, `${componentName}.build-manifest.json`), (err, data) => {
         if (err) {
           reject(err);
-          getLogger(this.config).error('Unable to load the "build-manifest.json" file. Did you build run "ragu-server build" before start?');
+          getLogger(this.config).error(`Unable to load the "${componentName}.build-manifest.json" file. Did you build run "ragu-server build" before start?`);
           return;
         }
         const manifest = JSON.parse(data.toString());

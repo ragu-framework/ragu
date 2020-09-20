@@ -1,5 +1,4 @@
 import {RaguServerConfig} from "../config";
-import path from "path";
 import {getLogger} from "../logging/get-logger";
 import {ComponentsCompiler} from "../compiler/components-compiler";
 
@@ -7,7 +6,7 @@ export class ComponentsService {
   constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler) {}
 
   async renderComponent(componentName: string, props: Record<string, unknown>): Promise<Record<string, string>> {
-    const componentPath = path.join(this.config.compiler.output.view, componentName);
+    const componentPath = this.compiler.compiledViewComponentPath(componentName);
 
     getLogger(this.config).debug(`fetching "${componentName}" from "${componentPath}"`);
 

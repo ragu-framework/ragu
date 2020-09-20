@@ -85,6 +85,10 @@ export class ViewCompiler {
     });
   }
 
+  compiledComponentPath(componentName: string): string {
+    return path.join(this.config.compiler.output.view, componentName) + '.js';
+  }
+
   private getWebpackConfig() {
     const requiredConfig: Partial<webpack.Configuration> = {
       target: "node",
