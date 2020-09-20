@@ -2,6 +2,7 @@ import {RaguServerConfig} from "../config";
 import fs from "fs";
 import path from "path";
 import {getLogger} from "../..";
+import * as os from "os";
 
 type Dependency = {
   nodeRequire: string;
@@ -104,6 +105,38 @@ export class ByFileStructureComponentResolver extends ComponentResolver {
   }
 }
 
+export abstract class TemplateComponentResolver extends ByFileStructureComponentResolver {
+  abstract viewTemplateFor(componentName: string): Promise<string>;
+  abstract hydrateTemplateFor(componentName: string): Promise<string>;
+
+  async componentViewPath(componentName: string): Promise<string> {
+    const template = await this.viewTemplateFor(componentName);
+
+    const tempPath = await this.createRaguTempDirectory(componentName);
+    const viewPath = path.join(tempPath, 'view.js');
+
+    await fs.promises.writeFile(viewPath, template);
+    return viewPath;
+  }
+
+  async componentHydratePath(componentName: string): Promise<string> {
+    const template = await this.hydrateTemplateFor(componentName);
+
+    const tempPath = await this.createRaguTempDirectory(componentName);
+    const hydratePath = path.join(tempPath, 'hydrate.js');
+
+    await fs.promises.writeFile(hydratePath, template);
+    return hydratePath;
+  }
+
+  private async createRaguTempDirectory(componentName: string): Promise<string> {
+    return await fs.promises.mkdtemp(path.join(os.tmpdir(), `ragu-${this.config.components.namePrefix}-${componentName}`));
+  }
+}
+
 export const getComponentResolver = (config: RaguServerConfig): ComponentResolver => {
+  if (config.components.resolver) {
+    return config.components.resolver;
+  }
   return ByFileStructureComponentResolver.getInstance(config);
 }

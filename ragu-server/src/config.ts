@@ -1,8 +1,10 @@
 import webpack from "webpack";
 import {Logger, LogLevel} from "./logging/logger";
+import {ComponentResolver} from "../";
 
 export interface RaguServerConfig {
   components: {
+    resolver?: ComponentResolver;
     defaultDependencies?: {
       nodeRequire: string;
       dependency: string;

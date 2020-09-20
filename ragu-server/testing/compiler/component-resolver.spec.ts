@@ -1,4 +1,10 @@
-import {ByFileStructureComponentResolver, ComponentResolver, RaguServerConfig} from "../..";
+import {
+  ByFileStructureComponentResolver,
+  ComponentResolver,
+  getComponentResolver,
+  RaguServerConfig,
+  TemplateComponentResolver
+} from "../..";
 import {createTestConfig} from "../test-config-factory";
 import * as path from "path";
 
@@ -13,8 +19,7 @@ describe('Component Resolver', () => {
     });
 
     it('singleton returns always the same instance (as it is expected of a singleton)', () => {
-      expect(ByFileStructureComponentResolver.getInstance(config))
-          .toBe(ByFileStructureComponentResolver.getInstance(config))
+      expect(getComponentResolver(config)).toBe(getComponentResolver(config))
     });
 
     it('list all components', async () => {
@@ -81,6 +86,62 @@ describe('Component Resolver', () => {
           "dependency": "http://jquery.cdn.js"
         }
       ]);
+    });
+  });
+
+  describe('TemplateComponentResolver', () => {
+    class TestTemplateComponentResolver extends TemplateComponentResolver {
+      async viewTemplateFor(componentName: string): Promise<string> {
+        const componentRender = path.join(this.config.components.sourceRoot, componentName, 'render');
+
+        return `exports.default = { 
+  render(props, state) {
+    return require('${componentRender}').default.render(props, state) + '!!!'; 
+  }
+} `;
+      }
+
+      async hydrateTemplateFor(componentName: string): Promise<string> {
+        const componentRender = path.join(this.config.components.sourceRoot, componentName, 'render');
+
+        return `exports.default = { 
+  hydrate(props, state) {
+    return require('${componentRender}').default.render(props, state) + '!!!'; 
+  }
+} `;
+      }
+    }
+
+    beforeEach(async () => {
+      config = await createTestConfig();
+      config.components.sourceRoot = path.join(__dirname, 'template-resolver-components');
+      config.components.resolver = new TestTemplateComponentResolver(config);
+
+      componentResolver = getComponentResolver(config);
+    });
+
+    it('returns the component resolver described at the config', () => {
+      expect(componentResolver).toBe(config.components.resolver);
+    });
+
+    it('list all components', async () => {
+      await expect(componentResolver.componentList()).resolves.toEqual([
+        'hello-world'
+      ]);
+    });
+
+    it('creates a view file with the specified template', async () => {
+      const componentViewPath = await componentResolver.componentViewPath('hello-world');
+      const component = require(componentViewPath);
+
+      expect(component.default.render({name: 'World'})).toBe('Hello, World!!!');
+    });
+
+    it('creates a hydrate file with the specified template', async () => {
+      const componentViewPath = await componentResolver.componentHydratePath('hello-world');
+      const component = require(componentViewPath);
+
+      expect(component.default.hydrate({name: 'World'})).toBe('Hello, World!!!');
     });
   });
 });
