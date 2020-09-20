@@ -10,6 +10,7 @@ import {emptyDirSync} from "fs-extra";
 import * as path from "path";
 import * as fs from "fs";
 import {merge} from "webpack-merge";
+import {TestTemplateComponentResolver} from "./test-template-component-resolver";
 
 describe('View Compiler', () => {
   let compiler: ViewCompiler;
@@ -58,6 +59,20 @@ describe('View Compiler', () => {
 
       expect(component.dependencies).toEqual(compiledComponent.dependencies);
       expect(component.render({name: 'World'})).toEqual(compiledComponent.render({name: 'World'}));
+    });
+  });
+
+  describe('compiling components with a custom template resolver', () => {
+    beforeAll(async () => {
+      config.components.sourceRoot = path.join(__dirname, 'template-resolver-components');
+      config.components.resolver = new TestTemplateComponentResolver(config);
+      compiler = new ViewCompiler(config);
+      await compiler.compileAll();
+    });
+
+    it('keeps the behaviour after compilation', () => {
+      const {default: compiledComponent} = require(compiler.compiledComponentPath('hello-world'));
+      expect(compiledComponent.render({name: 'World'})).toEqual('Hello, World!!!');
     });
   });
 

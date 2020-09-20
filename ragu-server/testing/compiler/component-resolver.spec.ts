@@ -118,8 +118,13 @@ describe('Component Resolver', () => {
     it('creates a hydrate file with the specified template', async () => {
       const componentViewPath = await componentResolver.componentHydratePath('hello-world');
       const component = require(componentViewPath);
+      const el = {
+        innerHTML: ''
+      };
 
-      expect(component.default.hydrate({name: 'World'})).toBe('Hello, World!!!');
+      component.default.hydrate(el, {name: 'World'})
+
+      expect(el.innerHTML).toBe('Hello, World!!!');
     });
   });
 });

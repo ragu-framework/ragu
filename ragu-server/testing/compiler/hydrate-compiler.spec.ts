@@ -1,10 +1,10 @@
-import {HydrateCompiler} from "../../src/compiler/hydrate-compiler";
+import {HydrateCompiler, LogLevel, RaguServerConfig} from "../..";
 import {createTestConfig} from "../test-config-factory";
-import {LogLevel} from "../../src/logging/logger";
-import {RaguServerConfig, ViewCompiler} from "../..";
 import jsdom, {ConstructorOptions} from "jsdom";
 import fs from "fs";
 import {emptyDirSync} from "fs-extra";
+import {TestTemplateComponentResolver} from "./test-template-component-resolver";
+import * as path from "path";
 
 describe('Hydrate Compiler', () => {
   describe('returning the style', () => {
@@ -38,9 +38,6 @@ describe('Hydrate Compiler', () => {
       config = await createTestConfig();
       compiler = new HydrateCompiler(config);
 
-      const viewCompiler = new ViewCompiler(config);
-      await viewCompiler.compileAll();
-
       await compiler.compileAll();
     });
 
@@ -67,41 +64,63 @@ describe('Hydrate Compiler', () => {
       eval(client);
     }
 
-    it('exports compiled component into window', async () => {
-      await evalCompiledClient('hello-world');
+    describe('default component resolver', () => {
+      it('exports compiled component into window', async () => {
+        await evalCompiledClient('hello-world');
 
-      const resolvedComponent = (window as any)['test_components_hello-world'].default;
-      const div = dom.window.document.createElement('div');
-      resolvedComponent.hydrate(div, {name: 'World'}, {greetingType:'Hello'});
-
-      expect(div.textContent).toContain('Hello, World');
-    });
-
-    describe('with dependencies', () => {
-      it('resolves the dependency', async () => {
-        await evalCompiledClient('with-dependencies-component');
-
-        const resolvedComponent = (window as any)['test_components_with-dependencies-component'].default;
+        const resolvedComponent = (window as any)['test_components_hello-world'].default;
         const div = dom.window.document.createElement('div');
-        resolvedComponent.hydrate(div, {name: 'World'});
+        resolvedComponent.hydrate(div, {name: 'World'}, {greetingType:'Hello'});
 
         expect(div.textContent).toContain('Hello, World');
       });
+
+      describe('with dependencies', () => {
+        it('resolves the dependency', async () => {
+          await evalCompiledClient('with-dependencies-component');
+
+          const resolvedComponent = (window as any)['test_components_with-dependencies-component'].default;
+          const div = dom.window.document.createElement('div');
+          resolvedComponent.hydrate(div, {name: 'World'});
+
+          expect(div.textContent).toContain('Hello, World');
+        });
+      });
+
+      describe('with external dependencies', () => {
+        it('uses the defined dependency', async () => {
+          (window as any).jQuery = jest.fn(() => ({
+            'on': () => {}
+          }));
+
+          await evalCompiledClient('with-external-dependencies-component');
+
+          const resolvedComponent = (window as any)['test_components_with-external-dependencies-component'].default;
+          const div = dom.window.document.createElement('div');
+          resolvedComponent.hydrate(div, {name: 'World'});
+
+          expect((window as any).jQuery).toBeCalled();
+        });
+      });
     });
 
-    describe('with external dependencies', () => {
-      it('uses the defined dependency', async () => {
-        (window as any).jQuery = jest.fn(() => ({
-          'on': () => {}
-        }));
+    describe('default component resolver', () => {
+      beforeAll(async () => {
+        config.components.sourceRoot = path.join(__dirname, 'template-resolver-components');
+        config.components.resolver = new TestTemplateComponentResolver(config);
 
-        await evalCompiledClient('with-external-dependencies-component');
+        compiler = new HydrateCompiler(config);
+        await compiler.compileAll();
+      });
 
-        const resolvedComponent = (window as any)['test_components_with-external-dependencies-component'].default;
+      it('exports compiled component into window', async () => {
+        await evalCompiledClient('hello-world');
+
+        const resolvedComponent = (window as any)['test_components_hello-world'].default;
         const div = dom.window.document.createElement('div');
-        resolvedComponent.hydrate(div, {name: 'World'});
+        resolvedComponent.hydrate(div, {name: 'World'}, {greetingType: 'Hello'});
 
-        expect((window as any).jQuery).toBeCalled();
+        expect(div.textContent).toContain('Hello, World');
       });
     });
   });

@@ -16,8 +16,8 @@ export class TestTemplateComponentResolver extends TemplateComponentResolver {
     const componentRender = path.join(this.config.components.sourceRoot, componentName, 'render');
 
     return `exports.default = {
-  hydrate(props, state) {
-    return require('${componentRender}').default.render(props, state) + '!!!';
+  hydrate(el, props, state) {
+    el.innerHTML = require('${componentRender}').default.render(props, state) + '!!!'
   }
 } `;
   }
