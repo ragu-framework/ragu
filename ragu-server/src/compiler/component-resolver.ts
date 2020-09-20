@@ -1,9 +1,10 @@
 import {RaguServerConfig} from "../config";
 import fs from "fs";
 import path from "path";
+import {getLogger} from "../..";
 
 export abstract class ComponentResolver {
-  protected constructor(protected readonly config: RaguServerConfig) {
+  constructor(protected readonly config: RaguServerConfig) {
   }
 
   abstract componentList(): Promise<string[]>;
@@ -28,9 +29,13 @@ export abstract class ComponentResolver {
 
     return entries;
   }
+
+  async getDependencies(_: string) {
+    return this.config.components.defaultDependencies || [];
+  }
 }
 
-export class DefaultComponentResolver extends ComponentResolver {
+export class ByFileStructureComponentResolver extends ComponentResolver {
   private static instance: ComponentResolver;
 
   componentList(): Promise<string[]> {
@@ -53,15 +58,42 @@ export class DefaultComponentResolver extends ComponentResolver {
     return path.join(this.config.components.sourceRoot, componentName, 'view');
   }
 
+  async getDependencies(componentName: string) {
+    const defaultDependencies = await super.getDependencies(componentName);
+
+    const componentDependencies = JSON.parse(await this.dependenciesFileContentOf(componentName));
+
+    return [...defaultDependencies, ...componentDependencies];
+  }
+
+  private dependenciesFileContentOf(componentName: string): Promise<string> {
+    return new Promise((resolve) => {
+      fs.readFile(this.dependenciesPathOf(componentName), (err, data) => {
+        if (err) {
+          getLogger(this.config).debug(`Component "${componentName}" has no dependencies described.`)
+          resolve('[]');
+          return;
+        }
+
+        getLogger(this.config).debug(`Dependencies found for "${componentName}".`)
+        resolve(data.toString());
+      })
+    });
+  }
+
+  private dependenciesPathOf(componentName: string) {
+    return path.join(this.config.components.sourceRoot, componentName, 'dependencies.json');
+  }
+
   static getInstance(config: RaguServerConfig) {
-    if (!DefaultComponentResolver.instance) {
-      DefaultComponentResolver.instance = new DefaultComponentResolver(config);
+    if (!ByFileStructureComponentResolver.instance) {
+      ByFileStructureComponentResolver.instance = new ByFileStructureComponentResolver(config);
     }
 
-    return DefaultComponentResolver.instance;
+    return ByFileStructureComponentResolver.instance;
   }
 }
 
 export const getComponentResolver = (config: RaguServerConfig): ComponentResolver => {
-  return DefaultComponentResolver.getInstance(config);
+  return ByFileStructureComponentResolver.getInstance(config);
 }

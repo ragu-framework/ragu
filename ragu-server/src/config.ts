@@ -3,6 +3,11 @@ import {Logger, LogLevel} from "./logging/logger";
 
 export interface RaguServerConfig {
   components: {
+    defaultDependencies?: {
+      nodeRequire: string;
+      dependency: string;
+      globalVariable: string
+    }[];
     namePrefix: string;
     sourceRoot: string;
   };

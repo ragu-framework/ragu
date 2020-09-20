@@ -1,0 +1,7 @@
+[
+  {
+    "nodeRequire": "jquery",
+    "globalVariable": "jQuery",
+    "dependency": "http://jquery.cdn.js"
+  }
+]
