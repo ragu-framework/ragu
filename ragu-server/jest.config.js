@@ -10,4 +10,9 @@ module.exports = {
     "!src/preview/internals/*",
     "!testing/**/*",
   ],
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/testing/",
+    "/src/preview/internals/",
+  ]
 };

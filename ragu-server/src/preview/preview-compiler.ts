@@ -24,7 +24,11 @@ export class PreviewCompiler {
             ],
           },
           resolve: {
-            extensions: [ '.tsx', '.ts', '.js' ],
+            extensions: ['.ts', '.js', '.json'],
+            modules: ['node_modules', path.resolve(__dirname, '..', '..', 'node_modules')],
+          },
+          resolveLoader: {
+            modules: ['node_modules', path.resolve(__dirname, '..', '..', 'node_modules')],
           },
           output: {
             filename: 'ragu-dom.js',

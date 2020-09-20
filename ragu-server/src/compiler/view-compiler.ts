@@ -59,7 +59,11 @@ export class ViewCompiler {
           return reject(err);
         }
         if (stats.hasErrors()) {
-          return reject(stats.toJson('minimal'));
+          const statsJson = stats.toJson('minimal');
+          statsJson.errors.forEach(error => {
+            getLogger(this.config).error('Error during compilation', error);
+          });
+          return reject(statsJson);
         }
 
         getLogger(this.config).info('Pre compilation finish. Checking for components health...');

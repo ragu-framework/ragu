@@ -1,4 +1,5 @@
 import webpack from "webpack";
+import * as path from "path";
 
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -49,7 +50,11 @@ export const createDefaultWebpackConfiguration = ({isDevelopment}: Options): web
       ],
     },
     resolve: {
-      extensions: ['.ts', '.js', '.json']
+      extensions: ['.ts', '.js', '.json'],
+      modules: ['node_modules', path.resolve(__dirname, '..', '..', 'node_modules')],
+    },
+    resolveLoader: {
+      modules: ['node_modules', path.resolve(__dirname, '..', '..', 'node_modules')],
     },
     output: {
       filename: '[name].[contenthash].js',

@@ -1,0 +1,11 @@
+{
+  "name": "ragu",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/carlosmaniero/ragu",
+  "author": "Maniero <cmaniero@thoughtworks.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jest": "^26.4.2"
+  }
+}
