@@ -3,5 +3,11 @@ module.exports = {
   testEnvironment: 'node',
   testTimeout: 30000,
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
-  setupFilesAfterEnv: ['./testing/globals.js']
+  setupFilesAfterEnv: ['./testing/globals.js'],
+  collectCoverageFrom: [
+    "src/**/*.ts",
+    "!src/cli/**/*",
+    "!src/preview/internals/*",
+    "!testing/**/*",
+  ],
 };
