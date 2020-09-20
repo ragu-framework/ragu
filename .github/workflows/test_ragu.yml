@@ -33,6 +33,6 @@ jobs:
     - run: yarn
       env:
         CI: true
-    - run: yarn jest --runInBand --coverage
+    - run: yarn test
       env:
         CI: true

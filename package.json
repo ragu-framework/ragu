@@ -5,6 +5,9 @@
   "repository": "https://github.com/carlosmaniero/ragu",
   "author": "Maniero <cmaniero@thoughtworks.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "jest --runInBand --coverage"
+  },
   "dependencies": {
     "jest": "^26.4.2"
   }
