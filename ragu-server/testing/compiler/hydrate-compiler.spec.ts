@@ -13,7 +13,7 @@ describe('Hydrate Compiler', () => {
 
       await new HydrateCompiler(config).getStyles('helloWorld').catch(() => {});
 
-      expect(config.server.logging.logger.stub).toHaveBeenCalledWith(LogLevel.error, 'Unable to load the "build-manifest.json" file. Did you build run "ragu-server build" before start?');
+      expect(config.server.logging.logger.stub).toHaveBeenCalledWith(LogLevel.error, 'Unable to load the "helloWorld.build-manifest.json" file. Did you build run "ragu-server build" before start?');
     });
 
     it('returns the list of css files', async () => {
