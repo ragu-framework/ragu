@@ -30,7 +30,7 @@ jobs:
     - run: yarn --cwd ragu-dom
       env:
         CI: true
-    - run: yarn
+    - run: yarn install
       env:
         CI: true
     - run: yarn test
