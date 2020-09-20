@@ -7,7 +7,7 @@ describe('Component Resolver', () => {
   let config: RaguServerConfig;
 
   describe('ByFileStructureComponentResolver', () => {
-    beforeAll(async () => {
+    beforeEach(async () => {
       config = await createTestConfig();
       componentResolver = new ByFileStructureComponentResolver(config);
     });
@@ -23,6 +23,11 @@ describe('Component Resolver', () => {
           'with-dependencies-component',
           'with-external-dependencies-component'
       ]);
+    });
+
+    it('list all components', async () => {
+      config.components.sourceRoot = 'not-a-valid-path';
+      await expect(componentResolver.componentList().catch((e) => Promise.reject(e.message))).rejects.toMatch('no such file or directory');
     });
 
     it('returns the view source root of a component', async () => {
