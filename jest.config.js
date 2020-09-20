@@ -1,4 +1,5 @@
 module.exports = {
+  preset: 'ts-jest',
   projects: ['<rootDir>*/jest.config.js'],
   moduleDirectories: [
     'ragu-dom/node_modules',

@@ -9,6 +9,7 @@
     "test": "jest --runInBand --coverage"
   },
   "dependencies": {
-    "jest": "^26.4.2"
+    "jest": "^26.4.2",
+    "ts-jest": "^26.3.0"
   }
 }
