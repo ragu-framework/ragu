@@ -22,7 +22,7 @@ export class HydrateCompiler {
     const dependencyMap: Record<string, DependencyObject[]> = {};
 
     for (let componentName of componentNames) {
-      dependencyMap[componentName] = require(path.join(this.config.compiler.output.view, componentName)).default?.dependencies || []
+      dependencyMap[componentName] = await this.componentResolver.dependenciesOf(componentName);
     }
 
     const componentEntry: Record<string, string> = await this.componentResolver.componentHydrateWebpackEntries();

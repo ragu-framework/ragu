@@ -38,7 +38,7 @@ describe('Component Resolver', () => {
     });
 
     it('returns the component dependencies as empty by default', async () => {
-      const dependencies =  await componentResolver.getDependencies('with-dependencies-component');
+      const dependencies =  await componentResolver.dependenciesOf('with-dependencies-component');
 
       expect(dependencies).toHaveLength(0);
     });
@@ -51,7 +51,7 @@ describe('Component Resolver', () => {
       }];
 
       config.components.defaultDependencies = configDependencies;
-      const dependencies =  await componentResolver.getDependencies('with-dependencies-component');
+      const dependencies =  await componentResolver.dependenciesOf('with-dependencies-component');
 
       expect(dependencies).toEqual(configDependencies);
     });
@@ -62,7 +62,7 @@ describe('Component Resolver', () => {
         'globalVariable': 'ReactDOM',
         'dependency': 'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js'
       }];
-      const dependencies =  await componentResolver.getDependencies('with-external-dependencies-component');
+      const dependencies =  await componentResolver.dependenciesOf('with-external-dependencies-component');
 
       expect(dependencies).toEqual([
         {

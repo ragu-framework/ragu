@@ -6,13 +6,6 @@ interface Props {
 }
 
 export default {
-  dependencies: [
-    {
-      'nodeRequire': 'jquery',
-      'globalVariable': 'jQuery',
-      'dependency': 'http://localhost/blah/'
-    }
-  ],
   render({name}: Props) {
     return {
       state: {

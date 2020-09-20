@@ -11,6 +11,11 @@ describe('Server Side Rendering', () => {
 
   beforeAll(async () => {
     config = await createTestConfig();
+    config.components.defaultDependencies = [{
+      nodeRequire: 'react',
+      globalVariable: 'React',
+      dependency: 'https://unpkg.com/react@16/umd/react.production.min.js'
+    }];
     config.compiler.assetsPrefix = `http://localhost:${config.server.port}/component-assets/`;
 
     compiler = new ComponentsCompiler(config);

@@ -1,6 +1,7 @@
-import {RaguServerConfig} from "../config";
-import {getLogger} from "../logging/get-logger";
-import {ComponentsCompiler} from "../compiler/components-compiler";
+import {RaguServerConfig} from "../..";
+import {getLogger} from "../..";
+import {ComponentsCompiler} from "../..";
+import {getComponentResolver} from "../..";
 
 export class ComponentsService {
   constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler) {}
@@ -15,7 +16,7 @@ export class ComponentsService {
     return {
       ...renderResult,
       props,
-      dependencies: component.dependencies,
+      dependencies: await getComponentResolver(this.config).dependenciesOf(componentName),
       client: await this.compiler.getClientFileName(componentName),
       styles: await this.compiler.getStyles(componentName),
       resolverFunction: `${this.config.components.namePrefix}${componentName}`
