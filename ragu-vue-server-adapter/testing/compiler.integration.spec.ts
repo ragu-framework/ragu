@@ -27,8 +27,9 @@ describe('Compiler Integration Test', () => {
 
     it('renders the vue component with a state', async () => {
       const {default: compiledComponent} = require(compiler.compiledComponentPath('hello-world-state'));
-      const renderResult = await compiledComponent.render({name: 'Hello, World!'});
+      const renderResult = await compiledComponent.render({name: 'World'});
 
+      expect(renderResult.state).toEqual({msg: 'Hello, World!'});
       expect(renderResult.html).toContain('Hello, World!');
       expect(renderResult.html).toContain('For a guide and recipes on how to configure / customize this project');
     });

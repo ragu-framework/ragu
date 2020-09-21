@@ -33,7 +33,7 @@ module.exports.default = {
     const renderer = vueServerRenderer.createRenderer();
 
     return {
-      state: {},
+      state: state,
       html: await renderer.renderToString(app)
     }
   }
