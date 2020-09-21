@@ -6,7 +6,7 @@
   "author": "Maniero <cmaniero@thoughtworks.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest --runInBand --coverage"
+    "test": "jest --runInBand --coverage --verbose --silent"
   },
   "dependencies": {
     "jest": "^26.4.2",
