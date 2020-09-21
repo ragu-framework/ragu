@@ -1,20 +1,22 @@
 import webpack from "webpack";
+import path from 'path';
 
-const path = require('path');
 const {VueLoaderPlugin} = require("vue-loader");
 
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
-
-console.log(path.join(__dirname, '..', '..', 'node_modules'));
 
 export const raguVueWebpackBaseConfig = (assetsPrefix: string, developmentEnvironment: boolean = false): webpack.Configuration => {
   return {
     mode: 'production',
     resolve: {
+      modules: ['node_modules', path.resolve(__dirname, '..', 'node_modules')],
       extensions: [ '.js', '.vue', '.ts' ],
       alias: {
         'vue$': 'vue/dist/vue.runtime.min.js',
       }
+    },
+    resolveLoader: {
+      modules: ['node_modules', path.resolve(__dirname, '..', 'node_modules')],
     },
     module: {
       rules: [
