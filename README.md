@@ -17,6 +17,7 @@ work at the same product but in different codebase.
 ## Articles:
 
 - [Micro-frontends with React, Vue and Ragu](https://medium.com/@carlosmaniero/micro-frontends-with-react-vue-and-ragu-c5a2e3ecc2ab)
+- [Transforming your Vue.js project into Micro-frontends with Server Side Rendering](https://medium.com/@carlosmaniero/transforming-your-vue-js-project-into-micro-frontends-with-server-side-rendering-9cdaab16f5e9)
 
 
 ## Installation
