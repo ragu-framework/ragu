@@ -11,12 +11,20 @@ export const defaultComponentLoader = new ComponentLoader({
 export const registerRaguComponent = (componentLoader: ComponentLoader = defaultComponentLoader): void => {
   class RaguComponent extends HTMLElement {
     private component?: Component<any, any>;
+    private firstFetchPerformed = false;
 
     static get observedAttributes() {
       return ['src'];
     }
 
     async attributeChangedCallback() {
+      if (this.firstFetchPerformed) {
+        await this.fetchComponent();
+      }
+    }
+
+    async connectedCallback() {
+      this.firstFetchPerformed = true;
       await this.fetchComponent();
     }
 
