@@ -25,6 +25,10 @@ export class ComponentLoader {
   async load<P, S, T extends Component<P, S>>(componentUrl: string): Promise<T> {
     const componentResponse: T = await this.context.jsonpGateway.fetchJsonp<T>(componentUrl);
 
+    return await this.hydrationFactory(componentResponse);
+  }
+
+  async hydrationFactory<T  extends Component<P, S>, P, S>(componentResponse: T) {
     if (componentResponse.styles && componentResponse.styles.length) {
       await this.context.dependencyContext.loadStyles(componentResponse.styles);
     }
@@ -36,7 +40,7 @@ export class ComponentLoader {
 
         await this.context.dependencyContext.loadAll(dependencies);
 
-        await this.context.dependencyContext.load({ dependency: componentResponse.client });
+        await this.context.dependencyContext.load({dependency: componentResponse.client});
 
         const resolvedComponent = (window as any)[componentResponse.resolverFunction];
 
