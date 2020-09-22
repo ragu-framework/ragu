@@ -3,17 +3,25 @@ import {TestPromiseController} from "../testing/test-promise-controller";
 import {registerRaguComponent} from "./ragu-component";
 
 async function waitForPromises() {
-  await new Promise((resolve) => setImmediate(() => resolve()));
+  await new Promise((resolve) => setTimeout(() => resolve(), 10));
 }
 
 describe('Rendering a component', () => {
   let controlledPromise: TestPromiseController<unknown & Component<any, any>>;
   let loadStub: jest.Mock;
 
+  let hydrationPromise: TestPromiseController<unknown & Component<any, any>>;
+  let hydrationStub: jest.Mock;
+
   class StubLoader {
     async load<P, S, T extends Component<P, S>>(componentUrl: string): Promise<T> {
       loadStub(componentUrl);
       return controlledPromise.promise as any;
+    }
+
+    async hydrationFactory<T  extends Component<P, S>, P, S>(componentResponse: T) {
+      hydrationStub(componentResponse);
+      return hydrationPromise.promise as any;
     }
   }
 
@@ -24,6 +32,8 @@ describe('Rendering a component', () => {
   beforeEach(() => {
     controlledPromise = new TestPromiseController<Component<any, any>>();
     loadStub = jest.fn();
+    hydrationPromise = new TestPromiseController<Component<any, any>>();
+    hydrationStub = jest.fn();
   });
 
   it('renders a component', async () => {
@@ -130,5 +140,48 @@ describe('Rendering a component', () => {
     const component = document.querySelector('ragu-component') as HTMLElement;
     component.remove();
     expect(disconnectStub).toBeCalled();
+  });
+
+  describe('When SSR', () => {
+    it('renders a component', async () => {
+      const serverData = {
+        resolverFunction: 'la',
+        state: {
+          from: 'Server'
+        },
+        props: {
+          name: 'World'
+        },
+        client: 'client_url',
+        html: 'Hello, World',
+      };
+
+      const componentURL = 'http://my-squad.org/component/any-component';
+      document.body.innerHTML = `<ragu-component src="${componentURL}">
+        <script data-ragu-ssr type="application/json">{"org": 10, "items":["one","two"]}</script>
+        <div>Hello, World</div>
+      </ragu-component>`
+
+      const renderPromise = new TestPromiseController();
+
+      hydrationPromise.resolve({
+        ...serverData,
+        hydrate: async  (element, {name}, {from}) => {
+          await renderPromise.promise;
+          // @ts-ignore
+          element.querySelector('div').innerHTML = `Hello from ${from}, ${name}`
+        }
+      });
+
+      renderPromise.resolve();
+
+      await waitForPromises();
+
+      expect(document.querySelector('ragu-component')?.textContent).toContain('Hello from Server, World');
+      expect(hydrationStub).toBeCalledTimes(1);
+      expect(loadStub).toBeCalledTimes(0);
+
+      expect(document.querySelector('script')).toBeNull();
+    });
   });
 });

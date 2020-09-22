@@ -24,8 +24,22 @@ export const registerRaguComponent = (componentLoader: ComponentLoader = default
     }
 
     async connectedCallback() {
+      await this.waitToFullParse();
       this.firstFetchPerformed = true;
+      const ssrScriptElement = this.querySelector('script[data-ragu-ssr]');
+
+      if (ssrScriptElement) {
+        await this.hydrate(ssrScriptElement);
+        return;
+      }
+
       await this.fetchComponent();
+    }
+
+    private async waitToFullParse() {
+      await new Promise((resolve) => {
+        setTimeout(() => resolve());
+      });
     }
 
     disconnectedCallback() {
@@ -48,6 +62,14 @@ export const registerRaguComponent = (componentLoader: ComponentLoader = default
       if (this.component) {
         this.component.disconnect?.();
       }
+    }
+
+    private async hydrate(ssrScriptElement: Element) {
+      const serverDate = JSON.parse(ssrScriptElement.textContent || '{}');
+      ssrScriptElement.remove();
+
+      this.component = await componentLoader.hydrationFactory(serverDate);
+      await this.component?.hydrate(this, this.component.props, this.component.state);
     }
   }
 
