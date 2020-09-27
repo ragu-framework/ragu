@@ -1,6 +1,6 @@
-import {Component, ComponentLoader} from "./component-loader";
+import {Component, ComponentLoader} from "..";
 import {TestPromiseController} from "../testing/test-promise-controller";
-import {registerRaguComponent} from "./ragu-component";
+import {registerRaguComponent} from "..";
 
 async function waitForPromises() {
   await new Promise((resolve) => setTimeout(() => resolve(), 10));

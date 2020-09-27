@@ -8,70 +8,42 @@ export const defaultComponentLoader = new ComponentLoader({
   jsonpGateway: new JsonpGateway(document)
 });
 
-export const registerRaguComponent = (componentLoader: ComponentLoader = defaultComponentLoader): void => {
-  class RaguComponent extends HTMLElement {
-    private component?: Component<any, any>;
-    private firstFetchPerformed = false;
+export class RaguComponent {
+  private component?: Component<any, any>;
 
-    static get observedAttributes() {
-      return ['src'];
+  constructor(private readonly element: HTMLElement, private readonly componentLoader: ComponentLoader = defaultComponentLoader) {
+  }
+
+  async fetchComponent(src: string) {
+    const ssrScriptElement = this.element.querySelector('script[data-ragu-ssr]');
+
+    if (ssrScriptElement) {
+      await this.hydrate(ssrScriptElement);
+      return;
     }
 
-    async attributeChangedCallback() {
-      if (this.firstFetchPerformed) {
-        await this.fetchComponent();
-      }
-    }
+    await this.fetchComponentFromServer(src);
+  }
 
-    async connectedCallback() {
-      await this.waitToFullParse();
-      this.firstFetchPerformed = true;
-      const ssrScriptElement = this.querySelector('script[data-ragu-ssr]');
+  private async fetchComponentFromServer(src: string) {
+    this.disconnectComponent();
 
-      if (ssrScriptElement) {
-        await this.hydrate(ssrScriptElement);
-        return;
-      }
+    this.component = await this.componentLoader.load(src);
+    this.element.innerHTML = this.component.html;
+    await this.component.hydrate(this.element, this.component.props, this.component.state);
+  }
 
-      await this.fetchComponent();
-    }
-
-    private async waitToFullParse() {
-      await new Promise((resolve) => {
-        setTimeout(() => resolve());
-      });
-    }
-
-    disconnectedCallback() {
-      this.disconnectComponent();
-    }
-
-    private async fetchComponent() {
-      const src = this.getAttribute('src');
-
-      if (src) {
-        this.disconnectComponent();
-
-        this.component = await componentLoader.load(src);
-        this.innerHTML = this.component.html;
-        await this.component.hydrate(this, this.component.props, this.component.state);
-      }
-    }
-
-    private disconnectComponent() {
-      if (this.component) {
-        this.component.disconnect?.();
-      }
-    }
-
-    private async hydrate(ssrScriptElement: Element) {
-      const serverDate = JSON.parse(ssrScriptElement.textContent || '{}');
-      ssrScriptElement.remove();
-
-      this.component = await componentLoader.hydrationFactory(serverDate);
-      await this.component?.hydrate(this, this.component.props, this.component.state);
+  disconnectComponent() {
+    if (this.component) {
+      this.component.disconnect?.();
     }
   }
 
-  window.customElements.define('ragu-component', RaguComponent);
+  private async hydrate(ssrScriptElement: Element) {
+    const serverDate = JSON.parse(ssrScriptElement.textContent || '{}');
+    ssrScriptElement.remove();
+
+    this.component = await this.componentLoader.hydrationFactory(serverDate);
+    await this.component?.hydrate(this.element, this.component.props, this.component.state);
+  }
 }
