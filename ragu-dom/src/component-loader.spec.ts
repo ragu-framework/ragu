@@ -155,6 +155,58 @@ describe('component loader', () => {
   });
 
 
+  it('disconnects the component', async (done) => {
+    const componentResponse: Partial<Component<string, string>> = {
+      state: 'la',
+      client: 'http://my-squad.org/client.asijdoaidj.ja',
+      html: 'Hello, World!',
+      resolverFunction: 'myResolverStub'
+    };
+
+    const stub = jest.fn();
+
+    const component = await new ComponentLoader({
+      dependencyContext: new DependencyContext(
+          new ScriptLoader()
+      ),
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+    }).load('http://localhost:3000/components/hello-world?name=World');
+
+    (window as any)['myResolverStub'] = {
+      default: {
+        async hydrate(element: HTMLElement, props: string, state: string) {
+          await new Promise((resolve) => {
+            setImmediate(() => resolve());
+          });
+          element.innerHTML = `props: ${props}, state: ${state}`;
+        },
+        disconnect() {
+          stub()
+        }
+      }
+    }
+
+    component.hydrate(document.body, 'hello', 'world')
+        .then(async () => {
+          component.disconnect();
+
+          await new Promise((resolve) => {
+            setImmediate(() => resolve());
+          });
+
+          expect(stub).toBeCalled();
+          done();
+        });
+
+    await new Promise((resolve) => {
+      setImmediate(() => resolve());
+    });
+
+    (document.querySelector('script[src="http://my-squad.org/client.asijdoaidj.ja"]') as HTMLScriptElement)
+        .onload?.(null as any);
+  });
+
+
   it('waits for dependencies before to render', async (done) => {
     const componentResponse: Partial<Component<string, string>> = {
       dependencies: [

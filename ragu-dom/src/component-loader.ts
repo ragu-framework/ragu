@@ -14,7 +14,12 @@ export interface Component<Props, State> {
   client: string;
   styles?: string[];
   resolverFunction: string;
-  disconnect?: () => void
+  disconnect: () => void
+  hydratePromise: Promise<void>,
+  component: {
+    hydrate: (element: HTMLElement, props: Props, state: State) => Promise<void>,
+    disconnect?: () => void;
+  },
   hydrate: (element: HTMLElement, props: Props, state: State) => Promise<void>;
 }
 
@@ -33,25 +38,33 @@ export class ComponentLoader {
       await this.context.dependencyContext.loadStyles(componentResponse.styles);
     }
 
+    const context = this.context;
+
     return {
       ...componentResponse,
-      hydrate: async (htmlElement: HTMLElement, props: P, state: S) => {
+      async disconnect() {
+          await this.hydratePromise;
+          this.component.disconnect?.();
+      },
+      async hydrate(htmlElement: HTMLElement, props: P, state: S) {
         const dependencies = componentResponse.dependencies || [];
 
-        await this.context.dependencyContext.loadAll(dependencies);
-
-        await this.context.dependencyContext.load({dependency: componentResponse.client});
+        await context.dependencyContext.loadAll(dependencies);
+        await context.dependencyContext.load({dependency: componentResponse.client});
 
         const resolvedComponent = (window as any)[componentResponse.resolverFunction];
 
         if (resolvedComponent.default) {
-          await resolvedComponent.default.hydrate(htmlElement, props, state);
+          this.component = resolvedComponent.default;
+          this.hydratePromise = resolvedComponent.default.hydrate(htmlElement, props, state);
+          await this.hydratePromise;
           return;
         }
 
         // TODO deprecate:
-        const component = await resolvedComponent.resolve();
-        await component.hydrate(htmlElement, props, state);
+        this.component = await resolvedComponent.resolve();
+        this.hydratePromise = this.component.hydrate(htmlElement, props, state);
+        await this.hydratePromise;
       }
     };
   }
