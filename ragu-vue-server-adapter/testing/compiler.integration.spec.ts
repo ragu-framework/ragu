@@ -94,5 +94,23 @@ describe('Compiler Integration Test', () => {
       expect(div.textContent).toContain('Hello, World');
       expect(div.textContent).toContain('For a guide and recipes on how to configure / customize this project');
     });
+
+    it('destroys component', async () => {
+      await evalCompiledClient('hello-world');
+
+      const resolvedComponent = (window as any)['test_components_hello-world'].default;
+      const div = dom.window.document.createElement('div');
+
+      div.innerHTML = '<div></div>'; // Simulate the SSR content;
+
+      await resolvedComponent.hydrate(div, {name: 'Hello, World'});
+
+      // @ts-ignore
+      window.stubVueDestroyed = jest.fn();
+      resolvedComponent.disconnect();
+
+      // @ts-ignore
+      expect(window.stubVueDestroyed).toBeCalled();
+    });
   });
 });

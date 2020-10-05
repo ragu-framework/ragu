@@ -13,9 +13,12 @@ export class VueComponentResolver extends TemplateComponentResolver {
     return `
 module.exports.default = {
   async hydrate(el, props, state) {
-    const app = await require('${componentPath}').default.render(props, state);
+    this.app = await require('${componentPath}').default.render(props, state);
 
-    app.$mount(el.firstChild);
+    this.app.$mount(el.firstChild);
+  },
+  disconnect() {
+    this.app.$destroy(true);
   }
 }
 `;
