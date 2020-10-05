@@ -18,7 +18,7 @@ export class RaguComponent {
     const ssrScriptElement = this.element.querySelector('script[data-ragu-ssr]');
 
     if (ssrScriptElement) {
-      await this.hydrate(ssrScriptElement);
+      await this.fetchComponentFromSSRScript(ssrScriptElement);
       return;
     }
 
@@ -29,8 +29,10 @@ export class RaguComponent {
     this.disconnectComponent();
 
     this.component = await this.componentLoader.load(src);
+    this.element.dispatchEvent(new CustomEvent("ragu:fetched", { detail: this.component }));
+
     this.element.innerHTML = this.component.html;
-    await this.component.hydrate(this.element, this.component.props, this.component.state);
+    await this.hydrate()
   }
 
   disconnectComponent() {
@@ -39,11 +41,18 @@ export class RaguComponent {
     }
   }
 
-  private async hydrate(ssrScriptElement: Element) {
+  private async fetchComponentFromSSRScript(ssrScriptElement: Element) {
     const serverDate = JSON.parse(ssrScriptElement.textContent || '{}');
     ssrScriptElement.remove();
 
     this.component = await this.componentLoader.hydrationFactory(serverDate);
+    await this.hydrate();
+  }
+
+  private async hydrate() {
     await this.component?.hydrate(this.element, this.component.props, this.component.state);
+    this.element.dispatchEvent(new CustomEvent('ragu:hydrated', {
+      detail: this.component
+    }))
   }
 }

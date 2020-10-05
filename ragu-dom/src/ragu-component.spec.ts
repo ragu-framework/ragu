@@ -41,9 +41,22 @@ describe('Rendering a component', () => {
     document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
     expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
 
+    const fetchedStub = jest.fn();
+    const hydrateStub = jest.fn();
+
+    // @ts-ignore
+    document.querySelector('ragu-component').addEventListener('ragu:fetched', (e: CustomEvent) => {
+      fetchedStub(e.detail)
+    });
+
+    // @ts-ignore
+    document.querySelector('ragu-component').addEventListener('ragu:hydrated', (e: CustomEvent) => {
+      hydrateStub(e.detail)
+    });
+
     const renderPromise = new TestPromiseController();
 
-    controlledPromise.resolve({
+    const componentResponse: Component<any, any> = {
       resolverFunction: 'la',
       state: {
         from: 'Server'
@@ -57,9 +70,13 @@ describe('Rendering a component', () => {
         await renderPromise.promise;
         element.innerHTML = `Hello from ${from}, ${name}`
       }
-    });
+    };
+
+    controlledPromise.resolve(componentResponse);
 
     await waitForPromises();
+    expect(fetchedStub).toBeCalledWith(componentResponse);
+    expect(hydrateStub).not.toBeCalled();
     expect(loadStub).toBeCalledWith(componentURL);
     expect(document.querySelector('ragu-component')?.innerHTML).toEqual('Hello, World');
 
@@ -68,6 +85,7 @@ describe('Rendering a component', () => {
     await waitForPromises();
     expect(document.querySelector('ragu-component')?.innerHTML).toEqual('Hello from Server, World');
     expect(loadStub).toBeCalledTimes(1);
+    expect(hydrateStub).toBeCalledWith(componentResponse);
   });
 
   it('updates the content after a src change', async () => {
