@@ -25,14 +25,18 @@ export class RaguComponent {
     await this.fetchComponentFromServer(src);
   }
 
-  private async fetchComponentFromServer(src: string) {
+  private fetchComponentFromServer(src: string) {
     this.disconnectComponent();
 
-    this.component = await this.componentLoader.load(src);
-    this.element.dispatchEvent(new CustomEvent("ragu:fetched", { detail: this.component }));
+    this.componentLoader.load(src).then((component) => {
+      this.component = component;
+      this.element.dispatchEvent(new CustomEvent("ragu:fetched", { detail: this.component }));
 
-    this.element.innerHTML = this.component.html;
-    await this.hydrate()
+      this.element.innerHTML = this.component.html;
+      this.hydrate();
+    }).catch((e) => {
+      this.element.dispatchEvent(new CustomEvent("ragu:fetch-fail", { detail: e }));
+    });
   }
 
   disconnectComponent() {
@@ -49,10 +53,11 @@ export class RaguComponent {
     await this.hydrate();
   }
 
-  private async hydrate() {
-    await this.component?.hydrate(this.element, this.component.props, this.component.state);
-    this.element.dispatchEvent(new CustomEvent('ragu:hydrated', {
-      detail: this.component
-    }))
+  private hydrate() {
+    this.component?.hydrate(this.element, this.component.props, this.component.state).then(() => {
+      this.element.dispatchEvent(new CustomEvent('ragu:hydrated', {
+        detail: this.component
+      }))
+    });
   }
 }

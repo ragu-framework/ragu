@@ -88,6 +88,27 @@ describe('Rendering a component', () => {
     expect(hydrateStub).toBeCalledWith(componentResponse);
   });
 
+  it('sends a fail message with the error when load fails', async () => {
+    const componentURL = 'http://my-squad.org/component/any-component';
+    document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
+    expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
+
+    const fetchedStub = jest.fn();
+
+    // @ts-ignore
+    document.querySelector('ragu-component').addEventListener('ragu:fetch-fail', (e: CustomEvent) => {
+      fetchedStub(e.detail)
+    });
+
+    const error = new Error('Error!');
+
+    controlledPromise.reject(error);
+
+    await new Promise((resolve) => setImmediate(() => resolve()));
+
+    expect(fetchedStub).toBeCalledWith(error);
+  });
+
   it('updates the content after a src change', async () => {
     const componentURL = 'http://my-squad.org/component/any-component';
     document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
