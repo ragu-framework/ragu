@@ -188,7 +188,7 @@ describe('component loader', () => {
 
     component.hydrate(document.body, 'hello', 'world')
         .then(async () => {
-          component.disconnect();
+          component.disconnect?.();
 
           await new Promise((resolve) => {
             setImmediate(() => resolve());

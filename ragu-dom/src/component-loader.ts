@@ -14,9 +14,9 @@ export interface Component<Props, State> {
   client: string;
   styles?: string[];
   resolverFunction: string;
-  disconnect: () => void
-  hydratePromise: Promise<void>,
-  component: {
+  disconnect?: () => void
+  hydratePromise?: Promise<void>,
+  component?: {
     hydrate: (element: HTMLElement, props: Props, state: State) => Promise<void>,
     disconnect?: () => void;
   },
@@ -44,7 +44,7 @@ export class ComponentLoader {
       ...componentResponse,
       async disconnect() {
           await this.hydratePromise;
-          this.component.disconnect?.();
+          this.component?.disconnect?.();
       },
       async hydrate(htmlElement: HTMLElement, props: P, state: S) {
         const dependencies = componentResponse.dependencies || [];
@@ -56,14 +56,14 @@ export class ComponentLoader {
 
         if (resolvedComponent.default) {
           this.component = resolvedComponent.default;
-          this.hydratePromise = resolvedComponent.default.hydrate(htmlElement, props, state);
+          this.hydratePromise = this.component?.hydrate(htmlElement, props, state);
           await this.hydratePromise;
           return;
         }
 
         // TODO deprecate:
         this.component = await resolvedComponent.resolve();
-        this.hydratePromise = this.component.hydrate(htmlElement, props, state);
+        this.hydratePromise = this.component?.hydrate(htmlElement, props, state);
         await this.hydratePromise;
       }
     };
