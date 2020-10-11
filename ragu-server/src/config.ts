@@ -5,6 +5,7 @@ import {ComponentResolver} from "../";
 export interface RaguServerConfig {
   components: {
     resolver?: ComponentResolver;
+    resolverOutput?: string;
     defaultDependencies?: {
       nodeRequire: string;
       dependency: string;

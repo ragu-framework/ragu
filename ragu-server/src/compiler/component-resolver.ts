@@ -2,7 +2,6 @@ import {RaguServerConfig} from "../config";
 import fs from "fs";
 import path from "path";
 import {getLogger} from "../..";
-import * as os from "os";
 
 type Dependency = {
   nodeRequire: string;
@@ -111,9 +110,10 @@ export abstract class TemplateComponentResolver extends ByFileStructureComponent
 
   async componentViewPath(componentName: string): Promise<string> {
     const template = await this.viewTemplateFor(componentName);
-
     const tempPath = await this.createRaguTempDirectory(componentName);
     const viewPath = path.join(tempPath, 'view.js');
+
+    getLogger(this.config).debug(`"${componentName}" view file generated at "${viewPath}" by "${this.constructor.name}"`);
 
     await fs.promises.writeFile(viewPath, template);
     return viewPath;
@@ -125,12 +125,20 @@ export abstract class TemplateComponentResolver extends ByFileStructureComponent
     const tempPath = await this.createRaguTempDirectory(componentName);
     const hydratePath = path.join(tempPath, 'hydrate.js');
 
+    getLogger(this.config).debug(`"${componentName}" hydrate file generated at "${hydratePath}" by "${this.constructor.name}"`);
+
     await fs.promises.writeFile(hydratePath, template);
     return hydratePath;
   }
 
   private async createRaguTempDirectory(componentName: string): Promise<string> {
-    return await fs.promises.mkdtemp(path.join(os.tmpdir(), `ragu-${this.config.components.namePrefix}-${componentName}`));
+    const baseComponentDirectory = this.config.components.resolverOutput || path.join(process.cwd(), '.jig-components');
+    const componentDirectory = path.join(baseComponentDirectory, componentName);
+
+    getLogger(this.config).debug(`"${componentName}" output will be generated at "${componentDirectory}"`);
+
+    await fs.promises.mkdir(componentDirectory, {recursive: true});
+    return componentDirectory;
   }
 }
 
