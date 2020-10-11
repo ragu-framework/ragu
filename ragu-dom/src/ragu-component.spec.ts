@@ -1,6 +1,7 @@
 import {Component, ComponentLoader} from "..";
 import {TestPromiseController} from "../testing/test-promise-controller";
 import {registerRaguComponent} from "..";
+import waitForExpect from "wait-for-expect";
 
 async function waitForPromises() {
   await new Promise((resolve) => setTimeout(() => resolve(), 10));
@@ -104,9 +105,9 @@ describe('Rendering a component', () => {
 
     controlledPromise.reject(error);
 
-    await new Promise((resolve) => setImmediate(() => resolve()));
-
-    expect(fetchedStub).toBeCalledWith(error);
+    await waitForExpect(() => {
+      expect(fetchedStub).toBeCalledWith(error);
+    })
   });
 
   it('updates the content after a src change', async () => {
@@ -136,15 +137,19 @@ describe('Rendering a component', () => {
 
     await waitForPromises();
     renderPromise.resolve();
-    await waitForPromises();
 
     const component = document.querySelector('ragu-component') as HTMLElement;
-    expect(component.innerHTML).toEqual('Hello from Server, World');
-    expect(disconnectStub).not.toBeCalled();
+    await waitForExpect(() => {
+      expect(component.innerHTML).toEqual('Hello from Server, World');
+      expect(disconnectStub).not.toBeCalled();
+    });
 
     component.setAttribute('src', 'http://my-squad.org/component/other-component');
-    expect(loadStub).toBeCalledWith('http://my-squad.org/component/other-component');
-    expect(disconnectStub).toBeCalled();
+
+    await waitForExpect(() => {
+      expect(loadStub).toBeCalledWith('http://my-squad.org/component/other-component');
+      expect(disconnectStub).toBeCalled();
+    })
   });
 
   it('disconnect when component is removed from dom', async () => {
@@ -174,11 +179,12 @@ describe('Rendering a component', () => {
 
     await waitForPromises();
     renderPromise.resolve();
-    await waitForPromises();
 
-    const component = document.querySelector('ragu-component') as HTMLElement;
-    component.remove();
-    expect(disconnectStub).toBeCalled();
+    await waitForExpect(() => {
+      const component = document.querySelector('ragu-component') as HTMLElement;
+      component.remove();
+      expect(disconnectStub).toBeCalled();
+    });
   });
 
   describe('When SSR', () => {
@@ -214,13 +220,13 @@ describe('Rendering a component', () => {
 
       renderPromise.resolve();
 
-      await waitForPromises();
+      await waitForExpect(() => {
+        expect(document.querySelector('ragu-component')?.textContent).toContain('Hello from Server, World');
+        expect(hydrationStub).toBeCalledTimes(1);
+        expect(loadStub).toBeCalledTimes(0);
 
-      expect(document.querySelector('ragu-component')?.textContent).toContain('Hello from Server, World');
-      expect(hydrationStub).toBeCalledTimes(1);
-      expect(loadStub).toBeCalledTimes(0);
-
-      expect(document.querySelector('script')).toBeNull();
+        expect(document.querySelector('script')).toBeNull();
+      });
     });
   });
 });
