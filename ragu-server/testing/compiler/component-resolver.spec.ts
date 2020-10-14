@@ -150,6 +150,7 @@ describe('Component Resolver', () => {
     beforeEach(async () => {
       config = await createTestConfig();
       config.components.sourceRoot = path.join(__dirname, 'state-resolver', 'components');
+      config.components.resolverOutput = path.join(__dirname, '.jig-output-state');
       config.components.resolver = new TestStateComponentResolver(config);
 
       componentResolver = getComponentResolver(config);
