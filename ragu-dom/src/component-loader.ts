@@ -14,11 +14,11 @@ export interface Component<Props, State> {
   client: string;
   styles?: string[];
   resolverFunction: string;
-  disconnect?: () => void
+  disconnect?: (element: HTMLElement) => void
   hydratePromise?: Promise<void>,
   component?: {
     hydrate: (element: HTMLElement, props: Props, state: State) => Promise<void>,
-    disconnect?: () => void;
+    disconnect?: (element: HTMLElement) => void;
   },
   hydrate: (element: HTMLElement, props: Props, state: State) => Promise<void>;
 }
@@ -42,9 +42,10 @@ export class ComponentLoader {
 
     return {
       ...componentResponse,
-      async disconnect() {
+      async disconnect(el: HTMLElement) {
+          const component = this.component;
           await this.hydratePromise;
-          this.component?.disconnect?.();
+          component?.disconnect?.(el);
       },
       async hydrate(htmlElement: HTMLElement, props: P, state: S) {
         const dependencies = componentResponse.dependencies || [];
@@ -54,15 +55,16 @@ export class ComponentLoader {
 
         const resolvedComponent = (window as any)[componentResponse.resolverFunction];
 
-        if (resolvedComponent.default) {
-          this.component = resolvedComponent.default;
+        const component = resolvedComponent.default || resolvedComponent;
+
+        if (component.resolve) {
+          this.component = await resolvedComponent.resolve();
           this.hydratePromise = this.component?.hydrate(htmlElement, props, state);
           await this.hydratePromise;
           return;
         }
 
-        // TODO deprecate:
-        this.component = await resolvedComponent.resolve();
+        this.component = component;
         this.hydratePromise = this.component?.hydrate(htmlElement, props, state);
         await this.hydratePromise;
       }

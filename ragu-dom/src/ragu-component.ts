@@ -41,7 +41,7 @@ export class RaguComponent {
 
   disconnectComponent() {
     if (this.component) {
-      this.component.disconnect?.();
+      this.component.disconnect?.(this.element);
     }
   }
 

@@ -180,10 +180,11 @@ describe('Rendering a component', () => {
     await waitForPromises();
     renderPromise.resolve();
 
+    const component = document.querySelector('ragu-component') as HTMLElement;
+    component.remove();
+
     await waitForExpect(() => {
-      const component = document.querySelector('ragu-component') as HTMLElement;
-      component.remove();
-      expect(disconnectStub).toBeCalled();
+      expect(disconnectStub).toBeCalledWith(component);
     });
   });
 
