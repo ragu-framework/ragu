@@ -14,14 +14,26 @@ type TestConfig = RaguServerConfig & {
 export const createTestConfig = async (): Promise<TestConfig> => {
   const port = await getPort();
 
-  const config = createBaseConfig(__dirname);
+  const config = createBaseConfig({
+    compiler: {
+      assetsPrefix: '',
+    },
+    projectRoot: __dirname,
+    environment: "development",
+    components: {
+      namePrefix: 'test_components_',
+      sourceRoot: path.join(__dirname, 'components')
+    },
+    server: {
+      logging: {
+        logger: new TestLogger(),
+      },
+      hideWelcomeMessage: true,
+      port
+    }
+  });
 
-  config.server.logging.logger = new TestLogger();
-  config.server.hideWelcomeMessage = true;
-  config.server.port = port;
   config.compiler.assetsPrefix = `file://${config.compiler.output.hydrate}/`;
-  config.components.sourceRoot = path.join(__dirname, 'components');
-  config.components.namePrefix = 'test_components_';
 
   return config as TestConfig;
 }

@@ -3,10 +3,13 @@ import {Logger, LogLevel} from "./logging/logger";
 import {ComponentResolver, createDefaultWebpackConfiguration} from "../";
 import * as path from "path";
 import {merge} from "webpack-merge";
+import deepmerge from "deepmerge";
+import {isPlainObject} from "is-plain-object";
 const nodeExternals = require('webpack-node-externals');
 
 
 export interface RaguServerBaseConfig {
+  environment?: 'production' | 'development',
   components: {
     resolver?: ComponentResolver;
     resolverOutput?: string;
@@ -55,7 +58,23 @@ export type RaguServerConfig = RaguServerBaseConfig & {
   }
 }
 
-export const createBaseConfig = (projectRoot = process.cwd(), isDevelopment= false): RaguServerBaseConfig => ({
+type DeepPartial<T> = {
+  [P in keyof T]?: DeepPartial<T[P]>
+}
+
+export type RaguServerBaseConfigProps = DeepPartial<RaguServerConfig> & {
+  projectRoot: string,
+  environment: 'production' | 'development',
+  components: {
+    namePrefix: string;
+  },
+  compiler: {
+    assetsPrefix: string;
+  }
+}
+
+
+export const createBaseConfig = (props: RaguServerBaseConfigProps): RaguServerConfig => deepmerge({
   server: {
     port: 3100,
     hideWelcomeMessage: false,
@@ -69,25 +88,25 @@ export const createBaseConfig = (projectRoot = process.cwd(), isDevelopment= fal
   },
   compiler: {
     webpack: {
-      view: merge(createDefaultWebpackConfiguration({isDevelopment}), {
+      view: merge(createDefaultWebpackConfiguration({isDevelopment: props.environment === 'development'}), {
         target: 'node',
-
         output: {
           libraryTarget: 'commonjs2',
           filename: '[name].js',
         },
-
         externals: nodeExternals(),
       }),
-      hydrate: createDefaultWebpackConfiguration({isDevelopment}),
+      hydrate: createDefaultWebpackConfiguration({isDevelopment: props.environment === 'development'}),
     },
     output: {
-      view: path.join(projectRoot, '.ragu-components', 'compiled', 'view'),
-      hydrate: path.join(projectRoot, '.ragu-components', 'compiled', 'hydrate')
+      view: path.join(props.projectRoot, '.ragu-components', 'compiled', 'view'),
+      hydrate: path.join(props.projectRoot, '.ragu-components', 'compiled', 'hydrate')
     }
   },
   components: {
-    resolverOutput: path.join(projectRoot, '.ragu-components', 'resolver-output'),
-    sourceRoot: path.join(projectRoot, 'ragu-components'),
+    resolverOutput: path.join(props.projectRoot, '.ragu-components', 'resolver-output'),
+    sourceRoot: path.join(props.projectRoot, 'ragu-components'),
   },
+}, props, {
+  isMergeableObject: isPlainObject
 });
