@@ -74,7 +74,7 @@ export type RaguServerBaseConfigProps = DeepPartial<RaguServerConfig> & {
 }
 
 
-export const createBaseConfig = (props: RaguServerBaseConfigProps): RaguServerConfig => deepmerge({
+export const createConfig = (props: RaguServerBaseConfigProps): RaguServerConfig => deepmerge({
   server: {
     port: 3100,
     hideWelcomeMessage: false,

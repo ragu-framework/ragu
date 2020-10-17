@@ -1,6 +1,6 @@
 import {TestLogger} from "./test-logger";
 import getPort from "get-port";
-import {createBaseConfig, RaguServerConfig} from "..";
+import {createConfig, RaguServerConfig} from "..";
 import * as path from "path";
 
 type TestConfig = RaguServerConfig & {
@@ -14,7 +14,7 @@ type TestConfig = RaguServerConfig & {
 export const createTestConfig = async (): Promise<TestConfig> => {
   const port = await getPort();
 
-  const config = createBaseConfig({
+  const config = createConfig({
     compiler: {
       assetsPrefix: '',
     },
