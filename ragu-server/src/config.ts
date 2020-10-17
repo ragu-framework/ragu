@@ -94,7 +94,9 @@ export const createConfig = (props: RaguServerBaseConfigProps): RaguServerConfig
           libraryTarget: 'commonjs2',
           filename: '[name].js',
         },
-        externals: nodeExternals(),
+        externals: [
+          nodeExternals()
+        ],
       }),
       hydrate: createDefaultWebpackConfiguration({isDevelopment: props.environment === 'development'}),
     },
