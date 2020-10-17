@@ -9,6 +9,7 @@ const nodeExternals = require('webpack-node-externals');
 
 
 export interface RaguServerBaseConfig {
+  projectRoot?: string,
   environment?: 'production' | 'development',
   components: {
     resolver?: ComponentResolver;
@@ -73,8 +74,11 @@ export type RaguServerBaseConfigProps = DeepPartial<RaguServerConfig> & {
   }
 }
 
+export const mergeConfig = <T1, T2>(a: T1, b: T2) => deepmerge<T1, T2>(a, b, {
+  isMergeableObject: isPlainObject
+});
 
-export const createConfig = (props: RaguServerBaseConfigProps): RaguServerConfig => deepmerge({
+export const createConfig = (props: RaguServerBaseConfigProps): RaguServerConfig => mergeConfig({
   server: {
     port: 3100,
     hideWelcomeMessage: false,
@@ -109,6 +113,4 @@ export const createConfig = (props: RaguServerBaseConfigProps): RaguServerConfig
     resolverOutput: path.join(props.projectRoot, '.ragu-components', 'resolver-output'),
     sourceRoot: path.join(props.projectRoot, 'ragu-components'),
   },
-}, props, {
-  isMergeableObject: isPlainObject
-});
+}, props);
