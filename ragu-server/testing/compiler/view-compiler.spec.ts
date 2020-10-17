@@ -80,18 +80,16 @@ describe('View Compiler', () => {
     beforeEach(async () => {
       // impossible to invalidate require.cache
       config.compiler.output.view += '2';
-      config.compiler.webpack = {
-        view: merge(
-            createDefaultWebpackConfiguration({}),
-            {
-              output: {
-                libraryTarget: 'var',
-                filename: '[name].js',
-                path: config.compiler.output.view,
-              },
-            }
-        ),
-      }
+      config.compiler.webpack.view = merge(
+          createDefaultWebpackConfiguration({}),
+          {
+            output: {
+              libraryTarget: 'var',
+              filename: '[name].js',
+              path: config.compiler.output.view,
+            },
+          }
+      );
 
       compiler = new ViewCompiler(config);
     });
@@ -104,18 +102,16 @@ describe('View Compiler', () => {
   describe('providing a pre compiler webpack configuration that does not generates a not found', () => {
     beforeEach(async () => {
       config.compiler.output.view += '3';
-      config.compiler.webpack = {
-        view: merge(
-            createDefaultWebpackConfiguration({}),
-            {
-              output: {
-                libraryTarget: 'var',
-                filename: '[name].zucchini.js',
-                path: config.compiler.output.view,
-              },
-            }
-        ),
-      };
+      config.compiler.webpack.view = merge(
+          createDefaultWebpackConfiguration({}),
+          {
+            output: {
+              libraryTarget: 'var',
+              filename: '[name].zucchini.js',
+              path: config.compiler.output.view,
+            },
+          }
+      );
 
       compiler = new ViewCompiler(config);
     });

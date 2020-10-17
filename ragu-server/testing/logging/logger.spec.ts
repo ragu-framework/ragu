@@ -11,14 +11,14 @@ describe('Logger', () => {
     it('returns a console logger given no logger', async () => {
       jest.spyOn(console, 'log').mockImplementation(() => {});
       const config: RaguServerConfig = await createTestConfig();
-      delete config.server.logging;
+      delete config.server.logging.logger;
       expect(getLogger(config)).toBeInstanceOf(ConsoleLogger);
     });
 
     it('returns always the same instance', async () => {
       jest.spyOn(console, 'log').mockImplementation(() => {});
       const config: RaguServerConfig = await createTestConfig();
-      delete config.server.logging;
+      delete config.server.logging.logger;
       expect(getLogger(config)).toBe(getLogger(config));
     });
   });
