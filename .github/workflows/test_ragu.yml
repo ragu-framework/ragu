@@ -44,8 +44,8 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Generating Docs
-        run: |
-          yarn --cwd ragu-server docs
+      run: |
+        yarn --cwd ragu-server docs
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@3.6.2
       with:
