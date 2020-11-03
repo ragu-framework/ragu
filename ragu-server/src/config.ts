@@ -5,9 +5,9 @@ import * as path from "path";
 import {merge} from "webpack-merge";
 import deepmerge from "deepmerge";
 import {isPlainObject} from "is-plain-object";
+import finder from "find-package-json";
 
 const nodeExternals = require('webpack-node-externals');
-
 
 type GlobalDependency = {
   /**
@@ -64,9 +64,11 @@ export interface RaguServerBaseConfig {
      */
     defaultDependencies?: GlobalDependency[];
     /**
-     * This required property aims to avoid namespace collision between micro-frontends.
+     * This property aims to avoid namespace collision between micro-frontends.
+     *
+     * @default package.json project "name"
      */
-    namePrefix?: string;
+    namePrefix: string;
     /**
      * Describes where your ragu-components live.
      *
@@ -151,7 +153,7 @@ export interface RaguServerBaseConfig {
      *
      * The `/component-assets/` must be the same of `config.server.routes.assets`
      */
-    assetsPrefix?: string;
+    assetsPrefix: string;
     output: {
       /**
        * Describe where view compiled files should be outputted.
@@ -179,26 +181,29 @@ export interface RaguServerBaseConfig {
   }
 }
 
-/**
- * The ser of properties which must be defined in order to ragu-server work.
- */
-type WithNoDefaultConfig = {
-  components: {
-    namePrefix: string;
-  }
-};
-
-export type RaguServerConfig = RaguServerBaseConfig & WithNoDefaultConfig
+export type RaguServerConfig = RaguServerBaseConfig
 
 type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>
 }
 
-export type RaguServerBaseConfigProps = DeepPartial<RaguServerConfig> & WithNoDefaultConfig;
+export type RaguServerBaseConfigProps = DeepPartial<RaguServerConfig>;
 
 export const mergeConfig = <T1, T2>(a: T1, b: T2) => deepmerge<T1, T2>(a, b, {
   isMergeableObject: isPlainObject
 });
+
+const hashCode = (str: string) => {
+  let hash = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    const chr = str.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0;
+  }
+
+  return hash;
+}
 
 /**
  * Creates a ragu-server config.
@@ -207,13 +212,16 @@ export const mergeConfig = <T1, T2>(a: T1, b: T2) => deepmerge<T1, T2>(a, b, {
  *
  * @param props The config with no default values plus any extra configuration that you may need to override.
  */
-export const createConfig = (props: RaguServerBaseConfigProps): RaguServerConfig => {
+export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerConfig => {
   const projectRoot = props.projectRoot || process.cwd();
 
   const serverPort = props.server?.port || 3100;
   const assetsRoute = props.server?.routes?.assets || '/component-assets/';
 
-  const config = mergeConfig<RaguServerBaseConfig, RaguServerBaseConfigProps>({
+  const packageJson = finder().next();
+  const defaultComponentNamePrefix = `${packageJson.value?.name}_${hashCode(JSON.stringify(packageJson))}_`;
+
+  const config = mergeConfig<RaguServerConfig, RaguServerBaseConfigProps>({
     environment: 'production',
     server: {
       port: serverPort,
@@ -247,6 +255,7 @@ export const createConfig = (props: RaguServerBaseConfigProps): RaguServerConfig
       }
     },
     components: {
+      namePrefix: defaultComponentNamePrefix,
       resolverOutput: path.join(projectRoot, '.ragu-components', 'resolver-output'),
       sourceRoot: path.join(projectRoot, 'ragu-components'),
     },

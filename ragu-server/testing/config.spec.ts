@@ -29,6 +29,20 @@ describe('Config', () => {
     });
   });
 
+  describe('name prefix', () => {
+    it('uses the package.json name as default', () => {
+      const config = createConfig();
+
+      expect(config.components.namePrefix).toContain('ragu-server_');
+    });
+
+    it('hash is always de same', () => {
+      const config = createConfig();
+
+      expect(config.components.namePrefix).toContain(createConfig().components.namePrefix);
+    });
+  });
+
   it('does not set a default webpack view config when one was given', () => {
     const webpackView = {};
 
