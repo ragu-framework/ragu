@@ -33,7 +33,7 @@ describe('Config', () => {
     it('uses the package.json name as default', () => {
       const config = createConfig();
 
-      expect(config.components.namePrefix).toContain('ragu-server_');
+      expect(config.components.namePrefix).toContain('ragu');
     });
 
     it('hash is always de same', () => {
