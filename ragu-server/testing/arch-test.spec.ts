@@ -35,12 +35,4 @@ describe('Architecture tests', () => {
   it('exposes all files of ssr module into index.ts', () => {
     expectExposesAllFilesOfDirectory('ssr');
   });
-
-  it('all projects has the same version', () => {
-    expect(new Set([
-        require('../package.json').version,
-        require('../../ragu-dom/package.json').version,
-        require('../../ragu-vue-server-adapter/package.json').version,
-    ]).size).toBe(1);
-  });
 });
