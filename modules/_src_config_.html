@@ -83,7 +83,6 @@
 								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported"><a href="_src_config_.html#globaldependency" class="tsd-kind-icon">Global<wbr>Dependency</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_src_config_.html#raguserverbaseconfigprops" class="tsd-kind-icon">Ragu<wbr>Server<wbr>Base<wbr>Config<wbr>Props</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_src_config_.html#raguserverconfig" class="tsd-kind-icon">Ragu<wbr>Server<wbr>Config</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported"><a href="_src_config_.html#withnodefaultconfig" class="tsd-kind-icon">With<wbr>NoDefault<wbr>Config</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
@@ -96,6 +95,7 @@
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_config_.html#createconfig" class="tsd-kind-icon">create<wbr>Config</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-not-exported"><a href="_src_config_.html#hashcode" class="tsd-kind-icon">hash<wbr>Code</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="_src_config_.html#mergeconfig" class="tsd-kind-icon">merge<wbr>Config</a></li>
 							</ul>
 						</section>
@@ -110,7 +110,7 @@
 					<div class="tsd-signature tsd-kind-icon">Deep<wbr>Partial&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L193">src/config.ts:193</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L186">src/config.ts:186</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -131,7 +131,7 @@
 					<div class="tsd-signature tsd-kind-icon">Global<wbr>Dependency<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>dependency<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>globalVariable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>nodeRequire<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L12">src/config.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L12">src/config.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -173,50 +173,22 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
 					<a name="raguserverbaseconfigprops" class="tsd-anchor"></a>
 					<h3>Ragu<wbr>Server<wbr>Base<wbr>Config<wbr>Props</h3>
-					<div class="tsd-signature tsd-kind-icon">Ragu<wbr>Server<wbr>Base<wbr>Config<wbr>Props<span class="tsd-signature-symbol">:</span> <a href="_src_config_.html#deeppartial" class="tsd-signature-type">DeepPartial</a><span class="tsd-signature-symbol">&lt;</span><a href="_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><a href="_src_config_.html#withnodefaultconfig" class="tsd-signature-type">WithNoDefaultConfig</a></div>
+					<div class="tsd-signature tsd-kind-icon">Ragu<wbr>Server<wbr>Base<wbr>Config<wbr>Props<span class="tsd-signature-symbol">:</span> <a href="_src_config_.html#deeppartial" class="tsd-signature-type">DeepPartial</a><span class="tsd-signature-symbol">&lt;</span><a href="_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L197">src/config.ts:197</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L190">src/config.ts:190</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
 					<a name="raguserverconfig" class="tsd-anchor"></a>
 					<h3>Ragu<wbr>Server<wbr>Config</h3>
-					<div class="tsd-signature tsd-kind-icon">Ragu<wbr>Server<wbr>Config<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_src_config_.raguserverbaseconfig.html" class="tsd-signature-type">RaguServerBaseConfig</a><span class="tsd-signature-symbol"> &amp; </span><a href="_src_config_.html#withnodefaultconfig" class="tsd-signature-type">WithNoDefaultConfig</a></div>
+					<div class="tsd-signature tsd-kind-icon">Ragu<wbr>Server<wbr>Config<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_src_config_.raguserverbaseconfig.html" class="tsd-signature-type">RaguServerBaseConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L191">src/config.ts:191</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L184">src/config.ts:184</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-					<a name="withnodefaultconfig" class="tsd-anchor"></a>
-					<h3>With<wbr>NoDefault<wbr>Config</h3>
-					<div class="tsd-signature tsd-kind-icon">With<wbr>NoDefault<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>components<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>namePrefix<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L185">src/config.ts:185</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The ser of properties which must be defined in order to ragu-server work.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter">
-								<h5>components<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>namePrefix<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h5>
-								<ul class="tsd-parameters">
-									<li class="tsd-parameter">
-										<h5>name<wbr>Prefix<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
@@ -227,7 +199,7 @@
 					<div class="tsd-signature tsd-kind-icon">node<wbr>Externals<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = require(&#x27;webpack-node-externals&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L9">src/config.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L10">src/config.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -238,13 +210,13 @@
 					<a name="createconfig" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> create<wbr>Config</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Config<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><a href="_src_config_.html#raguserverbaseconfigprops" class="tsd-signature-type">RaguServerBaseConfigProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Config<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">?: </span><a href="_src_config_.html#raguserverbaseconfigprops" class="tsd-signature-type">RaguServerBaseConfigProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L210">src/config.ts:210</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L215">src/config.ts:215</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -257,7 +229,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>props: <a href="_src_config_.html#raguserverbaseconfigprops" class="tsd-signature-type">RaguServerBaseConfigProps</a></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> props: <a href="_src_config_.html#raguserverbaseconfigprops" class="tsd-signature-type">RaguServerBaseConfigProps</a><span class="tsd-signature-symbol"> = {}</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>The config with no default values plus any extra configuration that you may need to override.</p>
@@ -266,6 +238,29 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+					<a name="hashcode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> hash<wbr>Code</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">hash<wbr>Code<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L196">src/config.ts:196</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>str: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -279,7 +274,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L199">src/config.ts:199</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L192">src/config.ts:192</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -403,14 +398,14 @@
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="_src_config_.html#raguserverconfig" class="tsd-kind-icon">Ragu<wbr>Server<wbr>Config</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_src_config_.html#withnodefaultconfig" class="tsd-kind-icon">With<wbr>NoDefault<wbr>Config</a>
-					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_src_config_.html#nodeexternals" class="tsd-kind-icon">node<wbr>Externals</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_src_config_.html#createconfig" class="tsd-kind-icon">create<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_src_config_.html#hashcode" class="tsd-kind-icon">hash<wbr>Code</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="_src_config_.html#mergeconfig" class="tsd-kind-icon">merge<wbr>Config</a>

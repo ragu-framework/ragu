@@ -106,23 +106,23 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="compiler" class="tsd-anchor"></a>
 					<h3>compiler</h3>
-					<div class="tsd-signature tsd-kind-icon">compiler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>assetsPrefix<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>hydrate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>watchMode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>webpack<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>hydrate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Configuration</span><span class="tsd-signature-symbol">; </span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Configuration</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">compiler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>assetsPrefix<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>output<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>hydrate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>watchMode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>webpack<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>hydrate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Configuration</span><span class="tsd-signature-symbol">; </span>view<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Configuration</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L140">src/config.ts:140</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L142">src/config.ts:142</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> assets<wbr>Prefix<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<h5>assets<wbr>Prefix<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>You must specify the the base url where the components assets will be exposed.</p>
 									</div>
 									<dl class="tsd-comment-tags">
-										<dt>example</dt>
+										<dt>default</dt>
 										<dd><p><a href="http://localhost:3100/component-assets/">http://localhost:3100/component-assets/</a></p>
 											<p>The <code>/component-assets/</code> must be the same of <code>config.server.routes.assets</code></p>
 										</dd>
@@ -200,10 +200,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="components" class="tsd-anchor"></a>
 					<h3>components</h3>
-					<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>defaultDependencies<span class="tsd-signature-symbol">?: </span><a href="../modules/_src_config_.html#globaldependency" class="tsd-signature-type">GlobalDependency</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>namePrefix<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>resolver<span class="tsd-signature-symbol">?: </span><a href="../classes/_src_compiler_component_resolver_.componentresolver.html" class="tsd-signature-type">ComponentResolver</a><span class="tsd-signature-symbol">; </span>resolverOutput<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>sourceRoot<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>defaultDependencies<span class="tsd-signature-symbol">?: </span><a href="../modules/_src_config_.html#globaldependency" class="tsd-signature-type">GlobalDependency</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>namePrefix<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>resolver<span class="tsd-signature-symbol">?: </span><a href="../classes/_src_compiler_component_resolver_.componentresolver.html" class="tsd-signature-type">ComponentResolver</a><span class="tsd-signature-symbol">; </span>resolverOutput<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>sourceRoot<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L48">src/config.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L48">src/config.ts:48</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -224,11 +224,16 @@
 								</div>
 							</li>
 							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> name<wbr>Prefix<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<h5>name<wbr>Prefix<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
-										<p>This required property aims to avoid namespace collision between micro-frontends.</p>
+										<p>This property aims to avoid namespace collision between micro-frontends.</p>
 									</div>
+									<dl class="tsd-comment-tags">
+										<dt>default</dt>
+										<dd><p>package.json project &quot;name&quot;</p>
+										</dd>
+									</dl>
 								</div>
 							</li>
 							<li class="tsd-parameter">
@@ -279,7 +284,7 @@
 					<div class="tsd-signature tsd-kind-icon">environment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"production"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"development"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L44">src/config.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L44">src/config.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -294,7 +299,7 @@
 					<div class="tsd-signature tsd-kind-icon">project<wbr>Root<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L40">src/config.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L40">src/config.ts:40</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -314,7 +319,7 @@
 					<div class="tsd-signature tsd-kind-icon">server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>hideWelcomeMessage<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>logging<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>level<span class="tsd-signature-symbol">?: </span><a href="../enums/_src_logging_logger_.loglevel.html" class="tsd-signature-type">LogLevel</a><span class="tsd-signature-symbol">; </span>logger<span class="tsd-signature-symbol">?: </span><a href="../classes/_src_logging_logger_.logger.html" class="tsd-signature-type">Logger</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>previewEnabled<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">; </span>routes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>assets<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>component<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>preview<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/a786494/ragu-server/src/config.ts#L80">src/config.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/97922a5/ragu-server/src/config.ts#L82">src/config.ts:82</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -569,14 +574,14 @@
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/_src_config_.html#raguserverconfig" class="tsd-kind-icon">Ragu<wbr>Server<wbr>Config</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../modules/_src_config_.html#withnodefaultconfig" class="tsd-kind-icon">With<wbr>NoDefault<wbr>Config</a>
-					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/_src_config_.html#nodeexternals" class="tsd-kind-icon">node<wbr>Externals</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="../modules/_src_config_.html#createconfig" class="tsd-kind-icon">create<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/_src_config_.html#hashcode" class="tsd-kind-icon">hash<wbr>Code</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="../modules/_src_config_.html#mergeconfig" class="tsd-kind-icon">merge<wbr>Config</a>
