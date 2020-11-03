@@ -147,7 +147,7 @@ export interface RaguServerBaseConfig {
     /**
      * You must specify the the base url where the components assets will be exposed.
      *
-     * @example http://localhost:3100/component-assets/
+     * @default http://localhost:3100/component-assets/
      *
      * The `/component-assets/` must be the same of `config.server.routes.assets`
      */
