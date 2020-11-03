@@ -185,9 +185,6 @@ export interface RaguServerBaseConfig {
 type WithNoDefaultConfig = {
   components: {
     namePrefix: string;
-  };
-  compiler: {
-    assetsPrefix: string;
   }
 };
 
@@ -213,20 +210,24 @@ export const mergeConfig = <T1, T2>(a: T1, b: T2) => deepmerge<T1, T2>(a, b, {
 export const createConfig = (props: RaguServerBaseConfigProps): RaguServerConfig => {
   const projectRoot = props.projectRoot || process.cwd();
 
+  const serverPort = props.server?.port || 3100;
+  const assetsRoute = props.server?.routes?.assets || '/component-assets/';
+
   const config = mergeConfig<RaguServerBaseConfig, RaguServerBaseConfigProps>({
     environment: 'production',
     server: {
-      port: 3100,
+      port: serverPort,
       hideWelcomeMessage: false,
       logging: {
         level: LogLevel.info
       },
       routes: {
-        assets: '/component-assets/'
+        assets: assetsRoute
       },
       previewEnabled: true
     },
     compiler: {
+      assetsPrefix: `http://localhost:${serverPort}${assetsRoute}`,
       webpack: {
         view: merge(createDefaultWebpackConfiguration({isDevelopment: props.environment === 'development'}), {
           target: 'node',
@@ -251,11 +252,11 @@ export const createConfig = (props: RaguServerBaseConfigProps): RaguServerConfig
     },
   }, props);
 
-  if (props.compiler.webpack?.view) {
+  if (props.compiler?.webpack?.view) {
     config.compiler.webpack.view = props.compiler.webpack.view as webpack.Configuration;
   }
 
-  if (props.compiler.webpack?.hydrate) {
+  if (props.compiler?.webpack?.hydrate) {
     config.compiler.webpack.hydrate = props.compiler.webpack.hydrate as webpack.Configuration;
   }
 

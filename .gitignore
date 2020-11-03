@@ -112,5 +112,7 @@ dist
 .tern-port
 
 .jig-components
+.ragu-components
+.jig-output-state
 
 docs
