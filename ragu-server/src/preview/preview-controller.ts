@@ -1,6 +1,10 @@
 import {RaguServerConfig} from "../config";
 import {Request, Response} from "express";
 import {getLogger} from "../logging/get-logger";
+import {RaguClient} from "ragu-client-node";
+
+require('cross-fetch/polyfill');
+require('abort-controller/polyfill');
 
 export class PreviewController {
   constructor(private readonly config: RaguServerConfig) {
@@ -12,7 +16,9 @@ export class PreviewController {
 
     const receivedQuery = req.query as Record<string, string>;
     const queryParams = new URLSearchParams(receivedQuery).toString();
-    const componentURL = `${this.config.baseurl}/components/${componentName}?${queryParams}"`;
+    const componentURL = `${this.config.baseurl}/components/${componentName}?${queryParams}`;
+    const client = new RaguClient();
+    const component = await client.fetchComponent(componentURL)
 
     res.send(`<!doctype html>
       <html lang="en">
@@ -22,10 +28,11 @@ export class PreviewController {
                 content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
           <meta http-equiv="X-UA-Compatible" content="ie=edge">
           <title>Ragu preview - ${componentName}</title>
-          <script src="${this.config.compiler.assetsPrefix}ragu-dom.js"></script>
+          ${receivedQuery.disableJavascript ? '' : `<script src="${this.config.compiler.assetsPrefix}ragu-dom.js"></script>`}
+          ${component.stylesheets()}
       </head>
       <body>
-          <ragu-component src="${componentURL}></ragu-component>
+          ${component.toRaguDOM()}
       </body>
       </html>
     `)
