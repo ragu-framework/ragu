@@ -43,6 +43,12 @@ export interface RaguServerBaseConfig {
    */
   environment?: 'production' | 'development',
   /**
+   * The project base url.
+   *
+   * @default http://localhost:${port}
+   */
+  baseurl: string,
+  /**
    * A set of configuration for ragu components.
    */
   components: {
@@ -209,8 +215,10 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
   const packageJson = finder().next();
   const defaultComponentNamePrefix = `${packageJson.value?.name}_`;
 
+  const baseURL = props.baseurl || `http://localhost:${serverPort}`;
   const config = mergeConfig<RaguServerConfig, RaguServerBaseConfigProps>({
     environment: 'production',
+    baseurl: baseURL,
     server: {
       port: serverPort,
       hideWelcomeMessage: false,
@@ -223,7 +231,7 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
       previewEnabled: true
     },
     compiler: {
-      assetsPrefix: `http://localhost:${serverPort}${assetsRoute}`,
+      assetsPrefix: `${baseURL}${assetsRoute}`,
       webpack: {
         view: merge(createDefaultWebpackConfiguration({isDevelopment: props.environment === 'development'}), {
           target: 'node',

@@ -1,6 +1,24 @@
 import {createConfig} from "..";
 
 describe('Config', () => {
+  describe('base url', () => {
+    it('defines the default URL with the default port', () => {
+      const config = createConfig();
+
+      expect(config.baseurl).toBe('http://localhost:3100');
+    });
+
+    it('defines the default URL with the given port', () => {
+      const config = createConfig({
+        server: {
+          port: 3333
+        }
+      });
+
+      expect(config.baseurl).toBe('http://localhost:3333');
+    });
+  });
+
   describe('assets prefix', () => {
     it('defines the default assets source as localhost with the default port', () => {
       const config = createConfig({
@@ -26,6 +44,23 @@ describe('Config', () => {
       });
 
       expect(config.compiler.assetsPrefix).toBe('http://localhost:6666/my-assets/');
+    });
+
+    it('defines the default assets source with the given baseurl', () => {
+      const config = createConfig({
+        baseurl: 'http://localhost:4444',
+        components: {
+          namePrefix: "_hi",
+        },
+        server: {
+          port: 6666,
+          routes: {
+            assets: '/my-assets/'
+          }
+        },
+      });
+
+      expect(config.compiler.assetsPrefix).toBe('http://localhost:4444/my-assets/');
     });
   });
 
