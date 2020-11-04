@@ -193,18 +193,6 @@ export const mergeConfig = <T1, T2>(a: T1, b: T2) => deepmerge<T1, T2>(a, b, {
   isMergeableObject: isPlainObject
 });
 
-const hashCode = (str: string) => {
-  let hash = 0;
-
-  for (let i = 0; i < str.length; i++) {
-    const chr = str.charCodeAt(i);
-    hash  = ((hash << 5) - hash) + chr;
-    hash |= 0;
-  }
-
-  return hash;
-}
-
 /**
  * Creates a ragu-server config.
  * You also can override any default config by given it at the `props` object.
@@ -219,7 +207,7 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
   const assetsRoute = props.server?.routes?.assets || '/component-assets/';
 
   const packageJson = finder().next();
-  const defaultComponentNamePrefix = `${packageJson.value?.name}_${hashCode(JSON.stringify(packageJson))}_`;
+  const defaultComponentNamePrefix = `${packageJson.value?.name}_`;
 
   const config = mergeConfig<RaguServerConfig, RaguServerBaseConfigProps>({
     environment: 'production',
