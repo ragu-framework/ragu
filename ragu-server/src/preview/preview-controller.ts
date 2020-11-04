@@ -12,7 +12,7 @@ export class PreviewController {
 
     const receivedQuery = req.query as Record<string, string>;
     const queryParams = new URLSearchParams(receivedQuery).toString();
-    const componentURL = `${req.protocol}://${req.headers.host}/components/${componentName}?${queryParams}"`;
+    const componentURL = `${this.config.baseurl}/components/${componentName}?${queryParams}"`;
 
     res.send(`<!doctype html>
       <html lang="en">
