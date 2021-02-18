@@ -38,16 +38,6 @@ export class ComponentsController {
   }
 
   private handleComponentError(e: any, componentName: any, res: Response) {
-    if (e.code === 'MODULE_NOT_FOUND') {
-      getLogger(this.config).warn(`component not found: ${componentName}`);
-      res.statusCode = 404;
-      res.send({
-        error: "component not found",
-        componentName
-      });
-      return
-    }
-
     getLogger(this.config).error(`error during processing component ${componentName}`, e);
     res.statusCode = 500;
     res.send({
