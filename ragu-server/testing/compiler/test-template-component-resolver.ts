@@ -2,7 +2,7 @@ import {TemplateComponentResolver} from "../..";
 import path from "path";
 
 export class TestTemplateComponentResolver extends TemplateComponentResolver {
-  async viewTemplateFor(componentName: string): Promise<string> {
+  async serverSideTemplateFor(componentName: string): Promise<string> {
     const componentRender = path.join(this.config.components.sourceRoot, componentName, 'render');
 
     return `exports.default = {
@@ -12,7 +12,7 @@ export class TestTemplateComponentResolver extends TemplateComponentResolver {
 } `;
   }
 
-  async hydrateTemplateFor(componentName: string): Promise<string> {
+  async clientSideTemplateFor(componentName: string): Promise<string> {
     const componentRender = path.join(this.config.components.sourceRoot, componentName, 'render');
 
     return `exports.default = {

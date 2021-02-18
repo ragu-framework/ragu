@@ -120,11 +120,11 @@ export class ByFileStructureComponentResolver extends ComponentResolver {
 }
 
 export abstract class TemplateComponentResolver extends ByFileStructureComponentResolver {
-  abstract viewTemplateFor(componentName: string): Promise<string>;
-  abstract hydrateTemplateFor(componentName: string): Promise<string>;
+  abstract serverSideTemplateFor(componentName: string): Promise<string>;
+  abstract clientSideTemplateFor(componentName: string): Promise<string>;
 
   async componentServerSidePath(componentName: string): Promise<string> {
-    const template = await this.viewTemplateFor(componentName);
+    const template = await this.serverSideTemplateFor(componentName);
     const tempPath = await this.createRaguTempDirectory(componentName);
     const viewPath = path.join(tempPath, 'server-side.js');
 
@@ -135,7 +135,7 @@ export abstract class TemplateComponentResolver extends ByFileStructureComponent
   }
 
   async componentClientSidePath(componentName: string): Promise<string> {
-    const template = await this.hydrateTemplateFor(componentName);
+    const template = await this.clientSideTemplateFor(componentName);
 
     const tempPath = await this.createRaguTempDirectory(componentName);
     const hydratePath = path.join(tempPath, 'client-side.js');
@@ -166,7 +166,7 @@ export abstract class StateComponentResolver extends TemplateComponentResolver {
   abstract hydrateResolver: string;
   abstract stateResolver: string;
 
-  async hydrateTemplateFor(componentName: string): Promise<string> {
+  async clientSideTemplateFor(componentName: string): Promise<string> {
     return `
       var component = require('${this.hydrateFileFor(componentName)}');
       var resolver = require('${this.hydrateResolver}');
@@ -175,7 +175,7 @@ export abstract class StateComponentResolver extends TemplateComponentResolver {
     `;
   }
 
-  async viewTemplateFor(componentName: string): Promise<string> {
+  async serverSideTemplateFor(componentName: string): Promise<string> {
     return `
       var component = require('${this.viewFileFor(componentName)}');
       var resolver = require('${this.viewResolver}');

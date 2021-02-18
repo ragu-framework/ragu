@@ -51,7 +51,8 @@
     "demo": "ts-node demo.ts",
     "clean": "tsc --build --clean",
     "build": "tsc && cp package.json dist/ && cp ./README.md dist/",
-    "docs": "typedoc --out docs src && echo '' > docs/.nojekyll"
+    "docs": "typedoc --out docs src && echo '' > docs/.nojekyll",
+    "deploy:local": "npm run test && npm run build && cd dist && npm link && cd .."
   },
   "bin": {
     "ragu-server": "./src/cli/ragu-server.js"
