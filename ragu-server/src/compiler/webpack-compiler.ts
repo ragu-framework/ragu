@@ -15,7 +15,7 @@ type DependencyType = {
 type DependencyCallback = (componentName: string, context: string, dependency: string) => DependencyType;
 
 export const webpackCompile = (componentsEntry: Record<string, string>, serverConfig: RaguServerConfig, dependencyCallback: DependencyCallback): Promise<void> => {
-    const baseConfig = serverConfig.compiler.webpack?.hydrate || createDefaultWebpackConfiguration({isDevelopment: false});
+    const baseConfig = serverConfig.compiler.webpack?.clientSide || createDefaultWebpackConfiguration({isDevelopment: false});
 
     const webpackConfigs: webpack.Configuration[] = [];
 
@@ -25,7 +25,7 @@ export const webpackCompile = (componentsEntry: Record<string, string>, serverCo
                 [componentEntry]: componentsEntry[componentEntry],
             },
             output: {
-                path: serverConfig.compiler.output.hydrate,
+                path: serverConfig.compiler.output.clientSide,
                 publicPath: serverConfig.compiler.assetsPrefix,
                 jsonpFunction: `wpJsonp_${serverConfig.components.namePrefix}`,
                 library: `${serverConfig.components.namePrefix}[name]`,
@@ -35,7 +35,7 @@ export const webpackCompile = (componentsEntry: Record<string, string>, serverCo
             plugins: [
                 new Chunks2JsonPlugin({
                     filename: `${componentEntry}.build-manifest.json`,
-                    outputDir: serverConfig.compiler.output.hydrate,
+                    outputDir: serverConfig.compiler.output.clientSide,
                     publicPath: serverConfig.compiler.assetsPrefix
                 })
             ],

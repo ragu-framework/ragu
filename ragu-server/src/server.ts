@@ -25,7 +25,7 @@ export class RaguServer {
   }
 
   private registerStaticsController() {
-    this.expressApp.use(this.config.server.routes.assets, express.static(this.config.compiler.output.hydrate));
+    this.expressApp.use(this.config.server.routes.assets, express.static(this.config.compiler.output.clientSide));
   }
 
   private registerComponentsController() {

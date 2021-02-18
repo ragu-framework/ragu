@@ -18,7 +18,7 @@ describe('Hydrate Compiler', () => {
 
     it('returns the list of css files', async () => {
       const config = await createTestConfig();
-      config.compiler.output.hydrate = __dirname;
+      config.compiler.output.clientSide = __dirname;
 
       const styles = await new HydrateCompiler(config).getStyles('hello-world');
 
@@ -42,8 +42,8 @@ describe('Hydrate Compiler', () => {
     });
 
     afterAll(() => {
-      emptyDirSync(config.compiler.output.view);
-      emptyDirSync(config.compiler.output.hydrate);
+      emptyDirSync(config.compiler.output.serverSide);
+      emptyDirSync(config.compiler.output.clientSide);
     });
 
     beforeEach(() => {

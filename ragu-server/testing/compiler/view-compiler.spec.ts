@@ -22,7 +22,7 @@ describe('View Compiler', () => {
   });
 
   afterAll(() => {
-    emptyDirSync(path.join(config.compiler.output.view, '..'));
+    emptyDirSync(path.join(config.compiler.output.serverSide, '..'));
   });
 
   describe('returning the compiled path', () => {
@@ -30,7 +30,7 @@ describe('View Compiler', () => {
       const helloPath = compiler.compiledComponentPath('hello-world');
       const helloDirectoryPath = path.dirname(helloPath);
 
-      expect(helloDirectoryPath).toEqual(config.compiler.output.view);
+      expect(helloDirectoryPath).toEqual(config.compiler.output.serverSide);
     });
 
     it('returns the filename with the same name of component name', () => {
@@ -47,14 +47,14 @@ describe('View Compiler', () => {
     });
 
     it('compiles the component', () => {
-      const componentFileAsText = fs.readFileSync(path.join(config.components.sourceRoot, 'hello-world', 'view.ts')).toString();
+      const componentFileAsText = fs.readFileSync(path.join(config.components.sourceRoot, 'hello-world', 'server-side.ts')).toString();
       const compiledComponentFileAsText = fs.readFileSync(compiler.compiledComponentPath('hello-world')).toString();
 
       expect(componentFileAsText).not.toEqual(compiledComponentFileAsText);
     });
 
     it('keeps the behaviour after compilation', () => {
-      const {default: component} = require(path.join(config.components.sourceRoot, 'hello-world', 'view.ts'));
+      const {default: component} = require(path.join(config.components.sourceRoot, 'hello-world', 'server-side.ts'));
       const {default: compiledComponent} = require(compiler.compiledComponentPath('hello-world'));
 
       expect(component.dependencies).toEqual(compiledComponent.dependencies);
@@ -64,7 +64,7 @@ describe('View Compiler', () => {
 
   describe('compiling components with a custom template resolver', () => {
     it('keeps the behaviour after compilation', async () => {
-      config.compiler.output.view += '-template-resolver';
+      config.compiler.output.serverSide += '-template-resolver';
       config.components.sourceRoot = path.join(__dirname, 'template-resolver-components');
       config.components.resolver = new TestTemplateComponentResolver(config);
 
@@ -79,14 +79,14 @@ describe('View Compiler', () => {
   describe('providing a pre compiler webpack configuration with no exports', () => {
     beforeEach(async () => {
       // impossible to invalidate require.cache
-      config.compiler.output.view += '2';
-      config.compiler.webpack.view = merge(
+      config.compiler.output.serverSide += '2';
+      config.compiler.webpack.serverSide = merge(
           createDefaultWebpackConfiguration({}),
           {
             output: {
               libraryTarget: 'var',
               filename: '[name].js',
-              path: config.compiler.output.view,
+              path: config.compiler.output.serverSide,
             },
           }
       );
@@ -101,14 +101,14 @@ describe('View Compiler', () => {
 
   describe('providing a pre compiler webpack configuration that does not generates a not found', () => {
     beforeEach(async () => {
-      config.compiler.output.view += '3';
-      config.compiler.webpack.view = merge(
+      config.compiler.output.serverSide += '3';
+      config.compiler.webpack.serverSide = merge(
           createDefaultWebpackConfiguration({}),
           {
             output: {
               libraryTarget: 'var',
               filename: '[name].zucchini.js',
-              path: config.compiler.output.view,
+              path: config.compiler.output.serverSide,
             },
           }
       );

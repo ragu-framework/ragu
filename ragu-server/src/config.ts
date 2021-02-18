@@ -49,6 +49,12 @@ export interface RaguServerBaseConfig {
    */
   baseurl: string,
   /**
+   * The project base url.
+   *
+   * @default http://localhost:${port}
+   */
+  ssrEnabled: boolean,
+  /**
    * A set of configuration for ragu components.
    */
   components: {
@@ -164,25 +170,25 @@ export interface RaguServerBaseConfig {
       /**
        * Describe where view compiled files should be outputted.
        *
-       * @default `projectRoot`/.ragu-components/output/view/
+       * @default `projectRoot`/.ragu-components/output/server-side/
        */
-      view: string;
+      serverSide: string;
       /**
        * Describe where hydrate compiled files should be outputted.
        *
-       * @default `projectRoot`/.ragu-components/output/hydrate/
+       * @default `projectRoot`/.ragu-components/output/client-side/
        */
-      hydrate: string;
+      clientSide: string;
     };
     webpack: {
       /**
        * The webpack configuration for view (aka server-side components)
        */
-      view: webpack.Configuration
+      serverSide: webpack.Configuration
       /**
        * The webpack configuration for hydrate (aka client-side components)
        */
-      hydrate: webpack.Configuration
+      clientSide: webpack.Configuration
     }
   }
 }
@@ -219,6 +225,7 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
   const config = mergeConfig<RaguServerConfig, RaguServerBaseConfigProps>({
     environment: 'production',
     baseurl: baseURL,
+    ssrEnabled: true,
     server: {
       port: serverPort,
       hideWelcomeMessage: false,
@@ -233,7 +240,7 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
     compiler: {
       assetsPrefix: `${baseURL}${assetsRoute}`,
       webpack: {
-        view: merge(createDefaultWebpackConfiguration({isDevelopment: props.environment === 'development'}), {
+        serverSide: merge(createDefaultWebpackConfiguration({isDevelopment: props.environment === 'development'}), {
           target: 'node',
           output: {
             libraryTarget: 'commonjs2',
@@ -243,11 +250,11 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
             nodeExternals()
           ],
         }),
-        hydrate: createDefaultWebpackConfiguration({isDevelopment: props.environment === 'development'}),
+        clientSide: createDefaultWebpackConfiguration({isDevelopment: props.environment === 'development'}),
       },
       output: {
-        view: path.join(projectRoot, '.ragu-components', 'compiled', 'view'),
-        hydrate: path.join(projectRoot, '.ragu-components', 'compiled', 'hydrate')
+        serverSide: path.join(projectRoot, '.ragu-components', 'compiled', 'server-side'),
+        clientSide: path.join(projectRoot, '.ragu-components', 'compiled', 'client-side')
       }
     },
     components: {
@@ -257,12 +264,12 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
     },
   }, props);
 
-  if (props.compiler?.webpack?.view) {
-    config.compiler.webpack.view = props.compiler.webpack.view as webpack.Configuration;
+  if (props.compiler?.webpack?.serverSide) {
+    config.compiler.webpack.serverSide = props.compiler.webpack.serverSide as webpack.Configuration;
   }
 
-  if (props.compiler?.webpack?.hydrate) {
-    config.compiler.webpack.hydrate = props.compiler.webpack.hydrate as webpack.Configuration;
+  if (props.compiler?.webpack?.clientSide) {
+    config.compiler.webpack.clientSide = props.compiler.webpack.clientSide as webpack.Configuration;
   }
 
   return config;

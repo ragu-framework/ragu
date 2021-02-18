@@ -1,6 +1,6 @@
 import {RaguServerConfig} from "../config";
 import {ViewCompiler} from "./view-compiler";
-import {PreviewCompiler} from "../preview/preview-compiler";
+import {PreviewCompiler} from "../..";
 import {HydrateCompiler} from "./hydrate-compiler";
 
 export class ComponentsCompiler {
@@ -8,14 +8,19 @@ export class ComponentsCompiler {
   private readonly previewCompiler: PreviewCompiler;
   private readonly hydrateCompiler: HydrateCompiler;
 
-  constructor(private readonly config: RaguServerConfig) {
-    this.viewCompiler = new ViewCompiler(config);
-    this.previewCompiler = new PreviewCompiler(this.config);
-    this.hydrateCompiler = new HydrateCompiler(this.config);
+  constructor(
+      private readonly config: RaguServerConfig,
+      viewCompiler?: ViewCompiler,
+      previewCompiler?: PreviewCompiler,
+      hydrateCompiler?: HydrateCompiler
+  ) {
+    this.viewCompiler = viewCompiler || new ViewCompiler(config);
+    this.previewCompiler = previewCompiler || new PreviewCompiler(this.config);
+    this.hydrateCompiler = hydrateCompiler || new HydrateCompiler(this.config);
   }
 
   async compileAll() {
-    await this.viewCompiler.compileAll();
+    this.config.ssrEnabled && await this.viewCompiler.compileAll();
     await this.hydrateCompiler.compileAll();
     await this.previewCompiler.compile();
   }

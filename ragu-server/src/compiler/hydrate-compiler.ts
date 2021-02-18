@@ -2,7 +2,7 @@ import {RaguServerConfig} from "../config";
 import * as fs from "fs";
 import * as path from "path";
 import {webpackCompile} from "./webpack-compiler";
-import {getLogger} from "../logging/get-logger";
+import {getLogger} from "../..";
 import {ComponentResolver, getComponentResolver} from "./component-resolver";
 
 type DependencyObject = { nodeRequire: string, globalVariable: string };
@@ -63,7 +63,7 @@ export class HydrateCompiler {
 
   private getManifestFile(componentName: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      fs.readFile(path.join(this.config.compiler.output.hydrate, `${componentName}.build-manifest.json`), (err, data) => {
+      fs.readFile(path.join(this.config.compiler.output.clientSide, `${componentName}.build-manifest.json`), (err, data) => {
         if (err) {
           reject(err);
           getLogger(this.config).error(`Unable to load the "${componentName}.build-manifest.json" file. Did you build run "ragu-server build" before start?`);

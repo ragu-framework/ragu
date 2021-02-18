@@ -36,15 +36,15 @@ describe('Component Resolver', () => {
     });
 
     it('returns the view source root of a component', async () => {
-      const componentViewPath = await componentResolver.componentViewPath('hello-world');
+      const componentViewPath = await componentResolver.componentServerSidePath('hello-world');
       expect(path.dirname(componentViewPath)).toEqual(path.join(config.components.sourceRoot, 'hello-world'));
-      expect(path.basename(componentViewPath)).toEqual('view');
+      expect(path.basename(componentViewPath)).toEqual('server-side');
     });
 
     it('returns the hydrate source root of a component', async () => {
-      const componentViewPath = await componentResolver.componentHydratePath('hello-world');
+      const componentViewPath = await componentResolver.componentClientSidePath('hello-world');
       expect(path.dirname(componentViewPath)).toEqual(path.join(config.components.sourceRoot, 'hello-world'));
-      expect(path.basename(componentViewPath)).toEqual('hydrate');
+      expect(path.basename(componentViewPath)).toEqual('client-side');
     });
 
     it('returns the component dependencies as empty by default', async () => {
@@ -109,14 +109,14 @@ describe('Component Resolver', () => {
     });
 
     it('creates a view file with the specified template', async () => {
-      const componentViewPath = await componentResolver.componentViewPath('hello-world');
+      const componentViewPath = await componentResolver.componentServerSidePath('hello-world');
       const component = require(componentViewPath);
 
       expect(component.default.render({name: 'World'})).toBe('Hello, World!!!');
     });
 
     it('creates a hydrate file with the specified template', async () => {
-      const componentViewPath = await componentResolver.componentHydratePath('hello-world');
+      const componentViewPath = await componentResolver.componentClientSidePath('hello-world');
       const component = require(componentViewPath);
       const el = {
         innerHTML: ''
@@ -157,14 +157,14 @@ describe('Component Resolver', () => {
     });
 
     it('creates a view file with the specified template', async () => {
-      const componentViewPath = await componentResolver.componentViewPath('hello-world');
+      const componentViewPath = await componentResolver.componentServerSidePath('hello-world');
       const component = require(componentViewPath);
 
       await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
     });
 
     it('processes the state', async () => {
-      const componentViewPath = await componentResolver.componentViewPath('hello-world-state');
+      const componentViewPath = await componentResolver.componentServerSidePath('hello-world-state');
       const component = require(componentViewPath);
 
       await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
@@ -174,14 +174,14 @@ describe('Component Resolver', () => {
       (componentResolver as TestStateComponentResolver).viewResolver = path.join(__dirname, 'state-resolver', 'view-resolver-no-default');
       (componentResolver as TestStateComponentResolver).stateResolver = path.join(__dirname, 'state-resolver', 'state-resolver-no-default');
 
-      const componentViewPath = await componentResolver.componentViewPath('hello-world-no-default');
+      const componentViewPath = await componentResolver.componentServerSidePath('hello-world-no-default');
       const component = require(componentViewPath);
 
       await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
     });
 
     it('creates an hydrate file', async () => {
-      const componentHydrate = await componentResolver.componentHydratePath('hello-world');
+      const componentHydrate = await componentResolver.componentClientSidePath('hello-world');
       const component = require(componentHydrate);
 
       const el = {
@@ -195,7 +195,7 @@ describe('Component Resolver', () => {
 
     it('creates an hydrate file with no default export', async () => {
       (componentResolver as TestStateComponentResolver).viewResolver = path.join(__dirname, 'state-resolver', 'hydrate-resolver-no-default');
-      const componentHydrate = await componentResolver.componentHydratePath('hello-world-no-default');
+      const componentHydrate = await componentResolver.componentClientSidePath('hello-world-no-default');
       const component = require(componentHydrate);
 
       const el = {

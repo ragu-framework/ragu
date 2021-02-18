@@ -27,8 +27,8 @@ describe('Server Side Rendering', () => {
 
   afterAll(async () => {
     await server.stop();
-    emptyDirSync(config.compiler.output.view);
-    emptyDirSync(config.compiler.output.hydrate);
+    emptyDirSync(config.compiler.output.serverSide);
+    emptyDirSync(config.compiler.output.clientSide);
   });
 
   describe('fetching a component successfully', () => {

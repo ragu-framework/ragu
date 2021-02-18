@@ -20,16 +20,16 @@ export abstract class ComponentResolver {
   }
 
   abstract componentList(): Promise<string[]>;
-  abstract componentViewPath(componentName: string): Promise<string>;
-  abstract componentHydratePath(componentName: string): Promise<string>;
+  abstract componentServerSidePath(componentName: string): Promise<string>;
+  abstract componentClientSidePath(componentName: string): Promise<string>;
   abstract componentsOnlyDependencies(componentName: string): Promise<Dependency[]>;
 
   async componentViewWebpackEntries() {
-    return await this.extractEntries(this.componentViewPath.bind(this));
+    return await this.extractEntries(this.componentServerSidePath.bind(this));
   }
 
   async componentHydrateWebpackEntries() {
-    return await this.extractEntries(this.componentHydratePath.bind(this));
+    return await this.extractEntries(this.componentClientSidePath.bind(this));
   }
 
   private async extractEntries(componentNameToFile: (componentName: string) => Promise<string>) {
@@ -79,12 +79,12 @@ export class ByFileStructureComponentResolver extends ComponentResolver {
     });
   }
 
-  async componentHydratePath(componentName: string): Promise<string> {
-    return path.join(this.config.components.sourceRoot, componentName, 'hydrate')
+  async componentClientSidePath(componentName: string): Promise<string> {
+    return path.join(this.config.components.sourceRoot, componentName, 'client-side')
   }
 
-  async componentViewPath(componentName: string): Promise<string> {
-    return path.join(this.config.components.sourceRoot, componentName, 'view');
+  async componentServerSidePath(componentName: string): Promise<string> {
+    return path.join(this.config.components.sourceRoot, componentName, 'server-side');
   }
 
   async componentsOnlyDependencies(componentName: string): Promise<Dependency[]> {
@@ -123,10 +123,10 @@ export abstract class TemplateComponentResolver extends ByFileStructureComponent
   abstract viewTemplateFor(componentName: string): Promise<string>;
   abstract hydrateTemplateFor(componentName: string): Promise<string>;
 
-  async componentViewPath(componentName: string): Promise<string> {
+  async componentServerSidePath(componentName: string): Promise<string> {
     const template = await this.viewTemplateFor(componentName);
     const tempPath = await this.createRaguTempDirectory(componentName);
-    const viewPath = path.join(tempPath, 'view.js');
+    const viewPath = path.join(tempPath, 'server-side.js');
 
     getLogger(this.config).debug(`"${componentName}" view file generated at "${viewPath}" by "${this.constructor.name}"`);
 
@@ -134,11 +134,11 @@ export abstract class TemplateComponentResolver extends ByFileStructureComponent
     return viewPath;
   }
 
-  async componentHydratePath(componentName: string): Promise<string> {
+  async componentClientSidePath(componentName: string): Promise<string> {
     const template = await this.hydrateTemplateFor(componentName);
 
     const tempPath = await this.createRaguTempDirectory(componentName);
-    const hydratePath = path.join(tempPath, 'hydrate.js');
+    const hydratePath = path.join(tempPath, 'client-side.js');
 
     getLogger(this.config).debug(`"${componentName}" hydrate file generated at "${hydratePath}" by "${this.constructor.name}"`);
 

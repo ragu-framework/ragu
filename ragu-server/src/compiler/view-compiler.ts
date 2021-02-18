@@ -44,7 +44,7 @@ export class ViewCompiler {
     });
 
     const viewOutputFiles: string[] = componentNames
-        .map((componentName) => path.join(this.config.compiler.output.view, componentName));
+        .map((componentName) => path.join(this.config.compiler.output.serverSide, componentName));
 
 
     getLogger(this.config).info(`Pre-compiler watch mode is ${webpackConfig.watch ? 'on' : 'off'}`);
@@ -90,7 +90,7 @@ export class ViewCompiler {
   }
 
   compiledComponentPath(componentName: string): string {
-    return path.join(this.config.compiler.output.view, componentName) + '.js';
+    return path.join(this.config.compiler.output.serverSide, componentName) + '.js';
   }
 
   private getWebpackConfig() {
@@ -99,14 +99,14 @@ export class ViewCompiler {
       output: {
         libraryTarget: "commonjs2",
         filename: '[name].js',
-        path: this.config.compiler.output.view
+        path: this.config.compiler.output.serverSide
       },
       externals: [webpackNodeExternals()],
       watch: this.config.compiler.watchMode
     };
 
-    if (this.config.compiler.webpack?.view) {
-      return merge(requiredConfig, this.config.compiler.webpack.view);
+    if (this.config.compiler.webpack?.serverSide) {
+      return merge(requiredConfig, this.config.compiler.webpack.serverSide);
     }
 
     return merge(createDefaultWebpackConfiguration({}), requiredConfig);
@@ -125,7 +125,7 @@ export class ViewCompiler {
   }
 
   private getCompiledComponent(componentName: string) {
-    const componentPath = path.join(this.config.compiler.output.view, componentName);
+    const componentPath = path.join(this.config.compiler.output.serverSide, componentName);
 
     try {
       getLogger(this.config).debug(`Loading component "${componentName}" from "${componentPath}"`);
