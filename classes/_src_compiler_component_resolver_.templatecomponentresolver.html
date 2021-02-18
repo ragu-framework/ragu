@@ -106,10 +106,11 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componenthydratepath" class="tsd-kind-icon">component<wbr>Hydrate<wbr>Path</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_compiler_component_resolver_.templatecomponentresolver.html#availableroutes" class="tsd-kind-icon">available<wbr>Routes</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentclientsidepath" class="tsd-kind-icon">component<wbr>Client<wbr>Side<wbr>Path</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componenthydratewebpackentries" class="tsd-kind-icon">component<wbr>Hydrate<wbr>Webpack<wbr>Entries</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentlist" class="tsd-kind-icon">component<wbr>List</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentviewpath" class="tsd-kind-icon">component<wbr>View<wbr>Path</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentserversidepath" class="tsd-kind-icon">component<wbr>Server<wbr>Side<wbr>Path</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentviewwebpackentries" class="tsd-kind-icon">component<wbr>View<wbr>Webpack<wbr>Entries</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentsonlydependencies" class="tsd-kind-icon">components<wbr>Only<wbr>Dependencies</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_src_compiler_component_resolver_.templatecomponentresolver.html#createragutempdirectory" class="tsd-kind-icon">create<wbr>Ragu<wbr>Temp<wbr>Directory</a></li>
@@ -136,7 +137,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_compiler_component_resolver_.componentresolver.html">ComponentResolver</a>.<a href="_src_compiler_component_resolver_.componentresolver.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L12">src/compiler/component-resolver.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L18">src/compiler/component-resolver.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -159,25 +160,43 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="_src_compiler_component_resolver_.componentresolver.html">ComponentResolver</a>.<a href="_src_compiler_component_resolver_.componentresolver.html#config">config</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L13">src/compiler/component-resolver.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L19">src/compiler/component-resolver.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-					<a name="componenthydratepath" class="tsd-anchor"></a>
-					<h3>component<wbr>Hydrate<wbr>Path</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">component<wbr>Hydrate<wbr>Path<span class="tsd-signature-symbol">(</span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="availableroutes" class="tsd-anchor"></a>
+					<h3>available<wbr>Routes</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">available<wbr>Routes<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>preview<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>route<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html">ByFileStructureComponentResolver</a>.<a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html#componenthydratepath">componentHydratePath</a></p>
+								<p>Inherited from <a href="_src_compiler_component_resolver_.componentresolver.html">ComponentResolver</a>.<a href="_src_compiler_component_resolver_.componentresolver.html#availableroutes">availableRoutes</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L122">src/compiler/component-resolver.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L57">src/compiler/component-resolver.ts:57</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>preview<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>route<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="componentclientsidepath" class="tsd-anchor"></a>
+					<h3>component<wbr>Client<wbr>Side<wbr>Path</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">component<wbr>Client<wbr>Side<wbr>Path<span class="tsd-signature-symbol">(</span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html">ByFileStructureComponentResolver</a>.<a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html#componentclientsidepath">componentClientSidePath</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L137">src/compiler/component-resolver.ts:137</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -201,7 +220,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_compiler_component_resolver_.componentresolver.html">ComponentResolver</a>.<a href="_src_compiler_component_resolver_.componentresolver.html#componenthydratewebpackentries">componentHydrateWebpackEntries</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L25">src/compiler/component-resolver.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L31">src/compiler/component-resolver.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -220,7 +239,7 @@
 								<p>Inherited from <a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html">ByFileStructureComponentResolver</a>.<a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html#componentlist">componentList</a></p>
 								<p>Overrides <a href="_src_compiler_component_resolver_.componentresolver.html">ComponentResolver</a>.<a href="_src_compiler_component_resolver_.componentresolver.html#componentlist">componentList</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L55">src/compiler/component-resolver.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L70">src/compiler/component-resolver.ts:70</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -228,17 +247,17 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-					<a name="componentviewpath" class="tsd-anchor"></a>
-					<h3>component<wbr>View<wbr>Path</h3>
+					<a name="componentserversidepath" class="tsd-anchor"></a>
+					<h3>component<wbr>Server<wbr>Side<wbr>Path</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">component<wbr>View<wbr>Path<span class="tsd-signature-symbol">(</span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">component<wbr>Server<wbr>Side<wbr>Path<span class="tsd-signature-symbol">(</span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html">ByFileStructureComponentResolver</a>.<a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html#componentviewpath">componentViewPath</a></p>
+								<p>Overrides <a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html">ByFileStructureComponentResolver</a>.<a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html#componentserversidepath">componentServerSidePath</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L111">src/compiler/component-resolver.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L126">src/compiler/component-resolver.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -262,7 +281,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_compiler_component_resolver_.componentresolver.html">ComponentResolver</a>.<a href="_src_compiler_component_resolver_.componentresolver.html#componentviewwebpackentries">componentViewWebpackEntries</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L21">src/compiler/component-resolver.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L27">src/compiler/component-resolver.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -281,7 +300,7 @@
 								<p>Inherited from <a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html">ByFileStructureComponentResolver</a>.<a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html#componentsonlydependencies">componentsOnlyDependencies</a></p>
 								<p>Overrides <a href="_src_compiler_component_resolver_.componentresolver.html">ComponentResolver</a>.<a href="_src_compiler_component_resolver_.componentresolver.html#componentsonlydependencies">componentsOnlyDependencies</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L75">src/compiler/component-resolver.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L90">src/compiler/component-resolver.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -304,7 +323,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L134">src/compiler/component-resolver.ts:134</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L149">src/compiler/component-resolver.ts:149</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -328,7 +347,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_compiler_component_resolver_.componentresolver.html">ComponentResolver</a>.<a href="_src_compiler_component_resolver_.componentresolver.html#defaultdependencies">defaultDependencies</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L40">src/compiler/component-resolver.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L46">src/compiler/component-resolver.ts:46</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -352,7 +371,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_compiler_component_resolver_.componentresolver.html">ComponentResolver</a>.<a href="_src_compiler_component_resolver_.componentresolver.html#dependenciesof">dependenciesOf</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L44">src/compiler/component-resolver.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L50">src/compiler/component-resolver.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -375,7 +394,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L109">src/compiler/component-resolver.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L124">src/compiler/component-resolver.ts:124</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -398,7 +417,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L108">src/compiler/component-resolver.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L123">src/compiler/component-resolver.ts:123</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -422,7 +441,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html">ByFileStructureComponentResolver</a>.<a href="_src_compiler_component_resolver_.byfilestructurecomponentresolver.html#getinstance">getInstance</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/57b871f/ragu-server/src/compiler/component-resolver.ts#L98">src/compiler/component-resolver.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/5be6d70/ragu-server/src/compiler/component-resolver.ts#L113">src/compiler/component-resolver.ts:113</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -539,8 +558,11 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="_src_compiler_component_resolver_.templatecomponentresolver.html#config" class="tsd-kind-icon">config</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_src_compiler_component_resolver_.templatecomponentresolver.html#availableroutes" class="tsd-kind-icon">available<wbr>Routes</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componenthydratepath" class="tsd-kind-icon">component<wbr>Hydrate<wbr>Path</a>
+								<a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentclientsidepath" class="tsd-kind-icon">component<wbr>Client<wbr>Side<wbr>Path</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componenthydratewebpackentries" class="tsd-kind-icon">component<wbr>Hydrate<wbr>Webpack<wbr>Entries</a>
@@ -549,7 +571,7 @@
 								<a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentlist" class="tsd-kind-icon">component<wbr>List</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentviewpath" class="tsd-kind-icon">component<wbr>View<wbr>Path</a>
+								<a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentserversidepath" class="tsd-kind-icon">component<wbr>Server<wbr>Side<wbr>Path</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_src_compiler_component_resolver_.templatecomponentresolver.html#componentviewwebpackentries" class="tsd-kind-icon">component<wbr>View<wbr>Webpack<wbr>Entries</a>
@@ -579,6 +601,9 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_src_compiler_component_resolver_.html#componentroute" class="tsd-kind-icon">Component<wbr>Route</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/_src_compiler_component_resolver_.html#dependency" class="tsd-kind-icon">Dependency</a>
 					</li>
