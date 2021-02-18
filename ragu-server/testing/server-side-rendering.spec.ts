@@ -90,7 +90,7 @@ describe('Server Side Rendering', () => {
 
     it('renders the ragu-component', () => {
       expect(responseBody)
-          .toContain(`<ragu-component src="http://localhost:${config.server.port}/components/hello-world?name=World"></ragu-component>`);
+          .toContain(`<ragu-component src="http://localhost:${config.server.port}/components/hello-world?name=World">`);
     });
   });
 
