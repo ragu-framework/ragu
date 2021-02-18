@@ -6,18 +6,22 @@ import {getLogger} from "./logging/get-logger";
 import chalk from "chalk";
 import {ComponentsController} from "./ssr/components-controller";
 import {PreviewController} from "./preview/preview-controller";
+import {ComponentRoute, getComponentResolver} from "./compiler/component-resolver";
 
 
 export class RaguServer {
   readonly expressApp: Express;
   private server?: http.Server;
+  private previewController: PreviewController;
+  private componentsController: ComponentsController;
 
   constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler) {
     this.expressApp = express();
+    this.previewController = new PreviewController(this.config);
+    this.componentsController = new ComponentsController(this.config, this.compiler);
 
     this.registerStaticsController();
     this.registerComponentsController();
-    this.registerPreviewController();
   }
 
   private registerStaticsController() {
@@ -25,18 +29,32 @@ export class RaguServer {
   }
 
   private registerComponentsController() {
-    const componentController = new ComponentsController(this.config, this.compiler);
+    getComponentResolver(this.config).availableRoutes().then((routes) => {
+      getLogger(this.config).info(`${routes.length} will be registered`);
 
-    this.expressApp.get('/components/:componentName', async (req, res) => {
-      await componentController.renderComponent(req, res);
+      routes.forEach(route => {
+        getLogger(this.config).info(`Registering route for ${route.componentName}: ${route.route}`);
+
+        this.registerComponentRoute(route);
+        this.registerComponentPreviewRoute(route);
+      })
+    }).catch((e) => {
+      getLogger(this.config).error(`Error during route registration ${e}`);
     });
   }
 
-  private registerPreviewController() {
+  private registerComponentRoute(route: ComponentRoute) {
+    this.expressApp.get(route.route, async (req, res) => {
+      req.params.componentName = route.componentName;
+      await this.componentsController.renderComponent(req, res);
+    });
+  }
+
+  private registerComponentPreviewRoute(route: ComponentRoute) {
     if (this.config.server.previewEnabled) {
-      const previewController = new PreviewController(this.config);
-      this.expressApp.get('/preview/:componentName', async (req, res) => {
-        await previewController.renderComponent(req, res);
+      this.expressApp.get(route.preview, async (req, res) => {
+        req.params.componentName = route.componentName;
+        await this.previewController.renderComponent(req, res);
       });
     }
   }

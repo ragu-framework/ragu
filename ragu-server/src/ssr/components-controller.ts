@@ -1,8 +1,7 @@
 import {RaguServerConfig} from "../config";
 import {ComponentsService} from "./components-service";
 import {Request, Response} from "express";
-import {ComponentsCompiler} from "../..";
-import {getLogger} from "../..";
+import {ComponentsCompiler, getLogger} from "../..";
 
 export class ComponentsController {
   private readonly componentService: ComponentsService;

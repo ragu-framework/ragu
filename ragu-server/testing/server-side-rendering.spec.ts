@@ -122,22 +122,13 @@ describe('Server Side Rendering', () => {
 
   describe('fetching a non existing component', () => {
     let response: Response;
-    let responseBody: Record<string, unknown>;
 
     beforeAll(async () => {
       response = await fetch(`http://localhost:${config.server.port}/components/a-component-that-does-not-exists?name=World`);
-      responseBody = await response.json();
     });
 
-    it('returns 200 as status code', () => {
+    it('returns 404 as status code', () => {
       expect(response.status).toBe(404);
-    });
-
-    it('returns an error given a not found component', async () => {
-      expect(responseBody).toEqual({
-        error: 'component not found',
-        componentName: 'a-component-that-does-not-exists'
-      });
     });
   });
 });

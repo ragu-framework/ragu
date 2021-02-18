@@ -9,6 +9,12 @@ type Dependency = {
   globalVariable: string
 };
 
+export type ComponentRoute = {
+  preview: string;
+  route: string;
+  componentName: string
+};
+
 export abstract class ComponentResolver {
   constructor(protected readonly config: RaguServerConfig) {
   }
@@ -46,6 +52,15 @@ export abstract class ComponentResolver {
     const componentDependencies = await this.componentsOnlyDependencies(componentName);
 
     return [...defaultDependencies, ...componentDependencies];
+  }
+
+  async availableRoutes() {
+    const componentList = await this.componentList();
+    return componentList.map((componentName) => ({
+      route: `/components/${componentName}`,
+      preview: `/preview/${componentName}`,
+      componentName
+    }));
   }
 }
 
