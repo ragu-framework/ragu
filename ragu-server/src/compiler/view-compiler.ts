@@ -5,7 +5,7 @@ import * as path from "path";
 import {merge} from "webpack-merge";
 import webpackNodeExternals from "webpack-node-externals";
 import {getLogger} from "../logging/get-logger";
-import {ComponentResolver, getComponentResolver} from "./component-resolver";
+import {ComponentResolver, getComponentResolver} from "./resolvers/component-resolver";
 
 
 export class PreCompilationOutputError extends Error {

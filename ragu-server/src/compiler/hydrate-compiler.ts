@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import {webpackCompile} from "./webpack-compiler";
 import {getLogger} from "../..";
-import {ComponentResolver, getComponentResolver} from "./component-resolver";
+import {ComponentResolver, getComponentResolver} from "./resolvers/component-resolver";
 
 type DependencyObject = { nodeRequire: string, globalVariable: string };
 

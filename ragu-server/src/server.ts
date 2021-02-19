@@ -6,7 +6,7 @@ import {getLogger} from "./logging/get-logger";
 import chalk from "chalk";
 import {ComponentsController} from "./ssr/components-controller";
 import {PreviewController} from "./preview/preview-controller";
-import {ComponentRoute, getComponentResolver} from "./compiler/component-resolver";
+import {ComponentRoute, getComponentResolver} from "./compiler/resolvers/component-resolver";
 
 
 export class RaguServer {
