@@ -76,7 +76,7 @@ export class RaguServer {
   }
 
   stop() {
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
       this.server?.close(() => {
         resolve()
       })
