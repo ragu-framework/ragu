@@ -54,7 +54,7 @@ export class RaguComponent {
   }
 
   private hydrate() {
-    this.component?.hydrate(this.element, this.component.props, this.component.state).then(() => {
+    this.component?.hydrate(this.element).then(() => {
       this.element.dispatchEvent(new CustomEvent('ragu:hydrated', {
         detail: this.component
       }))

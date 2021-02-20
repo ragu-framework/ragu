@@ -74,7 +74,8 @@ describe('component loader', () => {
 
   it('renders the component', async (done) => {
     const componentResponse: Partial<Component<string, string>> = {
-      state: 'la',
+      state: 'world',
+      props: 'hello',
       client: 'http://my-squad.org/client.asijdoaidj.ja',
       html: 'Hello, World!',
       resolverFunction: 'myResolverStub'
@@ -100,7 +101,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body, 'hello', 'world')
+    component.hydrate(document.body)
         .then(() => {
           expect(document.body.textContent).toContain('props: hello, state: world');
           done();
@@ -116,7 +117,8 @@ describe('component loader', () => {
 
   it('hydrates the component with the new module resolution', async (done) => {
     const componentResponse: Partial<Component<string, string>> = {
-      state: 'la',
+      state: 'world',
+      props: 'hello',
       client: 'http://my-squad.org/client.asijdoaidj.ja',
       html: 'Hello, World!',
       resolverFunction: 'myResolverStub'
@@ -140,7 +142,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body, 'hello', 'world')
+    component.hydrate(document.body)
         .then(() => {
           expect(document.body.textContent).toContain('props: hello, state: world');
           done();
@@ -156,7 +158,8 @@ describe('component loader', () => {
 
   it('hydrates the component with the new module resolution with no default', async (done) => {
     const componentResponse: Partial<Component<string, string>> = {
-      state: 'la',
+      state: 'world',
+      props: 'hello',
       client: 'http://my-squad.org/client.asijdoaidj.ja',
       html: 'Hello, World!',
       resolverFunction: 'myResolverStub'
@@ -178,7 +181,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body, 'hello', 'world')
+    component.hydrate(document.body)
         .then(() => {
           expect(document.body.textContent).toContain('props: hello, state: world');
           done();
@@ -224,7 +227,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body, 'hello', 'world')
+    component.hydrate(document.body)
         .then(async () => {
           component.disconnect?.(document.body);
 
@@ -254,7 +257,8 @@ describe('component loader', () => {
         {
           dependency: "https://unpkg.com/react@16/umd/react.development.min.js"
         }],
-      state: 'la',
+      state: 'world',
+      props: 'hello',
       client: 'http://my-squad.org/client.asijdoaidj.ja',
       html: 'Hello, World!',
       resolverFunction: 'myResolverStub'
@@ -280,7 +284,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body, 'hello', 'world')
+    component.hydrate(document.body)
         .then(() => {
           expect(clientResolved).toBeTruthy();
           expect(dependencyResolved).toBeTruthy();
