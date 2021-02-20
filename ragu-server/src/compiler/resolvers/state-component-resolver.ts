@@ -1,8 +1,8 @@
-import {TemplateComponentResolver} from "./template-component-resolver";
+import {TemplateComponentResolverByFileStructure} from "./template-component-resolver";
 import path from "path";
 import fs from "fs";
 
-export abstract class StateComponentResolver extends TemplateComponentResolver {
+export abstract class StateComponentResolver extends TemplateComponentResolverByFileStructure {
   abstract viewFileFor(componentName: string): string;
 
   abstract hydrateFileFor(componentName: string): string;

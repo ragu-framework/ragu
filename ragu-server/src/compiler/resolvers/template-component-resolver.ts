@@ -1,9 +1,8 @@
-import {ByFileStructureComponentResolver} from "./by-file-structure-resolver";
 import path from "path";
-import {getLogger} from "../../..";
+import {ByFileStructureComponentResolver, ComponentResolver, Dependency, getLogger, RaguServerConfig} from "../../..";
 import fs from "fs";
 
-export abstract class TemplateComponentResolver extends ByFileStructureComponentResolver {
+export abstract class TemplateComponentResolver extends ComponentResolver {
   abstract serverSideTemplateFor(componentName: string): Promise<string>;
 
   abstract clientSideTemplateFor(componentName: string): Promise<string>;
@@ -39,5 +38,23 @@ export abstract class TemplateComponentResolver extends ByFileStructureComponent
 
     await fs.promises.mkdir(componentDirectory, {recursive: true});
     return componentDirectory;
+  }
+}
+
+export abstract class TemplateComponentResolverByFileStructure extends TemplateComponentResolver {
+  private readonly byFileStuctureResolver: ByFileStructureComponentResolver;
+
+  constructor(config: RaguServerConfig) {
+    super(config);
+    this.byFileStuctureResolver = new ByFileStructureComponentResolver(this.config);
+  }
+
+
+  componentList(): Promise<string[]> {
+    return this.byFileStuctureResolver.componentList();
+  }
+
+  componentsOnlyDependencies(componentName: string): Promise<Dependency[]> {
+    return this.byFileStuctureResolver.componentsOnlyDependencies(componentName);
   }
 }

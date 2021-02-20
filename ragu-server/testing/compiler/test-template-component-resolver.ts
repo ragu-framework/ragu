@@ -1,7 +1,7 @@
-import {TemplateComponentResolver} from "../..";
+import {TemplateComponentResolverByFileStructure} from "../..";
 import path from "path";
 
-export class TestTemplateComponentResolver extends TemplateComponentResolver {
+export class TestTemplateComponentResolver extends TemplateComponentResolverByFileStructure {
   async serverSideTemplateFor(componentName: string): Promise<string> {
     const componentRender = path.join(this.config.components.sourceRoot, componentName, 'render');
 
