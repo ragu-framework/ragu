@@ -33,7 +33,7 @@ export class RaguComponent {
       this.element.dispatchEvent(new CustomEvent("ragu:fetched", { detail: this.component }));
 
       this.element.innerHTML = this.component.html;
-      this.hydrate();
+      this.render();
     }).catch((e) => {
       this.element.dispatchEvent(new CustomEvent("ragu:fetch-fail", { detail: e }));
     });
@@ -50,11 +50,11 @@ export class RaguComponent {
     ssrScriptElement.remove();
 
     this.component = await this.componentLoader.hydrationFactory(serverDate);
-    await this.hydrate();
+    await this.render();
   }
 
-  private hydrate() {
-    this.component?.hydrate(this.element).then(() => {
+  private render() {
+    this.component?.render(this.element).then(() => {
       this.element.dispatchEvent(new CustomEvent('ragu:hydrated', {
         detail: this.component
       }))

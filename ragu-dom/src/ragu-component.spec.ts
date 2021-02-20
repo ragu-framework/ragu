@@ -68,7 +68,7 @@ describe('Rendering a component', () => {
         },
         client: 'client_url',
         html: 'Hello, World',
-        async hydrate (element) {
+        async render (element) {
           await renderPromise.promise;
           element.innerHTML = `Hello from ${this.state.from}, ${this.props.name}`
         }
@@ -108,7 +108,7 @@ describe('Rendering a component', () => {
         },
         client: 'client_url',
         html: 'Hello, World',
-        async hydrate (element) {
+        async render (element) {
           await renderPromise.promise;
           element.innerHTML = `Hello from ${this.state.from}, ${this.props.name}`
         },
@@ -150,7 +150,7 @@ describe('Rendering a component', () => {
         },
         client: 'client_url',
         html: 'Hello, World',
-        async hydrate (element) {
+        async render (element) {
           await renderPromise.promise;
           element.innerHTML = `Hello from ${this.state.from}, ${this.props.name}`
         },
@@ -192,7 +192,7 @@ describe('Rendering a component', () => {
 
         hydrationPromise.resolve({
           ...serverData,
-          async hydrate (element) {
+          async render (element) {
             await renderPromise.promise;
             // @ts-ignore
             element.querySelector('div').innerHTML = `Hello from ${this.state.from}, ${this.props.name}`

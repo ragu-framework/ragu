@@ -24,7 +24,7 @@ export interface Component<Props, State> {
   resolverFunction: string;
   hydratePromise?: Promise<void>;
   component?: RuntimeComponent<Props, State>;
-  hydrate: (element: HTMLElement) => Promise<void>;
+  render: (element: HTMLElement) => Promise<void>;
   disconnect?: (element: HTMLElement) => void;
 }
 
@@ -70,7 +70,7 @@ export class ComponentLoader {
         }
         return this.component?.hydrate;
       },
-      async hydrate(htmlElement: HTMLElement) {
+      async render(htmlElement: HTMLElement) {
         const dependencies = componentResponse.dependencies || [];
 
         await context.dependencyContext.loadAll(dependencies);

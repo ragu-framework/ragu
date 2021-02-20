@@ -100,7 +100,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body)
+    component.render(document.body)
         .then(() => {
           expect(document.body.textContent).toContain('props: hello, state: world');
           done();
@@ -143,7 +143,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body)
+    component.render(document.body)
         .then(() => {
           expect(document.body.textContent).toContain('props: hello, state: world');
           done();
@@ -184,7 +184,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body)
+    component.render(document.body)
         .then(() => {
           expect(document.body.textContent).toContain('props: hello, state: world');
           done();
@@ -223,7 +223,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body)
+    component.render(document.body)
         .then(() => {
           expect(document.body.textContent).toContain('props: hello, state: world');
           done();
@@ -269,7 +269,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body)
+    component.render(document.body)
         .then(async () => {
           component.disconnect?.(document.body);
 
@@ -326,7 +326,7 @@ describe('component loader', () => {
       }
     }
 
-    component.hydrate(document.body)
+    component.render(document.body)
         .then(() => {
           expect(clientResolved).toBeTruthy();
           expect(dependencyResolved).toBeTruthy();
