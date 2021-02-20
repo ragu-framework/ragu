@@ -72,7 +72,49 @@ describe('component loader', () => {
     expect(resolvedMock).toBeCalled();
   });
 
-  it('renders the component', async (done) => {
+  it('renders the component when html is not provided', async (done) => {
+    const componentResponse: Partial<Component<string, string>> = {
+      state: 'world',
+      props: 'hello',
+      client: 'http://my-squad.org/client.asijdoaidj.ja',
+      resolverFunction: 'myResolverStub'
+    };
+
+    const component = await new ComponentLoader({
+      dependencyContext: new DependencyContext(
+          new ScriptLoader()
+      ),
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+    }).load('http://localhost:3000/components/hello-world?name=World');
+
+    (window as any)['myResolverStub'] = {
+      resolve: async () => {
+        return {
+          async render(element: HTMLElement, props: string, state: string) {
+            await new Promise((resolve) => {
+              setImmediate(() => resolve());
+            });
+            element.innerHTML = `props: ${props}, state: ${state}`;
+          }
+        }
+      }
+    }
+
+    component.hydrate(document.body)
+        .then(() => {
+          expect(document.body.textContent).toContain('props: hello, state: world');
+          done();
+        });
+
+    await new Promise((resolve) => {
+      setImmediate(() => resolve());
+    });
+
+    (document.querySelector('script[src="http://my-squad.org/client.asijdoaidj.ja"]') as HTMLScriptElement)
+        .onload?.(null as any);
+  });
+
+  it('hydrates the component when html is provided', async (done) => {
     const componentResponse: Partial<Component<string, string>> = {
       state: 'world',
       props: 'hello',

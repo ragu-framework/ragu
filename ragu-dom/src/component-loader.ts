@@ -6,8 +6,11 @@ export interface ComponentLoaderContext {
   jsonpGateway: JsonpGateway
 }
 
+type ComponentRenderable<Props, State> = (element: HTMLElement, props: Props, state: State) => Promise<void>;
+
 type RuntimeComponent<Props, State> = {
-  hydrate: (element: HTMLElement, props: Props, state: State) => Promise<void>,
+  hydrate: ComponentRenderable<Props, State>,
+  render: ComponentRenderable<Props, State>,
   disconnect?: (element: HTMLElement) => void;
 };
 
@@ -19,10 +22,10 @@ export interface Component<Props, State> {
   client: string;
   styles?: string[];
   resolverFunction: string;
-  disconnect?: (element: HTMLElement) => void
-  hydratePromise?: Promise<void>,
-  component?: RuntimeComponent<Props, State>,
+  hydratePromise?: Promise<void>;
+  component?: RuntimeComponent<Props, State>;
   hydrate: (element: HTMLElement) => Promise<void>;
+  disconnect?: (element: HTMLElement) => void;
 }
 
 export class ComponentLoader {
@@ -61,6 +64,12 @@ export class ComponentLoader {
 
         return component;
       },
+      getRenderFunction(): ComponentRenderable<P, S> | undefined {
+        if (this.html === undefined) {
+          return this.component?.render;
+        }
+        return this.component?.hydrate;
+      },
       async hydrate(htmlElement: HTMLElement) {
         const dependencies = componentResponse.dependencies || [];
 
@@ -70,7 +79,8 @@ export class ComponentLoader {
         const resolvedComponent = (window as any)[componentResponse.resolverFunction];
         this.component = await this.runtimeComponent(resolvedComponent);
 
-        this.hydratePromise = this.component?.hydrate(htmlElement, this.props, this.state);
+        const renderFunction = this.getRenderFunction();
+        this.hydratePromise = renderFunction?.(htmlElement, this.props, this.state);
         await this.hydratePromise;
       }
     };
