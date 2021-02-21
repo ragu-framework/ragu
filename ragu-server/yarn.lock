@@ -4471,10 +4471,10 @@ ragu-client-node@^0.0.3:
   dependencies:
     yarn "^1.22.5"
 
-ragu-dom@^0.0.50:
-  version "0.0.50"
-  resolved "https://registry.yarnpkg.com/ragu-dom/-/ragu-dom-0.0.50.tgz#a93506a2e96057398611b5deed55aebb6b5fcd10"
-  integrity sha512-Gd5xCF9/Wp7dRYkE8jmSXoQVJW2WKsoT9xZtNryF3tf8zm4vV4eh1XD/dvs/v/2z1oenYu3hvy/JWltcSox3pA==
+ragu-dom@^0.0.51:
+  version "0.0.51"
+  resolved "https://registry.yarnpkg.com/ragu-dom/-/ragu-dom-0.0.51.tgz#0c936636c255ae68df7b4ce4b678b30053ab7b0f"
+  integrity sha512-MGEZL70Va/QW1xEcX63EwItbJipAvUr6PfLmj8FbMCDtUa6s548KOoROLezBG0xFme8vNRm/sniBLv0OwElsew==
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"
