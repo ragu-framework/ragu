@@ -1,6 +1,6 @@
 {
   "name": "ragu-vue-server-adapter",
-  "version": "0.0.48",
+  "version": "0.0.49",
   "description": "Server of ragu micro-frontend framework",
   "main": "./index.js",
   "type": "./index.d.ts",
