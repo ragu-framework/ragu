@@ -2,6 +2,7 @@ import {TemplateComponentResolverByFileStructure} from "./template-component-res
 import path from "path";
 import fs from "fs";
 import {RaguServerConfig} from "../../config";
+import {Dependency} from "./component-resolver";
 
 
 interface InternalStateComponentResolverProps {
@@ -100,6 +101,8 @@ export abstract class StateComponentResolver extends TemplateComponentResolverBy
 
 
 export abstract class StateComponentSingleComponentResolver extends TemplateComponentResolverByFileStructure {
+  SINGLE_COMPONENT_NAME = 'single-component';
+
   abstract serverSideResolverTemplate: string;
   abstract clientSideResolverTemplate: string;
   abstract stateResolverTemplate: string;
@@ -141,5 +144,23 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
 
   async serverSideTemplateFor(componentName: string): Promise<string> {
     return this.resolver.serverSideTemplateFor(componentName);
+  }
+
+
+  async componentList(): Promise<string[]> {
+    return [this.SINGLE_COMPONENT_NAME];
+  }
+
+  async componentsOnlyDependencies(): Promise<Dependency[]> {
+    return [];
+  }
+
+
+  async availableRoutes(): Promise<{ preview: string; route: string; componentName: string }[]> {
+    return [{
+      preview: '/preview',
+      route: '/',
+      componentName: this.SINGLE_COMPONENT_NAME
+    }];
   }
 }
