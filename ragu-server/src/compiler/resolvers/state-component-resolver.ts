@@ -64,9 +64,9 @@ class InternalStateComponentResolver {
 
 
 export abstract class StateComponentResolver extends TemplateComponentResolverByFileStructure {
-  abstract viewFileFor(componentName: string): string;
+  abstract serverSideFileFor(componentName: string): string;
 
-  abstract hydrateFileFor(componentName: string): string;
+  abstract clientSideFileFor(componentName: string): string;
 
   abstract stateFileFor(componentName: string): string;
 
@@ -80,9 +80,9 @@ export abstract class StateComponentResolver extends TemplateComponentResolverBy
 
   private get resolver() {
     return new InternalStateComponentResolver({
-      hydrateFileFor: this.hydrateFileFor.bind(this),
+      hydrateFileFor: this.clientSideFileFor.bind(this),
       stateFileFor: this.stateFileFor.bind(this),
-      viewFileFor: this.viewFileFor.bind(this),
+      viewFileFor: this.serverSideFileFor.bind(this),
       hydrateResolver: this.hydrateResolver,
       stateResolver: this.stateResolver,
       viewResolver: this.viewResolver,

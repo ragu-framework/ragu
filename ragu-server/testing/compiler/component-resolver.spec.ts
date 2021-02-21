@@ -134,7 +134,7 @@ describe('Component Resolver', () => {
       viewResolver: string = path.join(__dirname, 'state-resolver', 'view-resolver');
       stateResolver: string = path.join(__dirname, 'state-resolver', 'state-resolver');
 
-      hydrateFileFor(componentName: string): string {
+      clientSideFileFor(componentName: string): string {
         return path.join(this.config.components.sourceRoot, componentName, 'my-cool-hydrate');
       }
 
@@ -142,7 +142,7 @@ describe('Component Resolver', () => {
         return path.join(this.config.components.sourceRoot, componentName, 'my-cool-state');
       }
 
-      viewFileFor(componentName: string): string {
+      serverSideFileFor(componentName: string): string {
         return path.join(this.config.components.sourceRoot, componentName, 'my-cool-view');
       }
     }
