@@ -1,5 +1,5 @@
 import path from "path";
-import {ByFileStructureComponentResolver, ComponentResolver, Dependency, getLogger, RaguServerConfig} from "../../..";
+import {ComponentResolver, Dependency, getLogger, RaguServerConfig} from "../../..";
 import fs from "fs";
 
 export abstract class TemplateComponentResolver extends ComponentResolver {
@@ -42,19 +42,27 @@ export abstract class TemplateComponentResolver extends ComponentResolver {
 }
 
 export abstract class TemplateComponentResolverByFileStructure extends TemplateComponentResolver {
-  private readonly byFileStuctureResolver: ByFileStructureComponentResolver;
+  private readonly SINGLE_COMPONENT_NAME = 'single-component';
 
   constructor(config: RaguServerConfig) {
     super(config);
-    this.byFileStuctureResolver = new ByFileStructureComponentResolver(this.config);
   }
 
 
-  componentList(): Promise<string[]> {
-    return this.byFileStuctureResolver.componentList();
+  async componentList(): Promise<string[]> {
+    return [this.SINGLE_COMPONENT_NAME];
   }
 
-  componentsOnlyDependencies(componentName: string): Promise<Dependency[]> {
-    return this.byFileStuctureResolver.componentsOnlyDependencies(componentName);
+  async componentsOnlyDependencies(): Promise<Dependency[]> {
+    return [];
+  }
+
+
+  async availableRoutes(): Promise<{ preview: string; route: string; componentName: string }[]> {
+    return [{
+      preview: '/preview',
+      route: '/',
+      componentName: this.SINGLE_COMPONENT_NAME
+    }];
   }
 }

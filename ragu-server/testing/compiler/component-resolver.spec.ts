@@ -235,6 +235,23 @@ describe('Component Resolver', () => {
       await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
     });
 
+    it('returns a fixed route', async () => {
+      config.components.resolver = new TestStateComponentResolver(
+          config,
+          path.join(config.components.sourceRoot, 'hello-world', 'my-cool-hydrate'),
+          path.join(config.components.sourceRoot, 'hello-world', 'my-cool-view'));
+
+      componentResolver = getComponentResolver(config);
+
+      await expect(componentResolver.componentList()).resolves.toEqual(['single-component']);
+
+      await expect(componentResolver.availableRoutes()).resolves.toEqual([{
+        preview: '/preview',
+        route: '/',
+        componentName: 'single-component'
+      }]);
+    });
+
     it('processes the state', async () => {
       config.components.resolver = new TestStateComponentResolver(
           config,
