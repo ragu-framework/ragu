@@ -2,7 +2,7 @@ import {
   ByFileStructureComponentResolver,
   ComponentResolver,
   getComponentResolver,
-  RaguServerConfig, StateComponentResolver,
+  RaguServerConfig, StateComponentResolver, StateComponentSingleComponentResolver,
 } from "../..";
 import {createTestConfig} from "../test-config-factory";
 import * as path from "path";
@@ -24,9 +24,9 @@ describe('Component Resolver', () => {
 
     it('list all components', async () => {
       await expect(componentResolver.componentList()).resolves.toEqual([
-          'hello-world',
-          'with-dependencies-component',
-          'with-external-dependencies-component'
+        'hello-world',
+        'with-dependencies-component',
+        'with-external-dependencies-component'
       ]);
     });
 
@@ -203,6 +203,70 @@ describe('Component Resolver', () => {
       };
 
       component.default.hydrate(el, {name: 'World'}, {msg: 'Hello, World'})
+
+      expect(el.innerHTML).toBe('Hello, World!');
+    });
+  });
+
+  describe('StateComponentSingleComponentResolver', () => {
+    class TestStateComponentResolver extends StateComponentSingleComponentResolver {
+      hydrateResolver: string = path.join(__dirname, 'state-resolver', 'hydrate-resolver');
+      viewResolver: string = path.join(__dirname, 'state-resolver', 'view-resolver');
+      stateResolver: string = path.join(__dirname, 'state-resolver', 'state-resolver');
+    }
+
+    beforeEach(async () => {
+      config = await createTestConfig();
+      config.components.sourceRoot = path.join(__dirname, 'state-resolver', 'components');
+      config.components.resolverOutput = path.join(__dirname, '.jig-output-state');
+    });
+
+    it('creates a view file with the specified template', async () => {
+      config.components.resolver = new TestStateComponentResolver(
+          config,
+          path.join(config.components.sourceRoot, 'hello-world', 'my-cool-hydrate'),
+          path.join(config.components.sourceRoot, 'hello-world', 'my-cool-view'));
+
+      componentResolver = getComponentResolver(config);
+
+      const componentViewPath = await componentResolver.componentServerSidePath('hello-world');
+      const component = require(componentViewPath);
+
+      await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
+    });
+
+    it('processes the state', async () => {
+      config.components.resolver = new TestStateComponentResolver(
+          config,
+          path.join(config.components.sourceRoot, 'hello-world-state', 'my-cool-hydrate'),
+          path.join(config.components.sourceRoot, 'hello-world-state', 'my-cool-view'),
+          path.join(config.components.sourceRoot, 'hello-world-state', 'my-cool-state')
+      );
+
+      componentResolver = getComponentResolver(config);
+
+      const componentViewPath = await componentResolver.componentServerSidePath('hello-world-state');
+      const component = require(componentViewPath);
+
+      await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
+    });
+
+    it('creates an hydrate file', async () => {
+      config.components.resolver = new TestStateComponentResolver(
+          config,
+          path.join(config.components.sourceRoot, 'hello-world', 'my-cool-hydrate'),
+          path.join(config.components.sourceRoot, 'hello-world', 'my-cool-view'));
+
+      componentResolver = getComponentResolver(config);
+
+      const componentHydrate = await componentResolver.componentClientSidePath('hello-world');
+      const component = require(componentHydrate);
+
+      const el = {
+        innerHTML: ''
+      };
+
+      component.default.hydrate(el, {name: 'World'})
 
       expect(el.innerHTML).toBe('Hello, World!');
     });

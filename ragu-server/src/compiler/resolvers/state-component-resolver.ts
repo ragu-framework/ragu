@@ -7,7 +7,7 @@ import {RaguServerConfig} from "../../config";
 interface InternalStateComponentResolverProps {
   viewFileFor(componentName: string): string;
   hydrateFileFor(componentName: string): string;
-  stateFileFor(componentName: string): string;
+  stateFileFor(componentName: string): string | undefined;
   viewResolver: string;
   hydrateResolver: string;
   stateResolver: string;
@@ -39,6 +39,11 @@ class InternalStateComponentResolver {
 
   private async resolveStateFile(componentName: string) {
     const statePath = this.props.stateFileFor(componentName);
+
+    if (statePath === undefined) {
+      return 'null';
+    }
+
     const stateFilename = path.basename(statePath);
     const componentPath = path.dirname(statePath);
     const files: string[] = await fs.promises.readdir(componentPath);
@@ -82,6 +87,52 @@ export abstract class StateComponentResolver extends TemplateComponentResolverBy
       stateResolver: this.stateResolver,
       viewResolver: this.viewResolver,
     })
+  }
+
+  async clientSideTemplateFor(componentName: string): Promise<string> {
+    return this.resolver.clientSideTemplateFor(componentName);
+  }
+
+  async serverSideTemplateFor(componentName: string): Promise<string> {
+    return this.resolver.serverSideTemplateFor(componentName);
+  }
+}
+
+
+export abstract class StateComponentSingleComponentResolver extends TemplateComponentResolverByFileStructure {
+  abstract viewResolver: string;
+  abstract hydrateResolver: string;
+  abstract stateResolver: string;
+
+  constructor(
+      config: RaguServerConfig,
+      private readonly hydrateFile: string,
+      private readonly viewFile: string,
+      private readonly stateFile?: string) {
+    super(config);
+  }
+
+  private get resolver() {
+    return new InternalStateComponentResolver({
+      hydrateFileFor: this.hydrateFileFor.bind(this),
+      stateFileFor: this.stateFileFor.bind(this),
+      viewFileFor: this.viewFileFor.bind(this),
+      hydrateResolver: this.hydrateResolver,
+      stateResolver: this.stateResolver,
+      viewResolver: this.viewResolver,
+    })
+  }
+
+  hydrateFileFor(): string {
+    return this.hydrateFile;
+  }
+
+  stateFileFor(): string | undefined {
+    return this.stateFile;
+  }
+
+  viewFileFor(): string {
+    return this.viewFile;
   }
 
   async clientSideTemplateFor(componentName: string): Promise<string> {
