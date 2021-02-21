@@ -2,7 +2,7 @@ import {ComponentsCompiler} from "../src/compiler/components-compiler";
 import * as fs from "fs";
 import * as jsdom from "jsdom";
 import {ConstructorOptions} from "jsdom";
-import {RaguServerConfig, ViewCompiler} from "..";
+import {RaguServerConfig, ServerSideCompiler} from "..";
 import {createTestConfig} from "./test-config-factory";
 import {emptyDirSync} from "fs-extra";
 
@@ -82,7 +82,7 @@ describe('Component Compiler', () => {
   });
 
   describe('when SSR is disabled', () => {
-    class StubViewCompiler extends ViewCompiler {
+    class StubViewCompiler extends ServerSideCompiler {
       stub = jest.fn();
 
       async compileAll(): Promise<void> {

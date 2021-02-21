@@ -7,7 +7,7 @@ import {ComponentResolver, getComponentResolver} from "./resolvers/component-res
 
 type DependencyObject = { nodeRequire: string, globalVariable: string };
 
-export class HydrateCompiler {
+export class ClientSideCompiler {
   private componentResolver: ComponentResolver;
 
   constructor(private readonly config: RaguServerConfig) {
@@ -15,7 +15,7 @@ export class HydrateCompiler {
   }
 
   async compileAll() {
-    getLogger(this.config).info('Starting compile hydrate components...');
+    getLogger(this.config).info('Starting compile client components...');
 
     const componentNames = await this.fetchAllComponents();
 

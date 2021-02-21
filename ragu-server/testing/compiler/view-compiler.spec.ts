@@ -3,7 +3,7 @@ import {
   PreCompilationFailFileNotFoundError,
   PreCompilationOutputError,
   RaguServerConfig,
-  ViewCompiler
+  ServerSideCompiler
 } from "../..";
 import {createTestConfig} from "../test-config-factory";
 import {emptyDirSync} from "fs-extra";
@@ -13,12 +13,12 @@ import {merge} from "webpack-merge";
 import {TestTemplateComponentResolver} from "./test-template-component-resolver";
 
 describe('View Compiler', () => {
-  let compiler: ViewCompiler;
+  let compiler: ServerSideCompiler;
   let config: RaguServerConfig;
 
   beforeAll(async () => {
     config = await createTestConfig();
-    compiler = new ViewCompiler(config);
+    compiler = new ServerSideCompiler(config);
   });
 
   afterAll(() => {
@@ -68,7 +68,7 @@ describe('View Compiler', () => {
       config.components.sourceRoot = path.join(__dirname, 'template-resolver-components');
       config.components.resolver = new TestTemplateComponentResolver(config);
 
-      compiler = new ViewCompiler(config);
+      compiler = new ServerSideCompiler(config);
       await compiler.compileAll();
 
       const {default: compiledComponent} = require(compiler.compiledComponentPath('hello-world'));
@@ -91,7 +91,7 @@ describe('View Compiler', () => {
           }
       );
 
-      compiler = new ViewCompiler(config);
+      compiler = new ServerSideCompiler(config);
     });
 
     it('rejects the promise with a compilation output error', async () => {
@@ -113,7 +113,7 @@ describe('View Compiler', () => {
           }
       );
 
-      compiler = new ViewCompiler(config);
+      compiler = new ServerSideCompiler(config);
     });
 
     it('rejects the promise with a not found error', async () => {

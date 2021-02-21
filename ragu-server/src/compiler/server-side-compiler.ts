@@ -20,7 +20,7 @@ export class PreCompilationFailFileNotFoundError extends Error {
   }
 }
 
-export class ViewCompiler {
+export class ServerSideCompiler {
   private readonly componentResolver: ComponentResolver;
 
   constructor(readonly config: RaguServerConfig) {

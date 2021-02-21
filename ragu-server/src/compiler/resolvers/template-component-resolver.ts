@@ -10,24 +10,24 @@ export abstract class TemplateComponentResolver extends ComponentResolver {
   async componentServerSidePath(componentName: string): Promise<string> {
     const template = await this.serverSideTemplateFor(componentName);
     const tempPath = await this.createRaguTempDirectory(componentName);
-    const viewPath = path.join(tempPath, 'server-side.js');
+    const serverSidePath = path.join(tempPath, 'server-side.js');
 
-    getLogger(this.config).debug(`"${componentName}" view file generated at "${viewPath}" by "${this.constructor.name}"`);
+    getLogger(this.config).debug(`"${componentName}" server side file generated at "${serverSidePath}" by "${this.constructor.name}"`);
 
-    await fs.promises.writeFile(viewPath, template);
-    return viewPath;
+    await fs.promises.writeFile(serverSidePath, template);
+    return serverSidePath;
   }
 
   async componentClientSidePath(componentName: string): Promise<string> {
     const template = await this.clientSideTemplateFor(componentName);
 
     const tempPath = await this.createRaguTempDirectory(componentName);
-    const hydratePath = path.join(tempPath, 'client-side.js');
+    const clientSidePath = path.join(tempPath, 'client-side.js');
 
-    getLogger(this.config).debug(`"${componentName}" hydrate file generated at "${hydratePath}" by "${this.constructor.name}"`);
+    getLogger(this.config).debug(`"${componentName}" client side file generated at "${clientSidePath}" by "${this.constructor.name}"`);
 
-    await fs.promises.writeFile(hydratePath, template);
-    return hydratePath;
+    await fs.promises.writeFile(clientSidePath, template);
+    return clientSidePath;
   }
 
   private async createRaguTempDirectory(componentName: string): Promise<string> {

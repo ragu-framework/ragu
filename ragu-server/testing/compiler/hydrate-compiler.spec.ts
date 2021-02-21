@@ -1,4 +1,4 @@
-import {HydrateCompiler, LogLevel, RaguServerConfig} from "../..";
+import {ClientSideCompiler, LogLevel, RaguServerConfig} from "../..";
 import {createTestConfig} from "../test-config-factory";
 import jsdom, {ConstructorOptions} from "jsdom";
 import fs from "fs";
@@ -11,7 +11,7 @@ describe('Hydrate Compiler', () => {
     it('logs that it was not possible to load the file', async () => {
       const config = await createTestConfig();
 
-      await new HydrateCompiler(config).getStyles('helloWorld').catch(() => {});
+      await new ClientSideCompiler(config).getStyles('helloWorld').catch(() => {});
 
       expect(config.server.logging.logger.stub).toHaveBeenCalledWith(LogLevel.error, 'Unable to load the "helloWorld.build-manifest.json" file. Did you build run "ragu-server build" before start?');
     });
@@ -20,7 +20,7 @@ describe('Hydrate Compiler', () => {
       const config = await createTestConfig();
       config.compiler.output.clientSide = __dirname;
 
-      const styles = await new HydrateCompiler(config).getStyles('hello-world');
+      const styles = await new ClientSideCompiler(config).getStyles('hello-world');
 
       expect(styles).toEqual([
         "http://localhost:3101/component-assets/1.css",
@@ -30,13 +30,13 @@ describe('Hydrate Compiler', () => {
   });
 
   describe('compiling', () => {
-    let compiler: HydrateCompiler;
+    let compiler: ClientSideCompiler;
     let dom: jsdom.JSDOM;
     let config: RaguServerConfig;
 
     beforeAll(async () => {
       config = await createTestConfig();
-      compiler = new HydrateCompiler(config);
+      compiler = new ClientSideCompiler(config);
 
       await compiler.compileAll();
     });
@@ -109,7 +109,7 @@ describe('Hydrate Compiler', () => {
         config.components.sourceRoot = path.join(__dirname, 'template-resolver-components');
         config.components.resolver = new TestTemplateComponentResolver(config);
 
-        compiler = new HydrateCompiler(config);
+        compiler = new ClientSideCompiler(config);
         await compiler.compileAll();
       });
 

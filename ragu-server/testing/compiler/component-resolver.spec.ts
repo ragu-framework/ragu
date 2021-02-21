@@ -35,16 +35,16 @@ describe('Component Resolver', () => {
       await expect(componentResolver.componentList().catch((e) => Promise.reject(e.message))).rejects.toMatch('no such file or directory');
     });
 
-    it('returns the view source root of a component', async () => {
-      const componentViewPath = await componentResolver.componentServerSidePath('hello-world');
-      expect(path.dirname(componentViewPath)).toEqual(path.join(config.components.sourceRoot, 'hello-world'));
-      expect(path.basename(componentViewPath)).toEqual('server-side');
+    it('returns the server side source root of a component', async () => {
+      const componentServerSidePath = await componentResolver.componentServerSidePath('hello-world');
+      expect(path.dirname(componentServerSidePath)).toEqual(path.join(config.components.sourceRoot, 'hello-world'));
+      expect(path.basename(componentServerSidePath)).toEqual('server-side');
     });
 
-    it('returns the hydrate source root of a component', async () => {
-      const componentViewPath = await componentResolver.componentClientSidePath('hello-world');
-      expect(path.dirname(componentViewPath)).toEqual(path.join(config.components.sourceRoot, 'hello-world'));
-      expect(path.basename(componentViewPath)).toEqual('client-side');
+    it('returns the client side source root of a component', async () => {
+      const componentClientSidePath = await componentResolver.componentClientSidePath('hello-world');
+      expect(path.dirname(componentClientSidePath)).toEqual(path.join(config.components.sourceRoot, 'hello-world'));
+      expect(path.basename(componentClientSidePath)).toEqual('client-side');
     });
 
     it('returns the component dependencies as empty by default', async () => {
@@ -108,16 +108,16 @@ describe('Component Resolver', () => {
       ]);
     });
 
-    it('creates a view file with the specified template', async () => {
-      const componentViewPath = await componentResolver.componentServerSidePath('hello-world');
-      const component = require(componentViewPath);
+    it('creates a client side file with the specified template', async () => {
+      const componentClientSidePath = await componentResolver.componentServerSidePath('hello-world');
+      const component = require(componentClientSidePath);
 
       expect(component.default.render({name: 'World'})).toBe('Hello, World!!!');
     });
 
     it('creates a hydrate file with the specified template', async () => {
-      const componentViewPath = await componentResolver.componentClientSidePath('hello-world');
-      const component = require(componentViewPath);
+      const componentClientSidePath = await componentResolver.componentClientSidePath('hello-world');
+      const component = require(componentClientSidePath);
       const el = {
         innerHTML: ''
       };
@@ -130,9 +130,9 @@ describe('Component Resolver', () => {
 
   describe('StateComponentResolver', () => {
     class TestStateComponentResolver extends StateComponentResolver {
-      hydrateResolver: string = path.join(__dirname, 'state-resolver', 'hydrate-resolver');
-      viewResolver: string = path.join(__dirname, 'state-resolver', 'view-resolver');
-      stateResolver: string = path.join(__dirname, 'state-resolver', 'state-resolver');
+      clientSideResolverTemplate: string = path.join(__dirname, 'state-resolver', 'hydrate-resolver');
+      serverSideResolverTemplate: string = path.join(__dirname, 'state-resolver', 'view-resolver');
+      stateResolverTemplate: string = path.join(__dirname, 'state-resolver', 'state-resolver');
 
       clientSideFileFor(componentName: string): string {
         return path.join(this.config.components.sourceRoot, componentName, 'my-cool-hydrate');
@@ -156,26 +156,26 @@ describe('Component Resolver', () => {
       componentResolver = getComponentResolver(config);
     });
 
-    it('creates a view file with the specified template', async () => {
-      const componentViewPath = await componentResolver.componentServerSidePath('hello-world');
-      const component = require(componentViewPath);
+    it('creates a client side file with the specified template', async () => {
+      const componentClientSidePath = await componentResolver.componentServerSidePath('hello-world');
+      const component = require(componentClientSidePath);
 
       await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
     });
 
     it('processes the state', async () => {
-      const componentViewPath = await componentResolver.componentServerSidePath('hello-world-state');
-      const component = require(componentViewPath);
+      const componentClientSidePath = await componentResolver.componentServerSidePath('hello-world-state');
+      const component = require(componentClientSidePath);
 
       await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
     });
 
-    it('creates a view file with the specified template with no default exports', async () => {
-      (componentResolver as TestStateComponentResolver).viewResolver = path.join(__dirname, 'state-resolver', 'view-resolver-no-default');
-      (componentResolver as TestStateComponentResolver).stateResolver = path.join(__dirname, 'state-resolver', 'state-resolver-no-default');
+    it('creates a client side file with the specified template with no default exports', async () => {
+      (componentResolver as TestStateComponentResolver).serverSideResolverTemplate = path.join(__dirname, 'state-resolver', 'view-resolver-no-default');
+      (componentResolver as TestStateComponentResolver).stateResolverTemplate = path.join(__dirname, 'state-resolver', 'state-resolver-no-default');
 
-      const componentViewPath = await componentResolver.componentServerSidePath('hello-world-no-default');
-      const component = require(componentViewPath);
+      const componentClientSidePath = await componentResolver.componentServerSidePath('hello-world-no-default');
+      const component = require(componentClientSidePath);
 
       await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
     });
@@ -194,7 +194,7 @@ describe('Component Resolver', () => {
     });
 
     it('creates an hydrate file with no default export', async () => {
-      (componentResolver as TestStateComponentResolver).viewResolver = path.join(__dirname, 'state-resolver', 'hydrate-resolver-no-default');
+      (componentResolver as TestStateComponentResolver).serverSideResolverTemplate = path.join(__dirname, 'state-resolver', 'hydrate-resolver-no-default');
       const componentHydrate = await componentResolver.componentClientSidePath('hello-world-no-default');
       const component = require(componentHydrate);
 
@@ -210,9 +210,9 @@ describe('Component Resolver', () => {
 
   describe('StateComponentSingleComponentResolver', () => {
     class TestStateComponentResolver extends StateComponentSingleComponentResolver {
-      hydrateResolver: string = path.join(__dirname, 'state-resolver', 'hydrate-resolver');
-      viewResolver: string = path.join(__dirname, 'state-resolver', 'view-resolver');
-      stateResolver: string = path.join(__dirname, 'state-resolver', 'state-resolver');
+      clientSideResolverTemplate: string = path.join(__dirname, 'state-resolver', 'hydrate-resolver');
+      serverSideResolverTemplate: string = path.join(__dirname, 'state-resolver', 'view-resolver');
+      stateResolverTemplate: string = path.join(__dirname, 'state-resolver', 'state-resolver');
     }
 
     beforeEach(async () => {
@@ -221,7 +221,7 @@ describe('Component Resolver', () => {
       config.components.resolverOutput = path.join(__dirname, '.jig-output-state');
     });
 
-    it('creates a view file with the specified template', async () => {
+    it('creates a client side file with the specified template', async () => {
       config.components.resolver = new TestStateComponentResolver(
           config,
           path.join(config.components.sourceRoot, 'hello-world', 'my-cool-hydrate'),
@@ -229,8 +229,8 @@ describe('Component Resolver', () => {
 
       componentResolver = getComponentResolver(config);
 
-      const componentViewPath = await componentResolver.componentServerSidePath('hello-world');
-      const component = require(componentViewPath);
+      const componentClientSidePath = await componentResolver.componentServerSidePath('hello-world');
+      const component = require(componentClientSidePath);
 
       await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
     });
@@ -245,8 +245,8 @@ describe('Component Resolver', () => {
 
       componentResolver = getComponentResolver(config);
 
-      const componentViewPath = await componentResolver.componentServerSidePath('hello-world-state');
-      const component = require(componentViewPath);
+      const componentClientSidePath = await componentResolver.componentServerSidePath('hello-world-state');
+      const component = require(componentClientSidePath);
 
       await expect(component.default.render({name: 'World'})).resolves.toBe('Hello, World!');
     });

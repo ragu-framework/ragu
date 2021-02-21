@@ -78,8 +78,8 @@ describe('Config', () => {
     });
   });
 
-  it('does not set a default webpack view config when one was given', () => {
-    const webpackView = {};
+  it('does not set a default webpack server side config when one was given', () => {
+    const webpackServerSide = {};
 
     const config = createConfig({
       environment: 'development',
@@ -89,16 +89,16 @@ describe('Config', () => {
       compiler: {
         assetsPrefix: '/',
         webpack: {
-          serverSide: webpackView
+          serverSide: webpackServerSide
         }
       }
     });
 
-    expect(config.compiler.webpack.serverSide).toBe(webpackView);
+    expect(config.compiler.webpack.serverSide).toBe(webpackServerSide);
   });
 
-  it('does not set a default webpack hydrate config when one was given', () => {
-    const webpackHydrate = {};
+  it('does not set a default webpack server side config when one was given', () => {
+    const webpackClientSide = {};
 
     const config = createConfig({
       environment: 'development',
@@ -108,11 +108,11 @@ describe('Config', () => {
       compiler: {
         assetsPrefix: '/',
         webpack: {
-          clientSide: webpackHydrate
+          clientSide: webpackClientSide
         }
       }
     });
 
-    expect(config.compiler.webpack.clientSide).toBe(webpackHydrate);
+    expect(config.compiler.webpack.clientSide).toBe(webpackClientSide);
   });
 });

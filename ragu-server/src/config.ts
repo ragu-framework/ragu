@@ -168,13 +168,13 @@ export interface RaguServerBaseConfig {
     assetsPrefix: string;
     output: {
       /**
-       * Describe where view compiled files should be outputted.
+       * Describe where server side compiled files should be outputted.
        *
        * @default `projectRoot`/.ragu-components/output/server-side/
        */
       serverSide: string;
       /**
-       * Describe where hydrate compiled files should be outputted.
+       * Describe where client side compiled files should be outputted.
        *
        * @default `projectRoot`/.ragu-components/output/client-side/
        */
@@ -182,11 +182,11 @@ export interface RaguServerBaseConfig {
     };
     webpack: {
       /**
-       * The webpack configuration for view (aka server-side components)
+       * The webpack configuration for server-side components
        */
       serverSide: webpack.Configuration
       /**
-       * The webpack configuration for hydrate (aka client-side components)
+       * The webpack configuration for client-side components
        */
       clientSide: webpack.Configuration
     }
