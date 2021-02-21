@@ -10,7 +10,9 @@
     "bump:ragu-dom": "yarn --cwd ragu-dom version --patch --no-git-tag-version",
     "bump:ragu-vue-server-adapter": "yarn --cwd ragu-vue-server-adapter version --patch --no-git-tag-version",
     "bump:ragu-server": "yarn --cwd ragu-server version --patch --no-git-tag-version",
-    "bump": "yarn bump:ragu-dom && yarn bump:ragu-vue-server-adapter && yarn bump:ragu-server"
+    "git:add:packages": "git add ragu-server/package.json && git add ragu-dom/package.json && git add ragu-vue-server-adapter/package.json",
+    "bump:all": "yarn bump:ragu-dom && yarn bump:ragu-vue-server-adapter && yarn bump:ragu-server",
+    "bump": "yarn bump:all && yarn git:add:packages && git commit -m 'bump'"
   },
   "dependencies": {
     "jest": "^26.4.2",
