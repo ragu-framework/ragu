@@ -1,4 +1,4 @@
-import {ComponentsCompiler, getComponentResolver, getLogger, RaguServerConfig} from "../..";
+import {ComponentsCompiler, getComponentResolver, getLogger, RaguServerConfig} from "../../index";
 
 export class ComponentsService {
   constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler) {}

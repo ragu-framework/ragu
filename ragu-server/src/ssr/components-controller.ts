@@ -1,5 +1,5 @@
 import {RaguServerConfig} from "../config";
-import {ComponentsService} from "./components-service";
+import {ComponentsService} from "../services/components-service";
 import {Request, Response} from "express";
 import {ComponentsCompiler, getLogger} from "../..";
 

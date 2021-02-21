@@ -19,6 +19,32 @@ describe('Config', () => {
     });
   });
 
+  describe('output', () => {
+    it('defines a default client and server side output directory based on projectRoot', () => {
+      const config = createConfig({
+        projectRoot: '/bla/'
+      });
+
+      expect(config.compiler.output.directory).toEqual('/bla/.ragu-components')
+      expect(config.compiler.output.clientSide).toEqual('/bla/.ragu-components/compiled/client-side');
+      expect(config.compiler.output.serverSide).toEqual('/bla/.ragu-components/compiled/server-side');
+    });
+
+    it('defines a default client and server side output directory based on output directory', () => {
+      const config = createConfig({
+        compiler: {
+          output: {
+            directory: '/bla'
+          }
+        }
+      });
+
+      expect(config.compiler.output.directory).toEqual('/bla')
+      expect(config.compiler.output.clientSide).toEqual('/bla/compiled/client-side');
+      expect(config.compiler.output.serverSide).toEqual('/bla/compiled/server-side');
+    });
+  });
+
   describe('assets prefix', () => {
     it('defines the default assets source as localhost with the default port', () => {
       const config = createConfig({

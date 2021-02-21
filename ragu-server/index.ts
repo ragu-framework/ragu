@@ -13,6 +13,6 @@ export * from './src/logging/logger';
 export * from './src/preview/preview-compiler';
 export * from './src/preview/preview-controller';
 export * from './src/ssr/components-controller';
-export * from './src/ssr/components-service';
+export * from './src/services/components-service';
 export * from './src/server';
 export * from './src/config';

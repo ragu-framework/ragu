@@ -55,6 +55,12 @@ export interface RaguServerBaseConfig {
    */
   ssrEnabled: boolean,
   /**
+   * The project is static. No server is available.
+   *
+   * @default false
+   */
+  static: boolean,
+  /**
    * A set of configuration for ragu components.
    */
   components: {
@@ -168,15 +174,21 @@ export interface RaguServerBaseConfig {
     assetsPrefix: string;
     output: {
       /**
+       * Describe where compiled files should be outputted.
+       *
+       * @default `projectRoot`/.ragu-components
+       */
+      directory: string;
+      /**
        * Describe where server side compiled files should be outputted.
        *
-       * @default `projectRoot`/.ragu-components/output/server-side/
+       * @default `projectRoot`/.ragu-components/compiled/server-side/
        */
       serverSide: string;
       /**
        * Describe where client side compiled files should be outputted.
        *
-       * @default `projectRoot`/.ragu-components/output/client-side/
+       * @default `projectRoot`/.ragu-components/compiled/client-side/
        */
       clientSide: string;
     };
@@ -222,10 +234,13 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
   const defaultComponentNamePrefix = `${packageJson.value?.name}_`;
 
   const baseURL = props.baseurl || `http://localhost:${serverPort}`;
+  const outputDirectory = props.compiler?.output?.directory || path.join(projectRoot, '.ragu-components');
+
   const config = mergeConfig<RaguServerConfig, RaguServerBaseConfigProps>({
     environment: 'production',
     baseurl: baseURL,
     ssrEnabled: true,
+    static: false,
     server: {
       port: serverPort,
       hideWelcomeMessage: false,
@@ -253,13 +268,14 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
         clientSide: createDefaultWebpackConfiguration({isDevelopment: props.environment === 'development'}),
       },
       output: {
-        serverSide: path.join(projectRoot, '.ragu-components', 'compiled', 'server-side'),
-        clientSide: path.join(projectRoot, '.ragu-components', 'compiled', 'client-side')
+        directory: outputDirectory,
+        serverSide: path.join(outputDirectory, 'compiled', 'server-side'),
+        clientSide: path.join(outputDirectory, 'compiled', 'client-side')
       }
     },
     components: {
       namePrefix: defaultComponentNamePrefix,
-      resolverOutput: path.join(projectRoot, '.ragu-components', 'resolver-output'),
+      resolverOutput: path.join(outputDirectory, 'resolver-output'),
       sourceRoot: path.join(projectRoot, 'ragu-components'),
     },
   }, props);
