@@ -6,7 +6,11 @@
   "author": "Maniero <cmaniero@thoughtworks.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest --runInBand --coverage --verbose --silent"
+    "test": "jest --runInBand --coverage --verbose --silent",
+    "bump:ragu-dom": "yarn --cwd ragu-dom version --patch --no-git-tag-version",
+    "bump:ragu-vue-server-adapter": "yarn --cwd ragu-vue-server-adapter version --patch --no-git-tag-version",
+    "bump:ragu-server": "yarn --cwd ragu-server version --patch --no-git-tag-version",
+    "bump": "yarn bump:ragu-dom && yarn bump:ragu-vue-server-adapter && yarn bump:ragu-server"
   },
   "dependencies": {
     "jest": "^26.4.2",
