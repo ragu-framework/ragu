@@ -38,7 +38,48 @@ describe('Rendering a component', () => {
       hydrationStub = jest.fn();
     });
 
-    it('renders a component', async () => {
+    it('ignores the undefined html', async () => {
+      const componentURL = 'http://my-squad.org/component/any-component';
+      document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
+      expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
+
+      const fetchedStub = jest.fn();
+      const hydrateStub = jest.fn();
+
+      // @ts-ignore
+      document.querySelector('ragu-component').addEventListener('ragu:fetched', (e: CustomEvent) => {
+        fetchedStub(e.detail)
+      });
+
+      // @ts-ignore
+      document.querySelector('ragu-component').addEventListener('ragu:hydrated', (e: CustomEvent) => {
+        hydrateStub(e.detail)
+      });
+
+      const renderPromise = new TestPromiseController();
+
+      const componentResponse: Component<any, any> = {
+        resolverFunction: 'la',
+        state: {
+          from: 'Server'
+        },
+        props: {
+          name: 'World'
+        },
+        client: 'client_url',
+        async render (element) {
+          await renderPromise.promise;
+          element.innerHTML = `Hello from ${this.state.from}, ${this.props.name}`
+        }
+      };
+
+      controlledPromise.resolve(componentResponse);
+
+      await waitForPromises();
+      expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
+    });
+
+    it('hydrates a component', async () => {
       const componentURL = 'http://my-squad.org/component/any-component';
       document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
       expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');

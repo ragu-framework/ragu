@@ -32,7 +32,10 @@ export class RaguComponent {
       this.component = component;
       this.element.dispatchEvent(new CustomEvent("ragu:fetched", { detail: this.component }));
 
-      this.element.innerHTML = this.component.html;
+      if (this.component.html) {
+        this.element.innerHTML = this.component.html;
+      }
+
       this.render();
     }).catch((e) => {
       this.element.dispatchEvent(new CustomEvent("ragu:fetch-fail", { detail: e }));

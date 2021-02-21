@@ -18,7 +18,7 @@ export interface Component<Props, State> {
   dependencies?: ComponentDependency[];
   props: Props;
   state: State;
-  html: string;
+  html?: string;
   client: string;
   styles?: string[];
   resolverFunction: string;
