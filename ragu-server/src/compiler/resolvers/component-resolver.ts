@@ -54,10 +54,14 @@ export abstract class ComponentResolver {
   async availableRoutes() {
     const componentList = await this.componentList();
     return componentList.map((componentName) => ({
-      route: `/components/${componentName}`,
+      route: this.componentRouteOf(componentName),
       preview: `/preview/${componentName}`,
       componentName
     }));
+  }
+
+  componentRouteOf(componentName: string) {
+    return `/components/${componentName}`
   }
 }
 

@@ -138,6 +138,10 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
     return this.serverSideFile;
   }
 
+  componentRouteOf() {
+    return '/'
+  }
+
   async clientSideTemplateFor(componentName: string): Promise<string> {
     return this.resolver.clientSideTemplateFor(componentName);
   }

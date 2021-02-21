@@ -2,6 +2,7 @@ import {RaguServerConfig} from "../config";
 import {Request, Response} from "express";
 import {getLogger} from "../logging/get-logger";
 import {RaguClient} from "ragu-client-node";
+import {getComponentResolver} from "../..";
 
 require('cross-fetch/polyfill');
 require('abort-controller/polyfill');
@@ -16,7 +17,7 @@ export class PreviewController {
 
     const receivedQuery = req.query as Record<string, string>;
     const queryParams = new URLSearchParams(receivedQuery).toString();
-    const componentURL = `${this.config.baseurl}/components/${componentName}?${queryParams}`;
+    const componentURL = `${this.config.baseurl}${getComponentResolver(this.config).componentRouteOf(componentName)}?${queryParams}`;
     const client = new RaguClient();
     const component = await client.fetchComponent(componentURL)
 

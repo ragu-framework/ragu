@@ -245,6 +245,8 @@ describe('Component Resolver', () => {
 
       await expect(componentResolver.componentList()).resolves.toEqual(['single-component']);
 
+      await expect(componentResolver.componentRouteOf('single-component')).toEqual('/');
+
       await expect(componentResolver.availableRoutes()).resolves.toEqual([{
         preview: '/preview',
         route: '/',
