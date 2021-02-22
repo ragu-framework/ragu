@@ -1,35 +1,15 @@
-import {ComponentsCompiler, getComponentResolver, getLogger, RaguServerConfig} from "../../index";
+import {ComponentsCompiler, RaguServerConfig} from "../../index";
+import {ComponentRenderService} from "./component-render-service";
 
 export class ComponentsService {
   constructor(private readonly config: RaguServerConfig, private readonly compiler: ComponentsCompiler) {}
 
   async renderComponent(componentName: string, props: Record<string, unknown>): Promise<Record<string, string>> {
-    const renderResult = await this.renderResultFor(componentName, props);
-
-    return {
-      dependencies: await getComponentResolver(this.config).dependenciesOf(componentName),
-      client: await this.compiler.getClientFileName(componentName),
-      ssrEnabled: this.config.ssrEnabled,
-      styles: await this.compiler.getStyles(componentName),
-      resolverFunction: `${this.config.components.namePrefix}${componentName}`,
-      props,
-      ...renderResult
-    };
-
-  }
-
-  private async renderResultFor(componentName: string, props: Record<string, unknown>) {
-    if (!this.config.ssrEnabled) {
-      getLogger(this.config).debug(`skipping server side rendering: ssrEnabled=false.`);
-
-      return {};
-    }
-
+    const client = await this.compiler.getClientFileName(componentName);
+    const styles = await this.compiler.getStyles(componentName);
     const componentPath = this.compiler.compiledViewComponentPath(componentName);
 
-    getLogger(this.config).debug(`fetching "${componentName}" from "${componentPath}"`);
-
-    const {default: component} = require(componentPath);
-    return await component.render(props);
+    return new ComponentRenderService(this.config)
+        .renderComponent(componentName, styles, componentPath, client, props)
   }
 }

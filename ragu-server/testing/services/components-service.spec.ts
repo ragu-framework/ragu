@@ -1,5 +1,5 @@
 import {createTestConfig} from "../test-config-factory";
-import {ComponentsCompiler, ComponentsService, RaguServerConfig} from "../..";
+import {ComponentsCompiler, ComponentsService, RaguServerConfig} from "../../index";
 import {emptyDirSync} from "fs-extra";
 
 describe('ComponentService', () => {
@@ -25,6 +25,20 @@ describe('ComponentService', () => {
       const component = await service.renderComponent('hello-world', {});
 
       expect(component.html).toBeUndefined();
+      expect(component.ssrEnabled).toBeFalsy();
+    });
+
+    it('returns empty html given a static build', async () => {
+      config.static = true;
+
+      const compiler = new ComponentsCompiler(config);
+      await compiler.compileAll();
+
+      const service = new ComponentsService(config, compiler);
+      const component = await service.renderComponent('hello-world', {});
+
+      expect(component.html).toBeUndefined();
+      expect(component.static).toBeTruthy();
       expect(component.ssrEnabled).toBeFalsy();
     });
   });
