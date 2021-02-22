@@ -94,6 +94,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_compiler_components_compiler_.componentscompiler.html#config" class="tsd-kind-icon">config</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_compiler_components_compiler_.componentscompiler.html#previewcompiler" class="tsd-kind-icon">preview<wbr>Compiler</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_compiler_components_compiler_.componentscompiler.html#serversidecompiler" class="tsd-kind-icon">server<wbr>Side<wbr>Compiler</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_compiler_components_compiler_.componentscompiler.html#staticservice" class="tsd-kind-icon">static<wbr>Service</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -114,13 +115,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Components<wbr>Compiler<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../modules/_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a>, serverSideCompiler<span class="tsd-signature-symbol">?: </span><a href="_src_compiler_server_side_compiler_.serversidecompiler.html" class="tsd-signature-type">ServerSideCompiler</a>, previewCompiler<span class="tsd-signature-symbol">?: </span><a href="_src_preview_preview_compiler_.previewcompiler.html" class="tsd-signature-type">PreviewCompiler</a>, clientSideCompiler<span class="tsd-signature-symbol">?: </span><a href="_src_compiler_client_side_compiler_.clientsidecompiler.html" class="tsd-signature-type">ClientSideCompiler</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_compiler_components_compiler_.componentscompiler.html" class="tsd-signature-type">ComponentsCompiler</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Components<wbr>Compiler<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../modules/_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a>, serverSideCompiler<span class="tsd-signature-symbol">?: </span><a href="_src_compiler_server_side_compiler_.serversidecompiler.html" class="tsd-signature-type">ServerSideCompiler</a>, previewCompiler<span class="tsd-signature-symbol">?: </span><a href="_src_preview_preview_compiler_.previewcompiler.html" class="tsd-signature-type">PreviewCompiler</a>, clientSideCompiler<span class="tsd-signature-symbol">?: </span><a href="_src_compiler_client_side_compiler_.clientsidecompiler.html" class="tsd-signature-type">ClientSideCompiler</a>, staticService<span class="tsd-signature-symbol">?: </span><a href="_src_services_static_service_.staticservice.html" class="tsd-signature-type">StaticService</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_compiler_components_compiler_.componentscompiler.html" class="tsd-signature-type">ComponentsCompiler</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/f76f54a/ragu-server/src/compiler/components-compiler.ts#L9">src/compiler/components-compiler.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/compiler/components-compiler.ts#L11">src/compiler/components-compiler.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -137,6 +138,9 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> clientSideCompiler: <a href="_src_compiler_client_side_compiler_.clientsidecompiler.html" class="tsd-signature-type">ClientSideCompiler</a></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> staticService: <a href="_src_services_static_service_.staticservice.html" class="tsd-signature-type">StaticService</a></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="_src_compiler_components_compiler_.componentscompiler.html" class="tsd-signature-type">ComponentsCompiler</a></h4>
 						</li>
@@ -151,7 +155,7 @@
 					<div class="tsd-signature tsd-kind-icon">client<wbr>Side<wbr>Compiler<span class="tsd-signature-symbol">:</span> <a href="_src_compiler_client_side_compiler_.clientsidecompiler.html" class="tsd-signature-type">ClientSideCompiler</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/f76f54a/ragu-server/src/compiler/components-compiler.ts#L9">src/compiler/components-compiler.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/compiler/components-compiler.ts#L10">src/compiler/components-compiler.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -161,7 +165,7 @@
 					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/f76f54a/ragu-server/src/compiler/components-compiler.ts#L12">src/compiler/components-compiler.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/compiler/components-compiler.ts#L14">src/compiler/components-compiler.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -171,7 +175,7 @@
 					<div class="tsd-signature tsd-kind-icon">preview<wbr>Compiler<span class="tsd-signature-symbol">:</span> <a href="_src_preview_preview_compiler_.previewcompiler.html" class="tsd-signature-type">PreviewCompiler</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/f76f54a/ragu-server/src/compiler/components-compiler.ts#L8">src/compiler/components-compiler.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/compiler/components-compiler.ts#L9">src/compiler/components-compiler.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -181,7 +185,17 @@
 					<div class="tsd-signature tsd-kind-icon">server<wbr>Side<wbr>Compiler<span class="tsd-signature-symbol">:</span> <a href="_src_compiler_server_side_compiler_.serversidecompiler.html" class="tsd-signature-type">ServerSideCompiler</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/f76f54a/ragu-server/src/compiler/components-compiler.ts#L7">src/compiler/components-compiler.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/compiler/components-compiler.ts#L8">src/compiler/components-compiler.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="staticservice" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> static<wbr>Service</h3>
+					<div class="tsd-signature tsd-kind-icon">static<wbr>Service<span class="tsd-signature-symbol">:</span> <a href="_src_services_static_service_.staticservice.html" class="tsd-signature-type">StaticService</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/compiler/components-compiler.ts#L11">src/compiler/components-compiler.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -198,7 +212,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/f76f54a/ragu-server/src/compiler/components-compiler.ts#L22">src/compiler/components-compiler.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/compiler/components-compiler.ts#L26">src/compiler/components-compiler.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -215,7 +229,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/f76f54a/ragu-server/src/compiler/components-compiler.ts#L36">src/compiler/components-compiler.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/compiler/components-compiler.ts#L51">src/compiler/components-compiler.ts:51</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -238,7 +252,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/f76f54a/ragu-server/src/compiler/components-compiler.ts#L28">src/compiler/components-compiler.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/compiler/components-compiler.ts#L43">src/compiler/components-compiler.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -255,13 +269,13 @@
 					<a name="getstyles" class="tsd-anchor"></a>
 					<h3>get<wbr>Styles</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Styles<span class="tsd-signature-symbol">(</span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">String</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Styles<span class="tsd-signature-symbol">(</span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/f76f54a/ragu-server/src/compiler/components-compiler.ts#L32">src/compiler/components-compiler.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/compiler/components-compiler.ts#L47">src/compiler/components-compiler.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -270,7 +284,7 @@
 									<h5>componentName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">String</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -308,6 +322,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_src_compiler_components_compiler_.componentscompiler.html#serversidecompiler" class="tsd-kind-icon">server<wbr>Side<wbr>Compiler</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_src_compiler_components_compiler_.componentscompiler.html#staticservice" class="tsd-kind-icon">static<wbr>Service</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_src_compiler_components_compiler_.componentscompiler.html#compileall" class="tsd-kind-icon">compile<wbr>All</a>

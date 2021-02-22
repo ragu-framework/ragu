@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PreviewController | ragu-server</title>
+	<title>StaticService | ragu-server</title>
 	<meta name="description" content="Documentation for ragu-server">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_preview_preview_controller_.html">&quot;src/preview/preview-controller&quot;</a>
+					<a href="../modules/_src_services_static_service_.html">&quot;src/services/static-service&quot;</a>
 				</li>
 				<li>
-					<a href="_src_preview_preview_controller_.previewcontroller.html">PreviewController</a>
+					<a href="_src_services_static_service_.staticservice.html">StaticService</a>
 				</li>
 			</ul>
-			<h1>Class PreviewController</h1>
+			<h1>Class StaticService</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">PreviewController</span>
+						<span class="target">StaticService</span>
 					</li>
 				</ul>
 			</section>
@@ -84,19 +84,20 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_src_preview_preview_controller_.previewcontroller.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_src_services_static_service_.staticservice.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_preview_preview_controller_.previewcontroller.html#config" class="tsd-kind-icon">config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_services_static_service_.staticservice.html#config" class="tsd-kind-icon">config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_src_services_static_service_.staticservice.html#renderservice" class="tsd-kind-icon">render<wbr>Service</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_preview_preview_controller_.previewcontroller.html#rendercomponent" class="tsd-kind-icon">render<wbr>Component</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_src_services_static_service_.staticservice.html#generatestatic" class="tsd-kind-icon">generate<wbr>Static</a></li>
 							</ul>
 						</section>
 					</div>
@@ -108,13 +109,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Preview<wbr>Controller<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../modules/_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_preview_preview_controller_.previewcontroller.html" class="tsd-signature-type">PreviewController</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Static<wbr>Service<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../modules/_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_src_services_static_service_.staticservice.html" class="tsd-signature-type">StaticService</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/preview/preview-controller.ts#L10">src/preview/preview-controller.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/services/static-service.ts#L7">src/services/static-service.ts:7</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -123,7 +124,7 @@
 									<h5>config: <a href="../modules/_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_src_preview_preview_controller_.previewcontroller.html" class="tsd-signature-type">PreviewController</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_src_services_static_service_.staticservice.html" class="tsd-signature-type">StaticService</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -136,7 +137,17 @@
 					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../modules/_src_config_.html#raguserverconfig" class="tsd-signature-type">RaguServerConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/preview/preview-controller.ts#L11">src/preview/preview-controller.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/services/static-service.ts#L9">src/services/static-service.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="renderservice" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> render<wbr>Service</h3>
+					<div class="tsd-signature tsd-kind-icon">render<wbr>Service<span class="tsd-signature-symbol">:</span> <a href="_src_services_component_render_service_.componentrenderservice.html" class="tsd-signature-type">ComponentRenderService</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/services/static-service.ts#L7">src/services/static-service.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,25 +155,28 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="rendercomponent" class="tsd-anchor"></a>
-					<h3>render<wbr>Component</h3>
+					<a name="generatestatic" class="tsd-anchor"></a>
+					<h3>generate<wbr>Static</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">render<wbr>Component<span class="tsd-signature-symbol">(</span>req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Request</span>, res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Static<span class="tsd-signature-symbol">(</span>componentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, client<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, styles<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/preview/preview-controller.ts#L14">src/preview/preview-controller.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/ragu-framework/ragu/blob/78e8799/ragu-server/src/services/static-service.ts#L13">src/services/static-service.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>req: <span class="tsd-signature-type">Request</span></h5>
+									<h5>componentName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>res: <span class="tsd-signature-type">Response</span></h5>
+									<h5>client: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>styles: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -178,7 +192,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/_src_preview_preview_controller_.html">&quot;src/preview/preview-<wbr>controller&quot;</a>
+						<a href="../modules/_src_services_static_service_.html">&quot;src/services/static-<wbr>service&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -187,16 +201,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_src_preview_preview_controller_.previewcontroller.html" class="tsd-kind-icon">Preview<wbr>Controller</a>
+						<a href="_src_services_static_service_.staticservice.html" class="tsd-kind-icon">Static<wbr>Service</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_src_preview_preview_controller_.previewcontroller.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_src_services_static_service_.staticservice.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_src_preview_preview_controller_.previewcontroller.html#config" class="tsd-kind-icon">config</a>
+								<a href="_src_services_static_service_.staticservice.html#config" class="tsd-kind-icon">config</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_src_services_static_service_.staticservice.html#renderservice" class="tsd-kind-icon">render<wbr>Service</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_src_preview_preview_controller_.previewcontroller.html#rendercomponent" class="tsd-kind-icon">render<wbr>Component</a>
+								<a href="_src_services_static_service_.staticservice.html#generatestatic" class="tsd-kind-icon">generate<wbr>Static</a>
 							</li>
 						</ul>
 					</li>
