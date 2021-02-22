@@ -2,6 +2,7 @@ import {Component, ComponentLoader} from "./component-loader";
 import {DependencyContext} from "./dependency-context";
 import {ScriptLoader} from "./gateway/script-loader";
 import {JsonpGateway} from "./gateway/jsonp-gateway";
+import {FetchGateway} from "./gateway/fetch-gateway";
 
 describe('component loader', () => {
   afterEach(() => {
@@ -19,6 +20,41 @@ describe('component loader', () => {
     }
   }
 
+  class StubFetch extends FetchGateway {
+    constructor(readonly promise: Promise<any>, readonly componentURL: string) {
+      super();
+    }
+
+    fetch<T>(componentURL: string): Promise<T> {
+      expect(componentURL).toBe(this.componentURL);
+      return this.promise;
+    }
+  }
+
+  it('loads a basic component from json', (done) => {
+    const componentResponse: Partial<Component<string, string>> = {
+      state: 'la',
+      client: 'http://my-squad.org/client.asijdoaidj.ja',
+      html: 'Hello, World!',
+      resolverFunction: 'myResolverStub'
+    };
+
+    const componentURL = 'http://localhost:3000/components/hello-world.json?a=b';
+    new ComponentLoader({
+      dependencyContext: new DependencyContext(
+          new ScriptLoader()
+      ),
+      jsonpGateway: new StubJSONP(new Promise<any>(() => {}), ''),
+      fetchGateway: new StubFetch(Promise.resolve(componentResponse), componentURL),
+    }).load(componentURL)
+        .then((component) => {
+          expect(component).toEqual(expect.objectContaining({
+            ...componentResponse, props: {a: 'b'}
+          }));
+          done();
+        });
+  });
+
   it('loads a basic component', (done) => {
     const componentResponse: Partial<Component<string, string>> = {
       state: 'la',
@@ -31,7 +67,8 @@ describe('component loader', () => {
       dependencyContext: new DependencyContext(
           new ScriptLoader()
       ),
-      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World'),
+      fetchGateway: new FetchGateway(),
     }).load('http://localhost:3000/components/hello-world?name=World')
         .then((component) => {
           expect(component).toEqual(expect.objectContaining(componentResponse));
@@ -54,7 +91,8 @@ describe('component loader', () => {
       dependencyContext: new DependencyContext(
           new ScriptLoader()
       ),
-      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World'),
+      fetchGateway: new FetchGateway()
     }).load('http://localhost:3000/components/hello-world?name=World')
         .then(() => {
           resolvedMock()
@@ -84,7 +122,8 @@ describe('component loader', () => {
       dependencyContext: new DependencyContext(
           new ScriptLoader()
       ),
-      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World'),
+      fetchGateway: new FetchGateway()
     }).load('http://localhost:3000/components/hello-world?name=World');
 
     (window as any)['myResolverStub'] = {
@@ -127,7 +166,8 @@ describe('component loader', () => {
       dependencyContext: new DependencyContext(
           new ScriptLoader()
       ),
-      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World'),
+      fetchGateway: new FetchGateway()
     }).load('http://localhost:3000/components/hello-world?name=World');
 
     (window as any)['myResolverStub'] = {
@@ -170,7 +210,8 @@ describe('component loader', () => {
       dependencyContext: new DependencyContext(
           new ScriptLoader()
       ),
-      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World'),
+      fetchGateway: new FetchGateway()
     }).load('http://localhost:3000/components/hello-world?name=World');
 
     (window as any)['myResolverStub'] = {
@@ -211,7 +252,8 @@ describe('component loader', () => {
       dependencyContext: new DependencyContext(
           new ScriptLoader()
       ),
-      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World'),
+      fetchGateway: new FetchGateway()
     }).load('http://localhost:3000/components/hello-world?name=World');
 
     (window as any)['myResolverStub'] = {
@@ -252,7 +294,8 @@ describe('component loader', () => {
       dependencyContext: new DependencyContext(
           new ScriptLoader()
       ),
-      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World'),
+      fetchGateway: new FetchGateway()
     }).load('http://localhost:3000/components/hello-world?name=World');
 
     (window as any)['myResolverStub'] = {
@@ -313,7 +356,8 @@ describe('component loader', () => {
       dependencyContext: new DependencyContext(
           new ScriptLoader()
       ),
-      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World')
+      jsonpGateway: new StubJSONP(Promise.resolve(componentResponse), 'http://localhost:3000/components/hello-world?name=World'),
+      fetchGateway: new FetchGateway()
     }).load('http://localhost:3000/components/hello-world?name=World');
 
     (window as any)['myResolverStub'] = {

@@ -1,9 +1,12 @@
 import {ComponentDependency, DependencyContext} from "./dependency-context";
 import {JsonpGateway} from "./gateway/jsonp-gateway";
+import {FetchGateway} from "./gateway/fetch-gateway";
+import {parseURL} from "./url-parser";
 
 export interface ComponentLoaderContext {
   dependencyContext: DependencyContext;
-  jsonpGateway: JsonpGateway
+  jsonpGateway: JsonpGateway;
+  fetchGateway: FetchGateway;
 }
 
 type ComponentRenderable<Props, State> = (element: HTMLElement, props: Props, state: State) => Promise<void>;
@@ -33,9 +36,20 @@ export class ComponentLoader {
   }
 
   async load<P, S, T extends Component<P, S>>(componentUrl: string): Promise<T> {
-    const componentResponse: T = await this.context.jsonpGateway.fetchJsonp<T>(componentUrl);
+    const componentResponse = await this.componentResponseFor<T>(componentUrl);
 
     return await this.hydrationFactory<T, P, S>(componentResponse);
+  }
+
+  private async componentResponseFor<T>(componentUrl: string): Promise<T> {
+    const parsedURL = parseURL(componentUrl);
+
+    if (parsedURL.extension === 'json') {
+      const response = await this.context.fetchGateway.fetch<T>(componentUrl);
+      return {...response, props: parsedURL.props};
+    }
+
+    return await this.context.jsonpGateway.fetchJsonp<T>(componentUrl);
   }
 
   async hydrationFactory<T  extends Component<P, S>, P, S>(componentResponse: T) {

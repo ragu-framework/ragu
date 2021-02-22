@@ -2,10 +2,12 @@ import {Component, ComponentLoader} from "./component-loader";
 import {DependencyContext} from "./dependency-context";
 import {ScriptLoader} from "./gateway/script-loader";
 import {JsonpGateway} from "./gateway/jsonp-gateway";
+import {FetchGateway} from "./gateway/fetch-gateway";
 
 export const defaultComponentLoader = new ComponentLoader({
   dependencyContext: new DependencyContext(new ScriptLoader()),
-  jsonpGateway: new JsonpGateway(document)
+  jsonpGateway: new JsonpGateway(document),
+  fetchGateway: new FetchGateway()
 });
 
 export class RaguComponent {
