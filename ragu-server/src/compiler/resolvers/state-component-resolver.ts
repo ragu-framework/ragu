@@ -101,7 +101,7 @@ export abstract class StateComponentResolver extends TemplateComponentResolverBy
 
 
 export abstract class StateComponentSingleComponentResolver extends TemplateComponentResolverByFileStructure {
-  SINGLE_COMPONENT_NAME = 'single-component';
+  SINGLE_COMPONENT_NAME = 'index';
 
   abstract serverSideResolverTemplate: string;
   abstract clientSideResolverTemplate: string;

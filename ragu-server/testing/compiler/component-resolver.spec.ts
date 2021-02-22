@@ -243,14 +243,14 @@ describe('Component Resolver', () => {
 
       componentResolver = getComponentResolver(config);
 
-      await expect(componentResolver.componentList()).resolves.toEqual(['single-component']);
+      await expect(componentResolver.componentList()).resolves.toEqual(['index']);
 
-      await expect(componentResolver.componentRouteOf('single-component')).toEqual('/');
+      await expect(componentResolver.componentRouteOf('index')).toEqual('/');
 
       await expect(componentResolver.availableRoutes()).resolves.toEqual([{
         preview: '/preview',
         route: '/',
-        componentName: 'single-component'
+        componentName: 'index'
       }]);
     });
 
