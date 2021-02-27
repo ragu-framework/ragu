@@ -30,9 +30,6 @@ jobs:
     - run: yarn --cwd ragu-dom
       env:
         CI: true
-    - run: yarn --cwd ragu-vue-server-adapter
-      env:
-        CI: true
     - run: yarn install
       env:
         CI: true
