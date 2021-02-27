@@ -1,6 +1,6 @@
 {
   "name": "ragu-server",
-  "version": "0.0.55",
+  "version": "0.0.56",
   "description": "Server of ragu micro-frontend framework",
   "main": "./index.js",
   "type": "./index.d.ts",
