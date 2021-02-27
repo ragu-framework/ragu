@@ -14,10 +14,14 @@ type TestConfig = RaguServerConfig & {
 
 export const createTestConfig = async (): Promise<TestConfig> => {
   const port = await getPort();
-  const viewOutput = path.join(__dirname, 'compiled_components', 'view');
-  const hydrateOutput = path.join(__dirname, 'compiled_components', 'hydrate');
+  const directory = path.join(__dirname, 'compiled_components');
+  const serverOutput = path.join(directory, 'view');
+  const clientOutput = path.join(directory, 'hydrate');
 
   return ({
+    baseurl: `file://${directory}`,
+    ssrEnabled: true,
+    static: true,
     server: {
       routes: {
         assets: '/component-assets/',
@@ -34,14 +38,15 @@ export const createTestConfig = async (): Promise<TestConfig> => {
       sourceRoot: path.join(__dirname, 'components'),
     },
     compiler: {
-      assetsPrefix: `file://${hydrateOutput}/`,
+      assetsPrefix: `file://${clientOutput}/`,
       webpack: {
-        hydrate: raguVueWebpackHydrateConfig(`file://${hydrateOutput}/`),
-        view: raguVueWebpackViewConfig(`file://${hydrateOutput}/`)
+        clientSide: raguVueWebpackHydrateConfig(`file://${clientOutput}/`),
+        serverSide: raguVueWebpackViewConfig(`file://${clientOutput}/`)
       },
       output: {
-        view: viewOutput,
-        hydrate: hydrateOutput
+        directory,
+        serverSide: serverOutput,
+        clientSide: clientOutput
       },
     }
   });

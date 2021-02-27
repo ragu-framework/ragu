@@ -1,13 +1,31 @@
-import {RaguServerConfig, TemplateComponentResolver} from "ragu-server";
+import {RaguServerConfig, StateComponentResolver, TemplateComponentResolverByFileStructure} from "ragu-server";
 import * as path from 'path';
 import * as fs from 'fs';
 
-export class VueComponentResolver extends TemplateComponentResolver {
+export class VueComponentResolver extends StateComponentResolver {
+  clientSideResolverTemplate: string = path.join(__dirname, 'resolvers', 'hydrate-resolver');
+  stateResolverTemplate: string = path.join(__dirname, 'resolvers', 'state-resolver');
+  serverSideResolverTemplate: string = path.join(__dirname, 'resolvers', 'view-resolver');
+
+  stateFileFor(componentName: string): string {
+    return path.join(this.serverSideFileFor(componentName), 'state');
+  }
+
+  serverSideFileFor(componentName: string): string {
+    return path.join(this.config.components.sourceRoot, componentName);
+  }
+
+  clientSideFileFor(componentName: string): string {
+    return this.serverSideFileFor(componentName);
+  }
+}
+
+export class VueComponentResolver2 extends TemplateComponentResolverByFileStructure {
   constructor(config: RaguServerConfig) {
     super(config);
   }
 
-  async hydrateTemplateFor(componentName: string): Promise<string> {
+  async clientSideTemplateFor(componentName: string): Promise<string> {
     const componentPath = path.join(this.config.components.sourceRoot, componentName);
 
     return `
@@ -24,7 +42,7 @@ module.exports.default = {
 `;
   }
 
-  async viewTemplateFor(componentName: string): Promise<string> {
+  async serverSideTemplateFor(componentName: string): Promise<string> {
     const componentPath = path.join(this.config.components.sourceRoot, componentName);
 
     return `const vueServerRenderer = require("vue-server-renderer");

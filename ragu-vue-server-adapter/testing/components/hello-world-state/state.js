@@ -1,7 +1,5 @@
-export default {
-  propsToState(props) {
-    return Promise.resolve({
-      msg: `Hello, ${props.name}!`
-    });
-  }
+export default (props) => {
+  return Promise.resolve({
+    msg: `Hello, ${props.name}!`
+  });
 }
