@@ -16,7 +16,7 @@ describe('Server Side Rendering', () => {
       globalVariable: 'React',
       dependency: 'https://unpkg.com/react@16/umd/react.production.min.js'
     }];
-    config.compiler.assetsPrefix = `http://localhost:${config.server.port}/component-assets/`;
+    config.compiler.assetsPrefix = `http://localhost:${config.server.port}/compiled/client-side/`;
 
     compiler = new ComponentsCompiler(config);
     server = new RaguServer(config, compiler);

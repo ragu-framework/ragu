@@ -104,7 +104,7 @@ export interface RaguServerBaseConfig {
        *
        * If you change this property you may need to change the `config.compiler.assetsPrefix`.
        *
-       * @default `component-assets`
+       * @default `compiled/client-side`
        */
       assets: string;
       /**
@@ -228,7 +228,7 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
   const projectRoot = props.projectRoot || process.cwd();
 
   const serverPort = props.server?.port || 3100;
-  const assetsRoute = props.server?.routes?.assets || '/component-assets/';
+  const assetsRoute = props.server?.routes?.assets || '/compiled/client-side/';
 
   const packageJson = finder().next();
   const defaultComponentNamePrefix = `${packageJson.value?.name}_`;

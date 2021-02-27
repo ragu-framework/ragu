@@ -53,7 +53,7 @@ describe('Config', () => {
         }
       });
 
-      expect(config.compiler.assetsPrefix).toBe('http://localhost:3100/component-assets/');
+      expect(config.compiler.assetsPrefix).toBe('http://localhost:3100/compiled/client-side/');
     });
 
     it('defines the default assets source as localhost with the given port and assets route', () => {
