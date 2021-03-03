@@ -131,6 +131,29 @@ describe('Rendering a component', () => {
       expect(hydrateStub).toBeCalledWith(componentResponse);
     });
 
+    it('removes the previous html given an empty html response', async () => {
+      const componentURL = 'http://my-squad.org/component/any-component';
+      document.body.innerHTML = `<ragu-component src="${componentURL}">My previous content</ragu-component>`
+
+      const componentResponse: Component<any, any> = {
+        resolverFunction: 'la',
+        state: {
+          from: 'Server'
+        },
+        props: {
+          name: 'World'
+        },
+        client: 'client_url',
+        async render () {
+        }
+      };
+
+      controlledPromise.resolve(componentResponse);
+
+      await waitForPromises();
+      expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
+    });
+
     it('updates the content after a src change', async () => {
       const componentURL = 'http://my-squad.org/component/any-component';
       document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
