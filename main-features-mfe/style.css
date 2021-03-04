@@ -1,0 +1,105 @@
+.dev-background {
+    background: linear-gradient(86.92deg, #61DAFB 5.1%, rgba(255, 255, 255, 0) 97.29%), #41B883;
+    box-shadow: 0 0 75px rgba(0, 0, 0, 0.15);
+    padding: 35px 0;
+}
+
+.main-features {
+    max-width: min(80%, 800px);
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    font-family: Poppins, sans-serif;
+    font-weight: 300;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.main-features * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main-title {
+    font-family: Lato, sans-serif;
+    font-weight: 300;
+    font-size: 4.5rem;
+    color: white;
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.concept {
+    display: grid;
+    grid-template-columns: min(60vw, 270px) 1fr;
+    align-items: center;
+    margin-bottom: 10rem;
+    grid-gap: 7rem;
+}
+
+.concept .concept-content {
+    transition: all 500ms;
+    opacity: 0.9;
+}
+
+.concept p {
+    margin-bottom: 1rem;
+}
+
+.concept:nth-child(even) {
+    direction: rtl;
+}
+
+.concept:nth-child(even) :not(.feature-title-box) {
+    direction: ltr;
+}
+
+.feature-title-box {
+    background: linear-gradient(234.83deg, rgba(0, 0, 0, 0.2) 7.86%, rgba(255, 255, 255, 0) 100%), rgba(0, 0, 0, 0.05);
+    width: min(60vw, 270px);
+    height: min(60vw, 270px);
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    transform: rotate(-9deg);
+    transform-origin: right center;
+    transition: transform 500ms;
+}
+
+.concept:nth-child(even) .feature-title-box {
+    transform: rotate(9deg);
+    transform-origin: bottom;
+}
+
+.feature-title-box h2 {
+    font-size: 2rem;
+}
+
+.feature-title-box-icon {
+    font-size: 4rem;
+}
+
+@media (max-width: 760px) {
+    .concept,.concept:nth-child(even) {
+        display: block;
+        direction: ltr;
+        margin-bottom: 5rem;
+    }
+
+    .feature-title-box {
+        transform: rotate(-5deg);
+        transform-origin: bottom;
+        margin-bottom: 2rem;
+    }
+
+    .feature-title-box h2 {
+        font-size: 1.2rem;
+    }
+
+    .concept:nth-child(even) .feature-title-box {
+        transform: rotate(5deg);
+    }
+}
