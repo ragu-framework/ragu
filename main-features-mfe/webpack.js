@@ -38,4 +38,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js', '.json', ".css", ".scss"],
   },
+  output: {
+    filename: '[name].[contenthash].js',
+  },
 };
