@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:mfe": "ragu-cli dev --file index.ts --webpack webpack.js --port 5000",
+    "build:mfe": "ragu-cli static --file index.ts --webpack webpack.js --baseurl https://ragu-framework.github.io/ragu"
   },
   "author": "",
   "license": "MIT",
