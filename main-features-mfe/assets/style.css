@@ -72,6 +72,7 @@
 .concept:nth-child(even) .feature-title-box {
     transform: rotate(9deg);
     transform-origin: bottom;
+    text-align: right;
 }
 
 .feature-title-box h2 {
@@ -93,10 +94,15 @@
         transform: rotate(-5deg);
         transform-origin: bottom;
         margin-bottom: 2rem;
+        padding: 1rem;
     }
 
     .feature-title-box h2 {
-        font-size: 1.2rem;
+        font-size: 1.6rem;
+    }
+
+    .feature-title-box img {
+        width: 50px;
     }
 
     .concept:nth-child(even) .feature-title-box {
