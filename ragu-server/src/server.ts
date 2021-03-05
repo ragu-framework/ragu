@@ -66,12 +66,13 @@ export class RaguServer {
     return new Promise<void>((resolve) => {
       this.server = this.expressApp.listen(this.config.server.port, () => {
         getLogger(this.config).info(`Ragu Server listening at http://localhost:${this.config.server.port}`);
-        if (!this.config.server.hideWelcomeMessage) {
-          console.log('');
-          console.log(chalk.bold(`Welcome to 🔪 RaguServer`));
-          console.log(`The application is running at ${chalk.bold.green('http://localhost:' + this.config.server.port)}`)
-        }
-        new Report(this.config).reportPreview().then(() => resolve())
+        new Report(this.config).reportPreview().then(() => {
+          if (!this.config.server.hideWelcomeMessage) {
+            console.log('');
+            console.log(chalk.bold(`Welcome to 🔪 Ragu`));
+          }
+          resolve();
+        })
       })
     });
   }

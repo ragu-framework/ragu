@@ -4,15 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:mfe": "ragu-cli dev --file index.ts --webpack webpack.js --port 5000",
-    "build:mfe": "ragu-cli static --file index.ts --webpack webpack.js --baseurl https://ragu-framework.github.io/ragu"
+    "dev:mfe": "ragu-cli dev --file main-features-mfe.ts --webpack webpack.js --port 5000",
+    "build:mfe": "ragu-cli static --file main-features-mfe.ts --webpack webpack.js --baseurl https://ragu-framework.github.io/ragu"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "ragu-cli": "0.0.20",
+    "ragu-cli": "^0.0.21",
     "ragu-server": "^0.0.60",
-    "ragu-simple-adapter": "0.0.3",
+    "ragu-simple-adapter": "^0.0.4",
     "typescript": "^4.2.2"
   },
   "devDependencies": {
