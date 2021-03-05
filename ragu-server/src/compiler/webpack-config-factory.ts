@@ -35,8 +35,6 @@ export const createDefaultWebpackConfiguration = ({isDevelopment}: Options): web
     mode: isDevelopment ? 'development' : 'production',
     plugins: [
       ...developmentPlugins,
-      new webpack.IgnorePlugin(/jsdom/),
-      new webpack.IgnorePlugin(/mutationobserver-shim/),
     ],
     module: {
       rules: [

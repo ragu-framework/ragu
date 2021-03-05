@@ -58,9 +58,9 @@ export class ServerSideCompiler {
         if (err) {
           return reject(err);
         }
-        if (stats.hasErrors()) {
+        if (stats?.hasErrors()) {
           const statsJson = stats.toJson('minimal');
-          statsJson.errors.forEach(error => {
+          statsJson.errors?.forEach(error => {
             getLogger(this.config).error('Error during compilation', error);
           });
           return reject(statsJson);

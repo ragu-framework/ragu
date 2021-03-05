@@ -12,7 +12,7 @@ type DependencyType = {
     useGlobal: string
 };
 
-type DependencyCallback = (componentName: string, context: string, dependency: string) => DependencyType;
+type DependencyCallback = (componentName: string, context?: string, dependency?: string) => DependencyType;
 
 export const webpackCompile = (componentsEntry: Record<string, string>, serverConfig: RaguServerConfig, dependencyCallback: DependencyCallback): Promise<void> => {
     const baseConfig = serverConfig.compiler.webpack?.clientSide || createDefaultWebpackConfiguration({isDevelopment: false});
@@ -27,7 +27,6 @@ export const webpackCompile = (componentsEntry: Record<string, string>, serverCo
             output: {
                 path: serverConfig.compiler.output.clientSide,
                 publicPath: serverConfig.compiler.assetsPrefix,
-                jsonpFunction: `wpJsonp_${serverConfig.components.namePrefix}`,
                 library: `${serverConfig.components.namePrefix}[name]`,
                 libraryTarget: 'window',
             },
@@ -40,7 +39,7 @@ export const webpackCompile = (componentsEntry: Record<string, string>, serverCo
                 })
             ],
             externals: [
-                function(context: any, request: any, callback: any) {
+                function({context, request}, callback: any) {
                     const dependencyType = dependencyCallback(componentEntry, context, request)
                     if (!dependencyType.shouldCompile) {
                         return callback(null, dependencyType.useGlobal);
@@ -57,9 +56,9 @@ export const webpackCompile = (componentsEntry: Record<string, string>, serverCo
                 getLogger(serverConfig).error('Error during compilation', err);
                 return reject(err);
             }
-            if (stats.hasErrors()) {
+            if (stats?.hasErrors()) {
                 const statsJson = stats.toJson('minimal');
-                statsJson.errors.forEach(error => {
+                statsJson.errors?.forEach(error => {
                     getLogger(serverConfig).error('Error during compilation', error);
                 });
                 return reject(stats);

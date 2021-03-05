@@ -288,11 +288,11 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
   }, props);
 
   if (props.compiler?.webpack?.serverSide) {
-    config.compiler.webpack.serverSide = props.compiler.webpack.serverSide as webpack.Configuration;
+    config.compiler.webpack.serverSide = props.compiler.webpack.serverSide as any;
   }
 
   if (props.compiler?.webpack?.clientSide) {
-    config.compiler.webpack.clientSide = props.compiler.webpack.clientSide as webpack.Configuration;
+    config.compiler.webpack.clientSide = props.compiler.webpack.clientSide as any;
   }
 
   return config;

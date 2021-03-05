@@ -10,9 +10,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "ragu-cli": "^0.0.21",
+    "ragu-cli": "^0.0.22",
     "ragu-server": "^0.0.60",
-    "ragu-simple-adapter": "^0.0.4",
+    "ragu-simple-adapter": "^0.0.5",
     "typescript": "^4.2.2"
   },
   "devDependencies": {

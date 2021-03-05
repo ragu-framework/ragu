@@ -84,7 +84,10 @@ describe('View Compiler', () => {
           createDefaultWebpackConfiguration({}),
           {
             output: {
-              libraryTarget: 'var',
+              library: {
+                type: 'var',
+                name: 'any_name'
+              },
               filename: '[name].js',
               path: config.compiler.output.serverSide,
             },
@@ -106,7 +109,10 @@ describe('View Compiler', () => {
           createDefaultWebpackConfiguration({}),
           {
             output: {
-              libraryTarget: 'var',
+              library: {
+                type: 'var',
+                name: 'any_name'
+              },
               filename: '[name].zucchini.js',
               path: config.compiler.output.serverSide,
             },

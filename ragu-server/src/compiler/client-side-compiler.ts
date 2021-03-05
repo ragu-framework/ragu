@@ -31,7 +31,8 @@ export class ClientSideCompiler {
         componentEntry,
         this.config,
         (componentName, context, requestedDependency) => {
-          const foundDependency: DependencyObject | undefined = dependencyMap[componentName]?.find((dependency) => dependency.nodeRequire.toLowerCase() === requestedDependency.toLocaleLowerCase());
+          const foundDependency: DependencyObject | undefined = dependencyMap[componentName]
+              ?.find((dependency) => this.isSameDependency(dependency, requestedDependency));
 
           if (foundDependency) {
             getLogger(this.config).debug(`replacing dependency "${requestedDependency}" with global variable "${foundDependency.globalVariable}" from ${context}`);
@@ -45,6 +46,10 @@ export class ClientSideCompiler {
             shouldCompile: true
           }
         });
+  }
+
+  private isSameDependency(dependency: DependencyObject, requestedDependency: string | undefined) {
+    return dependency.nodeRequire.toLowerCase() === (requestedDependency || '').toLocaleLowerCase();
   }
 
   private async fetchAllComponents(): Promise<string[]> {

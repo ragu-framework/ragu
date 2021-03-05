@@ -2431,13 +2431,13 @@ querystring@0.2.0:
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
   integrity sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=
 
-ragu-cli@^0.0.21:
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/ragu-cli/-/ragu-cli-0.0.21.tgz#55d45d6094995c0161da068450baae82b512c70f"
-  integrity sha512-K4N8vNWRGWJMkt31bPcprip4SCb3iV/Idz1JWsv6OyqA5D/oOZfNx+L0MJ4jKB2o4/2MmBo4Tc5RIsfNRx8iHA==
+ragu-cli@^0.0.22:
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/ragu-cli/-/ragu-cli-0.0.22.tgz#d8ad7f40c4989e4ae683c4cd3c17c42f5c3f5462"
+  integrity sha512-x9CTq0aa9DAZiJfjhFlLIARWLRyjLb4ukneGe07o1fKHJL80On5u4dYxjfV+m3OsQm6PSVSxERFQTDRaNkuW+w==
   dependencies:
     commander "^7.1.0"
-    ragu-server "^0.0.61"
+    ragu-server "^0.0.62"
     reflect-metadata "^0.1.13"
     tsyringe "^4.4.0"
 
@@ -2476,10 +2476,10 @@ ragu-server@^0.0.60:
     webpack-node-externals "^2.5.2"
     yargs "^16.0.3"
 
-ragu-server@^0.0.61:
-  version "0.0.61"
-  resolved "https://registry.yarnpkg.com/ragu-server/-/ragu-server-0.0.61.tgz#a44f51611cd621fc3a332b99f866bd52ab1aac2f"
-  integrity sha512-aP4F4eCNiPDWKPlWaUHj/d7KZ/xSNwyEYPxKTe6tVyUjZm8UKpWgQssz7NO1tlVIDEjXAtoAwZHcpuwzWyqUTw==
+ragu-server@^0.0.62:
+  version "0.0.62"
+  resolved "https://registry.yarnpkg.com/ragu-server/-/ragu-server-0.0.62.tgz#a21e30f7b895605877feaeb7f05163d40af6bb42"
+  integrity sha512-g7Zg6DJ7xSlAM/ZYltpToXGZmROEoTegbKb9G6H/+xHba0J092NPunKjU9ElFhDFeNkEyQ8Aytzt2UF88cq5mQ==
   dependencies:
     "@types/webpack-node-externals" "^2.5.0"
     abort-controller "^3.0.0"
@@ -2499,12 +2499,12 @@ ragu-server@^0.0.61:
     webpack-node-externals "^2.5.2"
     yargs "^16.0.3"
 
-ragu-simple-adapter@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/ragu-simple-adapter/-/ragu-simple-adapter-0.0.4.tgz#d7265bac46dd89cb383925fd1bcb8b7d544a0378"
-  integrity sha512-oDPZhef/SoZY5bY9OMIfbmVjySRLWNScpJu0ONwE2f8dYe57uCIoZOpB3ZoCTs1CcTGEwCtWENRHtoTgEWAyCg==
+ragu-simple-adapter@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/ragu-simple-adapter/-/ragu-simple-adapter-0.0.5.tgz#42b46e4d45691d602c464dc7bc572f600fc55c42"
+  integrity sha512-41NDmgKqXCIrtoN8GQcjuDcHM59h8Ce+KeIT+5BQBwV+XdExuuSvPCQSx6+LT6cw/cBwVtMpDTvPbK7e8h8UZw==
   dependencies:
-    ragu-server "^0.0.61"
+    ragu-server "^0.0.62"
 
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5, randombytes@^2.1.0:
   version "2.1.0"
