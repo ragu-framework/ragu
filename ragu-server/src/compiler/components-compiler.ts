@@ -3,6 +3,7 @@ import {ServerSideCompiler} from "./server-side-compiler";
 import {getComponentResolver, PreviewCompiler} from "../..";
 import {ClientSideCompiler} from "./client-side-compiler";
 import {StaticService} from "../services/static-service";
+import {Report} from "../reports/report";
 
 export class ComponentsCompiler {
   private readonly serverSideCompiler: ServerSideCompiler;
@@ -38,6 +39,8 @@ export class ComponentsCompiler {
         await this.staticService.generateStatic(componentName, clientFileName, styles)
       }));
     }
+
+    await new Report(this.config).reportBuildLocation();
   }
 
   getClientFileName(componentName: string): Promise<string> {

@@ -139,6 +139,9 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
   }
 
   componentRouteOf() {
+    if (this.config.static) {
+      return `/${this.SINGLE_COMPONENT_NAME}.json`
+    }
     return '/'
   }
 
@@ -163,7 +166,7 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
   async availableRoutes(): Promise<{ preview: string; route: string; componentName: string }[]> {
     return [{
       preview: '/preview',
-      route: '/',
+      route: this.componentRouteOf(),
       componentName: this.SINGLE_COMPONENT_NAME
     }];
   }

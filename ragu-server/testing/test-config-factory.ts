@@ -34,6 +34,7 @@ export const createTestConfig = async (): Promise<TestConfig> => {
   });
 
   config.compiler.assetsPrefix = `file://${config.compiler.output.clientSide}/`;
+  config.showReports = false;
 
   return config as TestConfig;
 }

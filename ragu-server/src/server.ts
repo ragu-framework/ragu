@@ -7,6 +7,7 @@ import chalk from "chalk";
 import {ComponentsController} from "./ssr/components-controller";
 import {PreviewController} from "./preview/preview-controller";
 import {ComponentRoute, getComponentResolver} from "./compiler/resolvers/component-resolver";
+import {Report} from "./reports/report";
 
 
 export class RaguServer {
@@ -70,7 +71,7 @@ export class RaguServer {
           console.log(chalk.bold(`Welcome to 🔪 RaguServer`));
           console.log(`The application is running at ${chalk.bold.green('http://localhost:' + this.config.server.port)}`)
         }
-        resolve();
+        new Report(this.config).reportPreview().then(() => resolve())
       })
     });
   }

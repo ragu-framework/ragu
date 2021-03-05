@@ -254,6 +254,23 @@ describe('Component Resolver', () => {
       }]);
     });
 
+    it('returns the json route when static', async () => {
+      config.static = true;
+      config.components.resolver = new TestStateComponentResolver(
+          config,
+          path.join(config.components.sourceRoot, 'hello-world', 'my-cool-hydrate'),
+          path.join(config.components.sourceRoot, 'hello-world', 'my-cool-view'));
+
+      componentResolver = getComponentResolver(config);
+
+      await expect(componentResolver.componentRouteOf('index')).toEqual('/index.json');
+      await expect(componentResolver.availableRoutes()).resolves.toEqual([{
+        preview: '/preview',
+        route: '/index.json',
+        componentName: 'index'
+      }]);
+    });
+
     it('processes the state', async () => {
       config.components.resolver = new TestStateComponentResolver(
           config,

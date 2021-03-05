@@ -61,6 +61,12 @@ export interface RaguServerBaseConfig {
    */
   static: boolean,
   /**
+   * Show reports
+   *
+   * @default true
+   */
+  showReports: boolean,
+  /**
    * A set of configuration for ragu components.
    */
   components: {
@@ -241,6 +247,7 @@ export const createConfig = (props: RaguServerBaseConfigProps = {}): RaguServerC
     baseurl: baseURL,
     ssrEnabled: true,
     static: false,
+    showReports: true,
     server: {
       port: serverPort,
       hideWelcomeMessage: false,
