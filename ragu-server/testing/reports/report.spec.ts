@@ -14,10 +14,10 @@ describe('report', () => {
 
     await new Report(config).reportBuildLocation();
 
-    expect(console.log).toHaveBeenNthCalledWith(1, expect.stringContaining("📦 your build is ready!"));
-    expect(console.log).toHaveBeenNthCalledWith(2, expect.stringContaining(config.compiler.output.directory));
-    expect(console.log).toHaveBeenNthCalledWith(3, expect.stringContaining(config.baseurl));
-    expect(console.log).toHaveBeenNthCalledWith(4, expect.stringContaining("Routes"));
+    expect(console.log).toBeCalledWith(expect.stringContaining("📦 your build is ready!"));
+    expect(console.log).toBeCalledWith(expect.stringContaining(config.compiler.output.directory));
+    expect(console.log).toBeCalledWith(expect.stringContaining(config.baseurl));
+    expect(console.log).toBeCalledWith(expect.stringContaining("Routes"));
     expect(console.log).toBeCalledWith(expect.stringContaining(`${config.baseurl}/components/hello-world`));
   });
 
@@ -44,7 +44,7 @@ describe('report', () => {
       await new Report(config).reportBuildLocation();
 
       expect(console.log)
-          .toHaveBeenCalledWith(expect.stringContaining("You should deploy"));
+          .toHaveBeenCalledWith(expect.stringContaining("Deploy the"));
     });
   });
 

@@ -101,7 +101,8 @@ export abstract class StateComponentResolver extends TemplateComponentResolverBy
 
 
 export abstract class StateComponentSingleComponentResolver extends TemplateComponentResolverByFileStructure {
-  SINGLE_COMPONENT_NAME = 'index';
+  private readonly componentName: string;
+  SINGLE_COMPONENT_FILE_NAME = 'index';
 
   abstract serverSideResolverTemplate: string;
   abstract clientSideResolverTemplate: string;
@@ -113,6 +114,7 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
       private readonly serverSideFile: string,
       private readonly stateFile?: string) {
     super(config);
+    this.componentName = path.basename(clientSideFile);
   }
 
   private get resolver() {
@@ -140,7 +142,7 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
 
   componentRouteOf() {
     if (this.config.static) {
-      return `/${this.SINGLE_COMPONENT_NAME}.json`
+      return `/${this.SINGLE_COMPONENT_FILE_NAME}.json`
     }
     return '/'
   }
@@ -155,7 +157,7 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
 
 
   async componentList(): Promise<string[]> {
-    return [this.SINGLE_COMPONENT_NAME];
+    return [this.componentName];
   }
 
   async componentsOnlyDependencies(): Promise<Dependency[]> {
@@ -167,7 +169,7 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
     return [{
       preview: '/preview',
       route: this.componentRouteOf(),
-      componentName: this.SINGLE_COMPONENT_NAME
+      componentName: this.componentName
     }];
   }
 }

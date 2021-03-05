@@ -243,14 +243,14 @@ describe('Component Resolver', () => {
 
       componentResolver = getComponentResolver(config);
 
-      await expect(componentResolver.componentList()).resolves.toEqual(['index']);
+      await expect(componentResolver.componentList()).resolves.toEqual(['my-cool-hydrate']);
 
       await expect(componentResolver.componentRouteOf('index')).toEqual('/');
 
       await expect(componentResolver.availableRoutes()).resolves.toEqual([{
         preview: '/preview',
         route: '/',
-        componentName: 'index'
+        componentName: 'my-cool-hydrate'
       }]);
     });
 
@@ -267,7 +267,7 @@ describe('Component Resolver', () => {
       await expect(componentResolver.availableRoutes()).resolves.toEqual([{
         preview: '/preview',
         route: '/index.json',
-        componentName: 'index'
+        componentName: 'my-cool-hydrate'
       }]);
     });
 
