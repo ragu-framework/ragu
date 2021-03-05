@@ -3,6 +3,7 @@ import {RaguServerConfig} from "../config";
 import {createDefaultWebpackConfiguration} from "./webpack-config-factory";
 import {getLogger} from "../logging/get-logger";
 import {merge} from "webpack-merge";
+import LiveReloadPlugin from "webpack-livereload-plugin";
 const Chunks2JsonPlugin = require('chunks-2-json-webpack-plugin');
 
 type DependencyType = {
@@ -20,6 +21,13 @@ export const webpackCompile = (componentsEntry: Record<string, string>, serverCo
     const webpackConfigs: webpack.Configuration[] = [];
 
     for (const componentEntry of Object.keys(componentsEntry)) {
+        const watcherPlugins = serverConfig.compiler.watchMode ? [
+            new LiveReloadPlugin({
+                port: 0,
+                appendScriptTag: true,
+            })
+        ] : [];
+
         webpackConfigs.push(merge(baseConfig, {
             entry: {
                 [componentEntry]: componentsEntry[componentEntry],
@@ -32,6 +40,7 @@ export const webpackCompile = (componentsEntry: Record<string, string>, serverCo
             },
             watch: serverConfig.compiler.watchMode,
             plugins: [
+                ...watcherPlugins,
                 new Chunks2JsonPlugin({
                     filename: `${componentEntry}.build-manifest.json`,
                     outputDir: serverConfig.compiler.output.clientSide,
