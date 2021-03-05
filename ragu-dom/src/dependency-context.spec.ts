@@ -143,14 +143,14 @@ describe('DependencyContext', () => {
             resolvedMock();
           });
 
-      await new Promise((resolve) => setImmediate(() => resolve()));
+      await new Promise<void>((resolve) => setImmediate(() => resolve()));
 
       expect(resolvedMock).not.toBeCalled();
 
       const querySelector = document.head.querySelector('link[href="http://my-style/main.css"]') as HTMLLinkElement;
       querySelector.onload?.({} as any);
 
-      await new Promise((resolve) => setImmediate(() => resolve()));
+      await new Promise<void>((resolve) => setImmediate(() => resolve()));
 
       expect(resolvedMock).toBeCalled();
     });
@@ -164,7 +164,7 @@ describe('DependencyContext', () => {
         resolvedMock();
       });
 
-      await new Promise((resolve) => setImmediate(() => resolve()));
+      await new Promise<void>((resolve) => setImmediate(() => resolve()));
 
       expect(resolvedMock).not.toBeCalled();
 
@@ -180,14 +180,14 @@ describe('DependencyContext', () => {
             resolvedMock();
           });
 
-      await new Promise((resolve) => setImmediate(() => resolve()));
+      await new Promise<void>((resolve) => setImmediate(() => resolve()));
 
       expect(resolvedMock).not.toBeCalled();
 
       const querySelector = document.head.querySelector('link[href="http://my-style/main.css"]') as HTMLLinkElement;
       querySelector.onerror?.({} as any);
 
-      await new Promise((resolve) => setImmediate(() => resolve()));
+      await new Promise<void>((resolve) => setImmediate(() => resolve()));
 
       expect(resolvedMock).toBeCalled();
     });

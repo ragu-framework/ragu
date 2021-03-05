@@ -58,7 +58,7 @@ export class DependencyContext {
     linkElement.setAttribute('href', style);
     linkElement.setAttribute('rel', 'stylesheet');
 
-    return new Promise((resolve) => {
+    return new Promise<void>((resolve) => {
       if (document.head.querySelector(`link[href="${style}"]`)) {
         resolve();
         return;

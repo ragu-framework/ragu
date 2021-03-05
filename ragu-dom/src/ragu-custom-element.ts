@@ -37,7 +37,7 @@ export const registerRaguComponent = (componentLoader?: ComponentLoader): void =
     }
 
     private async waitToFullParse() {
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         setTimeout(() => resolve());
       });
     }

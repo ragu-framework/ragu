@@ -98,14 +98,14 @@ describe('component loader', () => {
           resolvedMock()
         });
 
-    await new Promise((resolve) => setImmediate(() => resolve()));
+    await new Promise<void>((resolve) => setImmediate(() => resolve()));
 
     expect(resolvedMock).not.toBeCalled();
 
     const querySelector = document.head.querySelector('link[href="http://my-squad.org/client.asijdoaidj.css"]') as HTMLLinkElement;
     querySelector.onload?.({} as any);
 
-    await new Promise((resolve) => setImmediate(() => resolve()));
+    await new Promise<void>((resolve) => setImmediate(() => resolve()));
 
     expect(resolvedMock).toBeCalled();
   });
@@ -130,7 +130,7 @@ describe('component loader', () => {
       resolve: async () => {
         return {
           async render(element: HTMLElement, props: string, state: string) {
-            await new Promise((resolve) => {
+            await new Promise<void>((resolve) => {
               setImmediate(() => resolve());
             });
             element.innerHTML = `props: ${props}, state: ${state}`;
@@ -145,7 +145,7 @@ describe('component loader', () => {
           done();
         });
 
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       setImmediate(() => resolve());
     });
 
@@ -174,7 +174,7 @@ describe('component loader', () => {
       resolve: async () => {
         return {
           async hydrate(element: HTMLElement, props: string, state: string) {
-            await new Promise((resolve) => {
+            await new Promise<void>((resolve) => {
               setImmediate(() => resolve());
             });
             element.innerHTML = `props: ${props}, state: ${state}`;
@@ -189,7 +189,7 @@ describe('component loader', () => {
           done();
         });
 
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       setImmediate(() => resolve());
     });
 
@@ -217,7 +217,7 @@ describe('component loader', () => {
     (window as any)['myResolverStub'] = {
       default: {
         async hydrate(element: HTMLElement, props: string, state: string) {
-          await new Promise((resolve) => {
+          await new Promise<void>((resolve) => {
             setImmediate(() => resolve());
           });
           element.innerHTML = `props: ${props}, state: ${state}`;
@@ -231,7 +231,7 @@ describe('component loader', () => {
           done();
         });
 
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       setImmediate(() => resolve());
     });
 
@@ -258,7 +258,7 @@ describe('component loader', () => {
 
     (window as any)['myResolverStub'] = {
       async hydrate(element: HTMLElement, props: string, state: string) {
-        await new Promise((resolve) => {
+        await new Promise<void>((resolve) => {
           setImmediate(() => resolve());
         });
         element.innerHTML = `props: ${props}, state: ${state}`;
@@ -271,7 +271,7 @@ describe('component loader', () => {
           done();
         });
 
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       setImmediate(() => resolve());
     });
 
@@ -301,7 +301,7 @@ describe('component loader', () => {
     (window as any)['myResolverStub'] = {
       default: {
         async hydrate(element: HTMLElement, props: string, state: string) {
-          await new Promise((resolve) => {
+          await new Promise<void>((resolve) => {
             setImmediate(() => resolve());
           });
           element.innerHTML = `props: ${props}, state: ${state}`;
@@ -316,7 +316,7 @@ describe('component loader', () => {
         .then(async () => {
           component.disconnect?.(document.body);
 
-          await new Promise((resolve) => {
+          await new Promise<void>((resolve) => {
             setImmediate(() => resolve());
           });
 
@@ -324,7 +324,7 @@ describe('component loader', () => {
           done();
         });
 
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       setImmediate(() => resolve());
     });
 
@@ -378,7 +378,7 @@ describe('component loader', () => {
           done();
         });
 
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       setImmediate(() => resolve());
     });
 
@@ -388,7 +388,7 @@ describe('component loader', () => {
     (document.querySelector('script[src="https://unpkg.com/react@16/umd/react.development.min.js"]') as HTMLScriptElement)
         .onload?.(null as any);
 
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       setImmediate(() => resolve());
     });
 

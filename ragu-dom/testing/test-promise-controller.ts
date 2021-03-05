@@ -5,7 +5,7 @@ export class TestPromiseController<T> {
 
   constructor() {
     this.promise = new Promise<T>((resolve, reject) => {
-      this.resolve = resolve;
+      this.resolve = resolve as any;
       this.reject = (...args: any[]) => {
         setImmediate(() => {
           reject(...args);
