@@ -21,11 +21,14 @@ export const webpackCompile = (componentsEntry: Record<string, string>, serverCo
     const webpackConfigs: webpack.Configuration[] = [];
 
     for (const componentEntry of Object.keys(componentsEntry)) {
+        const liveReloadOptions = {
+            port: 0,
+            appendScriptTag: true,
+            quiet: true
+        };
+
         const watcherPlugins = serverConfig.compiler.watchMode ? [
-            new LiveReloadPlugin({
-                port: 0,
-                appendScriptTag: true,
-            })
+            new LiveReloadPlugin(liveReloadOptions)
         ] : [];
 
         webpackConfigs.push(merge(baseConfig, {
