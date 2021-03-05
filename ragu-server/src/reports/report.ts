@@ -23,7 +23,7 @@ export class Report {
     const allRoutes = await getComponentResolver(this.config).availableRoutes();
 
     for (const route of allRoutes) {
-      console.log(`${this.config.baseurl}${route.route}`)
+      console.log(`▸ ${this.config.baseurl}${route.route}`)
     }
   }
 

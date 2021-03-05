@@ -18,7 +18,7 @@ describe('report', () => {
     expect(console.log).toHaveBeenNthCalledWith(2, expect.stringContaining(config.compiler.output.directory));
     expect(console.log).toHaveBeenNthCalledWith(3, expect.stringContaining(config.baseurl));
     expect(console.log).toHaveBeenNthCalledWith(4, expect.stringContaining("Routes"));
-    expect(console.log).toBeCalledWith(`${config.baseurl}/components/hello-world`)
+    expect(console.log).toBeCalledWith(expect.stringContaining(`${config.baseurl}/components/hello-world`));
   });
 
   it('reports previews routes', async () => {
