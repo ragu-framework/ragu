@@ -52,7 +52,10 @@ export class RaguComponent {
     const serverDate = JSON.parse(ssrScriptElement.textContent || '{}');
     ssrScriptElement.remove();
 
-    this.component = await this.componentLoader.hydrationFactory(serverDate);
+    this.component = await this.componentLoader.hydrationFactory({
+      ...serverDate,
+      html: this.element.innerHTML
+    });
     await this.render();
   }
 

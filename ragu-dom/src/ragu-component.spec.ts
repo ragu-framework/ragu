@@ -242,15 +242,14 @@ describe('Rendering a component', () => {
           props: {
             name: 'World'
           },
-          client: 'client_url',
-          html: 'Hello, World',
+          client: 'client_url'
         };
 
         const componentURL = 'http://my-squad.org/component/any-component';
-        document.body.innerHTML = `<ragu-component src="${componentURL}">
-          <script data-ragu-ssr type="application/json">{"org": 10, "items":["one","two"]}</script>
-          <div>Hello, World</div>
-        </ragu-component>`
+        const scriptTag = `<script data-ragu-ssr type="application/json">${JSON.stringify(serverData)}</script>`;
+        const bodyHtml = `<div>Hello, World</div>`;
+
+        document.body.innerHTML = `<ragu-component src="${componentURL}">${scriptTag}${bodyHtml}</ragu-component>`
 
         const renderPromise = new TestPromiseController();
 
@@ -266,9 +265,14 @@ describe('Rendering a component', () => {
         renderPromise.resolve();
 
         await waitForExpect(() => {
-          expect(document.querySelector('ragu-component')?.textContent).toContain('Hello from Server, World');
           expect(hydrationStub).toBeCalledTimes(1);
+          expect(hydrationStub).toHaveBeenCalledWith({
+            ...serverData,
+            html: bodyHtml
+          })
           expect(loadStub).toBeCalledTimes(0);
+
+          expect(document.querySelector('ragu-component')?.textContent).toContain('Hello from Server, World');
 
           expect(document.querySelector('script')).toBeNull();
         });
