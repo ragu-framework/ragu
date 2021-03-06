@@ -13,10 +13,36 @@ type DependencyType = {
     useGlobal: string
 };
 
+const webpack4ExternalFunction = (dependencyCallback: any, componentEntry: string) =>
+    (context: any, request: any, callback: any) => {
+        const dependencyType = dependencyCallback(componentEntry, context, request)
+        if (!dependencyType.shouldCompile) {
+            return callback(null, dependencyType.useGlobal);
+        }
+        callback();
+    }
+
+const webpack5ExternalFunction = (dependencyCallback: any, componentEntry: string) =>
+    ({context, request}: any, callback: any) => {
+        webpack4ExternalFunction(dependencyCallback, componentEntry)(context, request, callback)
+    }
+
+const isWebpack5 = webpack.version.startsWith('5');
+
+const webpackExternalFunction: any = isWebpack5
+    ? webpack5ExternalFunction
+    : webpack4ExternalFunction;
+
 type DependencyCallback = (componentName: string, context?: string, dependency?: string) => DependencyType;
 
 export const webpackCompile = (componentsEntry: Record<string, string>, serverConfig: RaguServerConfig, dependencyCallback: DependencyCallback): Promise<void> => {
     const baseConfig = serverConfig.compiler.webpack?.clientSide || createDefaultWebpackConfiguration({isDevelopment: false});
+
+    getLogger(serverConfig).info(`You are using webpack version ${webpack.version}`);
+
+    const outputConfigWebpack4 = isWebpack5 ? {} : {
+        jsonpFunction: `wpJsonp_${serverConfig.components.namePrefix}`,
+    }
 
     const webpackConfigs: webpack.Configuration[] = [];
 
@@ -36,6 +62,7 @@ export const webpackCompile = (componentsEntry: Record<string, string>, serverCo
                 [componentEntry]: componentsEntry[componentEntry],
             },
             output: {
+                ...outputConfigWebpack4,
                 path: serverConfig.compiler.output.clientSide,
                 publicPath: serverConfig.compiler.assetsPrefix,
                 library: `${serverConfig.components.namePrefix}[name]`,
@@ -51,13 +78,7 @@ export const webpackCompile = (componentsEntry: Record<string, string>, serverCo
                 })
             ],
             externals: [
-                function({context, request}, callback: any) {
-                    const dependencyType = dependencyCallback(componentEntry, context, request)
-                    if (!dependencyType.shouldCompile) {
-                        return callback(null, dependencyType.useGlobal);
-                    }
-                    callback();
-                }
+                webpackExternalFunction(dependencyCallback, componentEntry)
             ]
         }))
     }
