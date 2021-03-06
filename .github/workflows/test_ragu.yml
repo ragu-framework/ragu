@@ -36,7 +36,7 @@ jobs:
     - run: yarn test
       env:
         CI: true
-    - run: yarn --cwd ragu-server add webpack@4
+    - run: yarn --cwd ragu-server add webpack@4 @types/webpack
       env:
         CI: true
     - run: yarn --cwd ragu-server jest --runTestsByPath testing/components-compiler.spec.ts
