@@ -27,7 +27,7 @@ const webpack5ExternalFunction = (dependencyCallback: any, componentEntry: strin
         webpack4ExternalFunction(dependencyCallback, componentEntry)(context, request, callback)
     }
 
-const isWebpack5 = webpack.version.startsWith('5');
+const isWebpack5 = (webpack.version || '').startsWith('5');
 
 const webpackExternalFunction: any = isWebpack5
     ? webpack5ExternalFunction
