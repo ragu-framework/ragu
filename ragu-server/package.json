@@ -1,6 +1,6 @@
 {
   "name": "ragu-server",
-  "version": "0.0.67",
+  "version": "0.0.68",
   "description": "Server of ragu micro-frontend framework",
   "main": "./index.js",
   "type": "./index.d.ts",
@@ -18,7 +18,7 @@
     "is-plain-object": "^5.0.0",
     "npm-programmatic": "^0.0.12",
     "ragu-client-node": "^0.0.4",
-    "ragu-dom": "^0.0.65",
+    "ragu-dom": "^0.0.67",
     "webpack": "^5.24.3",
     "webpack-bundle-analyzer": "^4.4.0",
     "webpack-livereload-plugin": "^3.0.0",
