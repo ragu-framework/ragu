@@ -79,7 +79,7 @@ export class ComponentLoader {
         return component;
       },
       getRenderFunction(): ComponentRenderable<P, S> | undefined {
-        if (this.html === undefined) {
+        if (!this.html?.trim()) {
           return this.component?.render;
         }
         return this.component?.hydrate;
