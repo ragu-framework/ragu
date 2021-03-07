@@ -1,0 +1,3 @@
+import {registerRaguComponent} from "./";
+
+registerRaguComponent();

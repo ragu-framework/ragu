@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = {
+module.exports = [{
   mode: 'production',
   entry: './index.ts',
   module: {
@@ -21,4 +21,25 @@ module.exports = {
     filename: 'ragu-dom.js',
     path: path.resolve(__dirname, 'dist'),
   },
-};
+},
+  {
+    mode: 'production',
+    entry: './install.ts',
+    module: {
+      rules: [
+        {
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
+      ],
+    },
+    resolve: {
+      extensions: [ '.tsx', '.ts', '.js' ],
+    },
+    output: {
+      filename: 'install.js',
+      path: path.resolve(__dirname, 'dist'),
+    },
+  }
+];
