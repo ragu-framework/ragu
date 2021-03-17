@@ -41,6 +41,7 @@ describe('Rendering a component', () => {
     it('ignores the undefined html', async () => {
       const componentURL = 'http://my-squad.org/component/any-component';
       document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
+      document.dispatchEvent(new CustomEvent('DOMContentLoaded'));
       expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
 
       const fetchedStub = jest.fn();
@@ -81,7 +82,9 @@ describe('Rendering a component', () => {
 
     it('hydrates a component', async () => {
       const componentURL = 'http://my-squad.org/component/any-component';
-      document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
+      document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`;
+      document.dispatchEvent(new CustomEvent('DOMContentLoaded'));
+
       expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
 
       const fetchedStub = jest.fn();
@@ -133,7 +136,8 @@ describe('Rendering a component', () => {
 
     it('removes the previous html given an empty html response', async () => {
       const componentURL = 'http://my-squad.org/component/any-component';
-      document.body.innerHTML = `<ragu-component src="${componentURL}">My previous content</ragu-component>`
+      document.body.innerHTML = `<ragu-component src="${componentURL}">My previous content</ragu-component>`;
+      document.dispatchEvent(new CustomEvent('DOMContentLoaded'));
 
       const componentResponse: Component<any, any> = {
         resolverFunction: 'la',
@@ -157,6 +161,8 @@ describe('Rendering a component', () => {
     it('updates the content after a src change', async () => {
       const componentURL = 'http://my-squad.org/component/any-component';
       document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
+      document.dispatchEvent(new CustomEvent('DOMContentLoaded'));
+
       expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
 
       const renderPromise = new TestPromiseController();
@@ -198,7 +204,8 @@ describe('Rendering a component', () => {
 
     it('disconnect when component is removed from dom', async () => {
       const componentURL = 'http://my-squad.org/component/any-component';
-      document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`
+      document.body.innerHTML = `<ragu-component src="${componentURL}"></ragu-component>`;
+      document.dispatchEvent(new CustomEvent('DOMContentLoaded'));
       expect(document.querySelector('ragu-component')?.innerHTML).toEqual('');
 
       const renderPromise = new TestPromiseController();

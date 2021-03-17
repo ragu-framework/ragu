@@ -23,5 +23,8 @@
     "test": "jest",
     "clean": "tsc --build --clean",
     "build": "tsc && cp package.json dist/ && cp ./README.md dist/ && webpack"
+  },
+  "dependencies": {
+    "html-parsed-element": "^0.4.0"
   }
 }

@@ -1,8 +1,9 @@
 import {ComponentLoader} from "./component-loader";
 import {RaguComponent} from "./ragu-component";
+const {withParsedCallback} = require('html-parsed-element');
 
 export const registerRaguComponent = (componentLoader?: ComponentLoader): void => {
-  class RaguCustomElement extends HTMLElement {
+  const RaguCustomElement = withParsedCallback(class extends HTMLElement {
     private component!: RaguComponent;
     private firstFetchPerformed = false;
 
@@ -21,7 +22,7 @@ export const registerRaguComponent = (componentLoader?: ComponentLoader): void =
       }
     }
 
-    async connectedCallback() {
+    async parsedCallback() {
       await this.waitToFullParse();
       this.firstFetchPerformed = true;
 
@@ -45,7 +46,7 @@ export const registerRaguComponent = (componentLoader?: ComponentLoader): void =
     disconnectedCallback() {
       this.component.disconnectComponent();
     }
-  }
+  });
 
   window.customElements.define('ragu-component', RaguCustomElement);
 }

@@ -1958,6 +1958,11 @@ html-escaper@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
 
+html-parsed-element@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/html-parsed-element/-/html-parsed-element-0.4.0.tgz#4e88a278b3ec8a6e5070b3ebd6c4de087711c92a"
+  integrity sha512-8J1VJKT/wOUzmVeqzvf8/Qm35ofWLfWQRGCE8/2vsgMG1Y6p+1MMmiXOE8QAx/FXphYcmg6NXwZct82iee+UsA==
+
 http-signature@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/http-signature/-/http-signature-1.2.0.tgz#9aecd925114772f3d95b65a60abb8f7c18fbace1"
