@@ -2356,6 +2356,11 @@ html-escaper@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
 
+html-parsed-element@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/html-parsed-element/-/html-parsed-element-0.4.0.tgz#4e88a278b3ec8a6e5070b3ebd6c4de087711c92a"
+  integrity sha512-8J1VJKT/wOUzmVeqzvf8/Qm35ofWLfWQRGCE8/2vsgMG1Y6p+1MMmiXOE8QAx/FXphYcmg6NXwZct82iee+UsA==
+
 http-errors@1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.7.2.tgz#4f5029cf13239f31036e5b2e55292bcfbcc85c8f"
@@ -3837,10 +3842,12 @@ ragu-client-node@^0.0.4:
   dependencies:
     yarn "^1.22.10"
 
-ragu-dom@0.0.70:
-  version "0.0.70"
-  resolved "https://registry.yarnpkg.com/ragu-dom/-/ragu-dom-0.0.70.tgz#f7dad1f39255ba5bff0b30648d4acba4473a2f55"
-  integrity sha512-CWylNJVvKc2D6Md5qrvimxe0nS93C4k7YxAG1QW+rISO6CS+FaD3Q/SogV8IRFvfO63ATidA/6IRXL2kRmVoKg==
+ragu-dom@^0.0.74:
+  version "0.0.74"
+  resolved "https://registry.yarnpkg.com/ragu-dom/-/ragu-dom-0.0.74.tgz#3662580e91785943ca8de05813de3eda54b87766"
+  integrity sha512-Qj/gbolvbUq8VmFmbl1f0/iEg3U2oA2bmbnaHBl32kUERg4x3LC3PIESz6PE4PVGIn3coD4sEfVtqpz/oDTRxw==
+  dependencies:
+    html-parsed-element "^0.4.0"
 
 randombytes@^2.1.0:
   version "2.1.0"
