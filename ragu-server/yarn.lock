@@ -3842,10 +3842,10 @@ ragu-client-node@^0.0.4:
   dependencies:
     yarn "^1.22.10"
 
-ragu-dom@^0.0.74:
-  version "0.0.74"
-  resolved "https://registry.yarnpkg.com/ragu-dom/-/ragu-dom-0.0.74.tgz#3662580e91785943ca8de05813de3eda54b87766"
-  integrity sha512-Qj/gbolvbUq8VmFmbl1f0/iEg3U2oA2bmbnaHBl32kUERg4x3LC3PIESz6PE4PVGIn3coD4sEfVtqpz/oDTRxw==
+ragu-dom@^0.0.78:
+  version "0.0.78"
+  resolved "https://registry.yarnpkg.com/ragu-dom/-/ragu-dom-0.0.78.tgz#d42cc44e35d672cef603d41beee5a6997c04d510"
+  integrity sha512-hgt1OtOzTfg+rvulNEoRskJElHvNBjC/aAPARpdSMb3qZ+dx17S6+/5FGRi0mpT2AuRXBmH1EmB6peHkQnBnYA==
   dependencies:
     html-parsed-element "^0.4.0"
 
