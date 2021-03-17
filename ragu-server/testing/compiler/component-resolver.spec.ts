@@ -263,10 +263,10 @@ describe('Component Resolver', () => {
 
       componentResolver = getComponentResolver(config);
 
-      await expect(componentResolver.componentRouteOf('index')).toEqual('/index.json');
+      await expect(componentResolver.componentRouteOf('index')).toEqual('/my-cool-hydrate.json');
       await expect(componentResolver.availableRoutes()).resolves.toEqual([{
         preview: '/preview',
-        route: '/index.json',
+        route: '/my-cool-hydrate.json',
         componentName: 'my-cool-hydrate'
       }]);
     });

@@ -102,7 +102,6 @@ export abstract class StateComponentResolver extends TemplateComponentResolverBy
 
 export abstract class StateComponentSingleComponentResolver extends TemplateComponentResolverByFileStructure {
   private readonly componentName: string;
-  SINGLE_COMPONENT_FILE_NAME = 'index';
 
   abstract serverSideResolverTemplate: string;
   abstract clientSideResolverTemplate: string;
@@ -142,7 +141,7 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
 
   componentRouteOf() {
     if (this.config.static) {
-      return `/${this.SINGLE_COMPONENT_FILE_NAME}.json`
+      return `/${this.componentName}.json`
     }
     return '/'
   }
