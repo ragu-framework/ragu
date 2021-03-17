@@ -1,9 +1,10 @@
 import {ComponentLoader} from "./component-loader";
 import {RaguComponent} from "./ragu-component";
-const HTMLParsedElement = require('html-parsed-element');
+// @ts-ignore
+import {withParsedCallback} from 'html-parsed-element';
 
 export const registerRaguComponent = (componentLoader?: ComponentLoader): void => {
-  const RaguCustomElement = HTMLParsedElement.withParsedCallback(class extends HTMLElement {
+  const RaguCustomElement = withParsedCallback(class extends HTMLElement {
     private component!: RaguComponent;
     private firstFetchPerformed = false;
 
