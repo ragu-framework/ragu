@@ -56,7 +56,6 @@ export const createDefaultWebpackConfiguration = ({isDevelopment}: Options): web
     },
     output: {
       filename: '[name].[contenthash].js',
-      publicPath: '/'
     },
     optimization: {
       usedExports: true,

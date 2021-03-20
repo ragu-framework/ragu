@@ -99,7 +99,8 @@ export class ServerSideCompiler {
       output: {
         libraryTarget: "commonjs2",
         filename: '[name].js',
-        path: this.config.compiler.output.serverSide
+        path: this.config.compiler.output.serverSide,
+        publicPath: this.config.compiler.assetsPrefix,
       },
       externals: [webpackNodeExternals()],
       watch: this.config.compiler.watchMode
