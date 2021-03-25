@@ -17,7 +17,7 @@ export class ComponentsController {
     try {
       const props = this.getPropsFromRequest(req);
 
-      const response = await this.componentService.renderComponent(componentName, props);
+      const response = await this.componentService.renderComponent(componentName, props, req);
 
       res.jsonp({
         ...response,

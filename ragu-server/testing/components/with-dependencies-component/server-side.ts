@@ -1,17 +1,18 @@
 import {sayHello} from "./dep";
+import {ServerSideProps} from "../../../src/component";
 
 interface Props {
   name: string;
 }
 
 export default {
-  render({name}: Props) {
+  render ({params}: ServerSideProps<Props, {}>){
     return {
       state: {
-        name,
+        name: params.name,
         greetingType: 'Hello'
       },
-      html: sayHello(name)
+      html: sayHello(params.name)
     }
   }
 }

@@ -58,7 +58,18 @@ describe('View Compiler', () => {
       const {default: compiledComponent} = require(compiler.compiledComponentPath('hello-world'));
 
       expect(component.dependencies).toEqual(compiledComponent.dependencies);
-      expect(component.render({name: 'World'})).toEqual(compiledComponent.render({name: 'World'}));
+      const props = {
+        params: {
+          name: 'World'
+        },
+        isServer: true,
+        request: {
+          path: 'hello-world'
+        },
+        config
+      };
+
+      expect(component.render(props)).toEqual(compiledComponent.render(props));
     });
   });
 

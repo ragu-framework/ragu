@@ -22,7 +22,7 @@ describe('ComponentService', () => {
       await compiler.compileAll();
 
       const service = new ComponentsService(config, compiler);
-      const component = await service.renderComponent('hello-world', {});
+      const component = await service.renderComponent('hello-world', {}, {} as any);
 
       expect(component.html).toBeUndefined();
       expect(component.ssrEnabled).toBeFalsy();
@@ -35,7 +35,7 @@ describe('ComponentService', () => {
       await compiler.compileAll();
 
       const service = new ComponentsService(config, compiler);
-      const component = await service.renderComponent('hello-world', {});
+      const component = await service.renderComponent('hello-world', {}, {} as any);
 
       expect(component.html).toBeUndefined();
       expect(component.static).toBeTruthy();
