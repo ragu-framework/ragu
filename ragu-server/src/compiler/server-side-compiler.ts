@@ -102,7 +102,7 @@ export class ServerSideCompiler {
         path: this.config.compiler.output.serverSide,
         publicPath: this.config.compiler.assetsPrefix,
       },
-      externals: [webpackNodeExternals()],
+      externals: [webpackNodeExternals() as any],
       watch: this.config.compiler.watchMode
     };
 
