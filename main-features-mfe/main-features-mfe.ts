@@ -2,6 +2,7 @@ import Style from './assets/style.css';
 import RocketIcon from './assets/icons/rocket.png';
 import GearIcon from './assets/icons/gear.png';
 import PlugIcon from './assets/icons/plug.png';
+import {ComponentProps} from "ragu-server";
 
 interface Props {
   env?: 'dev' | 'prod'
@@ -81,5 +82,6 @@ const mainFeatures = () => {
   `
 }
 
-export default (el: HTMLElement, props: Props) =>
-    el.innerHTML = renderDevWrapper(props, mainFeatures());
+export default ({params}: ComponentProps<Props, {}>) => ({
+  html: renderDevWrapper(params, mainFeatures())
+})

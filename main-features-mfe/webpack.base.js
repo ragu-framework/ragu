@@ -1,4 +1,8 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+
 module.exports = {
+  plugins: [new MiniCssExtractPlugin()],
   module: {
     rules: [
       {
@@ -11,7 +15,7 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -37,8 +41,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js', '.json', ".css", ".scss"],
-  },
-  output: {
-    filename: '[name].[contenthash].js',
-  },
+  }
 };
