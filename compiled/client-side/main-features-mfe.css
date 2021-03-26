@@ -1,0 +1,112 @@
+._1CntSi9u-0A4hEzRhCsAKS {
+    background: linear-gradient(86.92deg, #61DAFB 5.1%, rgba(255, 255, 255, 0) 97.29%), #41B883;
+    box-shadow: 0 0 75px rgba(0, 0, 0, 0.15);
+    padding: 35px 0;
+}
+
+.ziPm5ILafEb9q2iDApp4l {
+    max-width: min(80%, 800px);
+    margin: 0 auto;
+    padding: 0 1.25rem;
+    font-family: Poppins, sans-serif;
+    font-weight: 300;
+    font-size: 1.25rem;
+    color: white;
+}
+
+.ziPm5ILafEb9q2iDApp4l * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.ZxwMeEIkUBTIpR_nZiyOH {
+    font-family: Lato, sans-serif;
+    font-weight: 300;
+    font-size: 4.5rem;
+    color: white;
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+._1aKxNBfjlg6PRcEjVb9W-D {
+    display: grid;
+    grid-template-columns: min(60vw, 270px) 1fr;
+    align-items: center;
+    margin-bottom: 10rem;
+    grid-gap: 7rem;
+}
+
+._1aKxNBfjlg6PRcEjVb9W-D ._10eSVb--ubFFggdIG46hD8 {
+    transition: all 500ms;
+    opacity: 0.9;
+}
+
+._1aKxNBfjlg6PRcEjVb9W-D p {
+    margin-bottom: 1rem;
+}
+
+._1aKxNBfjlg6PRcEjVb9W-D:nth-child(even) {
+    direction: rtl;
+}
+
+._1aKxNBfjlg6PRcEjVb9W-D:nth-child(even) :not(._1InIjMRKMZegz9o2AaziiR) {
+    direction: ltr;
+}
+
+._1InIjMRKMZegz9o2AaziiR {
+    background: linear-gradient(234.83deg, rgba(0, 0, 0, 0.2) 7.86%, rgba(255, 255, 255, 0) 100%), rgba(0, 0, 0, 0.05);
+    width: min(60vw, 270px);
+    height: min(60vw, 270px);
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    padding: 2rem;
+    transform: rotate(-9deg);
+    transform-origin: right center;
+    transition: transform 500ms;
+}
+
+._1aKxNBfjlg6PRcEjVb9W-D:nth-child(even) ._1InIjMRKMZegz9o2AaziiR {
+    transform: rotate(9deg);
+    transform-origin: bottom;
+    text-align: right;
+}
+
+._1InIjMRKMZegz9o2AaziiR h2 {
+    font-size: 2rem;
+}
+
+._30WfJlu_MKNkR-9wvmMFar {
+    font-size: 4rem;
+}
+
+@media (max-width: 760px) {
+    ._1aKxNBfjlg6PRcEjVb9W-D,._1aKxNBfjlg6PRcEjVb9W-D:nth-child(even) {
+        display: block;
+        direction: ltr;
+        margin-bottom: 5rem;
+    }
+
+    ._1InIjMRKMZegz9o2AaziiR {
+        transform: rotate(-5deg);
+        transform-origin: bottom;
+        margin-bottom: 2rem;
+        padding: 1rem;
+    }
+
+    ._1InIjMRKMZegz9o2AaziiR h2 {
+        font-size: 1.6rem;
+    }
+
+    ._1InIjMRKMZegz9o2AaziiR img {
+        width: 50px;
+    }
+
+    ._1aKxNBfjlg6PRcEjVb9W-D:nth-child(even) ._1InIjMRKMZegz9o2AaziiR {
+        transform: rotate(-5deg);
+    }
+}
+
