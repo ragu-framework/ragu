@@ -5,7 +5,8 @@ import PlugIcon from './assets/icons/plug.png';
 import {ComponentProps} from "ragu-server";
 
 interface Props {
-  env?: 'dev' | 'prod'
+  env?: 'dev' | 'prod',
+  bg?: 'true'
 }
 
 const renderDevWrapper = (props: Props, html: string) => {
@@ -19,6 +20,11 @@ const renderDevWrapper = (props: Props, html: string) => {
       <div class="${Style.devBackground}">${html}</div>
     `;
   }
+
+  if (props.bg) {
+    return `<div class="${Style.devBackground}">${html}</div>`;
+  }
+
   return html
 }
 
