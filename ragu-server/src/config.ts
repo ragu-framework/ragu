@@ -28,10 +28,7 @@ type GlobalDependency = {
   globalVariable: string
 };
 
-/**
- * The ragu configuration object
- */
-export interface RaguServerBaseConfig {
+export type RaguServerConfig = {
   /**
    * The project root directory.
    *
@@ -210,8 +207,6 @@ export interface RaguServerBaseConfig {
     }
   }
 }
-
-export type RaguServerConfig = RaguServerBaseConfig
 
 type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>
