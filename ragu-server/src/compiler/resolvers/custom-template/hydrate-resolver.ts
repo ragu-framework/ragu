@@ -6,7 +6,7 @@ module.exports = (component, wrapper) => ({
     element.raguSimpleAdapterData = wrapper(component(props), props);
 
     if (element.raguSimpleAdapterData && element.raguSimpleAdapterData.connectedCallback) {
-      element.raguSimpleAdapterData.connectedCallback();
+      element.raguSimpleAdapterData.connectedCallback(true);
     }
   },
   render: function (element, params, state) {
@@ -21,7 +21,7 @@ module.exports = (component, wrapper) => ({
     }
 
     if (element.raguSimpleAdapterData.connectedCallback) {
-      element.raguSimpleAdapterData.connectedCallback();
+      element.raguSimpleAdapterData.connectedCallback(false);
     }
   },
   disconnect: function (el) {
