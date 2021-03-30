@@ -3,6 +3,7 @@ export * from './src/compiler/resolvers/by-file-structure-resolver';
 export * from './src/compiler/resolvers/component-resolver';
 export * from './src/compiler/resolvers/state-component-resolver';
 export * from './src/compiler/resolvers/template-component-resolver';
+export * from './src/compiler/resolvers/custom-resolver'
 export * from './src/compiler/client-side-compiler';
 export * from './src/compiler/webpack-compiler';
 export * from './src/compiler/server-side-compiler';
