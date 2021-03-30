@@ -1,3 +1,4 @@
+// @ts-nocheck
 module.exports = (component, stateResolver, wrapper) => ({
   render: function (props) {
     return stateResolver(props).then((state) => {

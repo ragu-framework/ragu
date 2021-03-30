@@ -1,3 +1,4 @@
+// @ts-nocheck
 module.exports = (component, wrapper) => ({
   hydrate: function (element, params, state) {
     var props = {element, params, state, isServer: false};
