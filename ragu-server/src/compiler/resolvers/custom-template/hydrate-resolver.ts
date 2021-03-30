@@ -10,7 +10,8 @@ module.exports = (component, wrapper) => ({
     }
   },
   render: function (element, params, state) {
-    element.raguSimpleAdapterData = wrapper(component({element, params, state, isServer: false}));
+    var props = {element, params, state, isServer: false};
+    element.raguSimpleAdapterData = wrapper(component(props), props);
 
     if (!element.raguSimpleAdapterData) {
       return;
