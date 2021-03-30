@@ -12,6 +12,7 @@ interface InternalStateComponentResolverProps {
   serverSideResolverTemplate: string;
   clientSideResolverTemplate: string;
   stateResolverTemplate: string;
+  wrapperResolverTemplate?: string
 }
 
 
@@ -23,8 +24,8 @@ class InternalStateComponentResolver {
     return `
       var component = require('${this.props.clientSideFileFor(componentName)}');
       var resolver = require('${this.props.clientSideResolverTemplate}');
-
-      module.exports.default = (resolver.default || resolver)(component.default || component);
+      var wrapperFn = ${this.getWrapper()};
+      module.exports.default = (resolver.default || resolver)(component.default || component, wrapperFn);
     `;
   }
 
@@ -33,9 +34,22 @@ class InternalStateComponentResolver {
       var component = require('${this.props.serverSideFileFor(componentName)}');
       var resolver = require('${this.props.serverSideResolverTemplate}');
       var stateResolver = require('${this.props.stateResolverTemplate}');
-      var stateResolverFn = (stateResolver.default || stateResolver)(${await this.resolveStateFile(componentName)})
-      module.exports.default = (resolver.default || resolver)(component.default || component, stateResolverFn);
+      var stateResolverFn = (stateResolver.default || stateResolver)(${await this.resolveStateFile(componentName)});
+      var wrapperFn = ${this.getWrapper()};
+      module.exports.default = (resolver.default || resolver)(component.default || component, stateResolverFn, wrapperFn);
     `;
+  }
+
+  private getWrapper() {
+    if (this.props.wrapperResolverTemplate) {
+      return `function (component, props) {
+        var wrapper = require("${this.props.wrapperResolverTemplate}");
+        return (wrapper.default || wrapper)(component, props);
+      }`
+    }
+    return `function (component) {
+      return component;
+    }`
   }
 
   private async resolveStateFile(componentName: string) {
@@ -74,6 +88,7 @@ export abstract class StateComponentResolver extends TemplateComponentResolverBy
   abstract serverSideResolverTemplate: string;
   abstract clientSideResolverTemplate: string;
   abstract stateResolverTemplate: string;
+  wrapperResolverTemplate?: string;
 
   constructor(config: RaguServerConfig) {
     super(config);
@@ -87,6 +102,7 @@ export abstract class StateComponentResolver extends TemplateComponentResolverBy
       clientSideResolverTemplate: this.clientSideResolverTemplate,
       stateResolverTemplate: this.stateResolverTemplate,
       serverSideResolverTemplate: this.serverSideResolverTemplate,
+      wrapperResolverTemplate: this.wrapperResolverTemplate
     })
   }
 
@@ -106,6 +122,7 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
   abstract serverSideResolverTemplate: string;
   abstract clientSideResolverTemplate: string;
   abstract stateResolverTemplate: string;
+  wrapperResolverTemplate?: string;
 
   constructor(
       config: RaguServerConfig,
@@ -124,6 +141,7 @@ export abstract class StateComponentSingleComponentResolver extends TemplateComp
       clientSideResolverTemplate: this.clientSideResolverTemplate,
       stateResolverTemplate: this.stateResolverTemplate,
       serverSideResolverTemplate: this.serverSideResolverTemplate,
+      wrapperResolverTemplate: this.wrapperResolverTemplate
     })
   }
 
