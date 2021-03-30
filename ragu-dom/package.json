@@ -1,6 +1,6 @@
 {
   "name": "ragu-dom",
-  "version": "0.0.83",
+  "version": "0.0.84",
   "description": "A micro-frontend framework",
   "main": "./index.js",
   "type": "./index.d.ts",
