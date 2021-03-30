@@ -3,7 +3,7 @@ module.exports = function(component, props) {
 
   if (!props.isServer) {
     props.element.innerHTML = component.html + ' from custom from ' + (props.isServer ? 'server' : 'browser');
-    return
+    return {...component, html: undefined};
   }
 
   return {

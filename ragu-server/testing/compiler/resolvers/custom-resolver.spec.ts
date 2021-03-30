@@ -8,7 +8,7 @@ import {CustomSingleComponentResolver} from "../../../src/compiler/resolvers/cus
 import {ServerSideCompiler} from "../../../src/compiler/server-side-compiler";
 import {ComponentRenderService} from "../../../src/services/component-render-service";
 
-describe('ComponentResolver', () => {
+describe('CustomComponentResolver', () => {
   let compiler: ComponentsCompiler;
   let config: RaguServerConfig;
   let dom: jsdom.JSDOM;
